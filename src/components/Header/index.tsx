@@ -8,7 +8,7 @@ interface Props {
     title: string;
 }
 
-const HeaderDashboard: React.FC<Props> = ({ title }) => {
+const HeaderDashboard = ({ title }: Props) => {
     const dispatch = useDispatch();
     return (
         <div className='w-full'>

@@ -46,9 +46,7 @@ const ProductPage = () => {
                     </tbody>
                 </table>
                 <hr></hr>
-
                 <Navigation />
-
             </div>
             {
                 active && (

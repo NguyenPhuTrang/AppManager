@@ -15,6 +15,11 @@ body {
     0px 1px 2px 0px rgba(0, 0, 0, 0.06);
 }
 
+.input-shadow-error {
+  box-shadow: 0px 0px 0px 1px rgba(253, 2, 15, 0.16),
+    0px 1px 2px 0px rgba(255, 0, 0, 0.06);
+}
+
 .button_cancel-shadow {
   box-shadow: 0px 0px 0px 1px rgba(70, 79, 96, 0.16),
     0px 1px 1px 0px rgba(0, 0, 0, 0.1);
@@ -39,11 +44,6 @@ body {
     opacity: 1;
   }
 }
-
-.sort-custom-animation {
-  animation: slideInFromBottomRight 0.2s ease-out;
-}
-
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -55,8 +55,27 @@ body {
   }
 }
 
+@keyframes slideZoom {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-animation {
+  animation: slideZoom .2s ease-in;
+}
+
+.sort-custom-animation {
+  animation: slideInFromBottomRight .2s ease-out;
+}
+
+
+
 .custom-animation-in {
-  animation: slideIn 0.2s ease-out forwards;
+  animation: slideIn .2s ease-out forwards;
 }
 
 ::-webkit-scrollbar {

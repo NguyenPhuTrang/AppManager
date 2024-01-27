@@ -31,10 +31,10 @@ const UserPage = () => {
                                     <img src={user.avatar} alt="" />
                                 </td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">{user.name}</td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">{user.email}</td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">{user.birthday}</td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600] w-[313px]">{user.numberPhone}</td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">
+                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.email}</td>
+                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.birthday}</td>
+                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400] w-[313px]">{user.numberPhone}</td>
+                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
                                     <div className="w-full h-full flex gap-[10px] items-center">
                                         <img src="../icons/ic-edit.svg" className="w-6 h-6 cursor-pointer" alt="" />
                                         <img src="../icons/ic-trash.svg" className="w-6 h-6 cursor-pointer" alt="" />
@@ -46,7 +46,6 @@ const UserPage = () => {
                 </table>
                 <Navigation />
             </div>
-
             {
                 active && (
                     <Modal title={'Tạo mới người dùng'}>
@@ -97,7 +96,6 @@ const UserPage = () => {
                     </Modal>
                 )
             }
-
         </LayoutDashboard>
     );
 };

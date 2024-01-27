@@ -5,9 +5,12 @@ interface Props {
     title: string;
 }
 
-const Modal:React.FC<Props> = ({ children, title }) => {
+const Modal = ({ 
+    children, 
+    title 
+}: Props) => {
     return (
-        <div className='overflow-y-auto overflow-x-hidden overlay fixed top-0 right-0 left-0 bottom-0 z-50 bg-gray-500 bg-opacity-50'>
+        <div className='overflow-y-auto overflow-x-hidden overlay fixed top-0 right-0 left-0 bottom-0 z-50 bg-gray-500 bg-opacity-50 modal-animation'>
             <div className="w-full h-full flex items-center justify-center">
                 <div className="bg-white w-[440px] flex flex-col rounded-[12px] relative">
                     <div className="flex items-center justify-start pt-[17px] pb-[18px] pl-5">
