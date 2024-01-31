@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LayoutDashboard from '../LayoutDashboard';
 import Navigation from "../../components/Navigation";
 import Modal from "../../components/Modal";
@@ -10,6 +10,16 @@ import { products } from '../../data';
 const ProductPage = () => {
     const active = useSelector((state) => state.active);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        fetch('https://ttlab-intern-training-be-iota.vercel.app/api/v1/product')
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data);
+            });
+    }, []);
 
     return (
         <LayoutDashboard>

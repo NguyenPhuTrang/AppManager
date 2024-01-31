@@ -1,4 +1,9 @@
-
+export enum PageName {
+    LOGIN_PAGE = 'login_page',
+    DASHBOARD_PAGE = 'dashboard_page',
+    NOT_FOUND_PAGE = 'not_found_page',
+    FORBIDDEN_PAGE = 'forbidden_page',
+}
 
 export enum HttpStatus {
     OK = 200,
@@ -66,6 +71,16 @@ export const FORM_VALIDATION = {
     intPattern: /^\d+?$/,
     floatPattern: /^\d+(\.\d{0,2})?$/,
     tenantMaxLength: 30,
+};
+
+export const Regex = {
+    EMAIL:
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    NAME: /^[^[\]\\|'";:/?.>,<)(_=+!@#$%^&*`~0-9-]+$/,
+    PASSWORD: /^(?=.*[a-zA-z])(?=.*\d).{8,}$/,
+    COLOR: /^#(?:[0-9a-fA-F]{3}){1,2}$/,
+    TIME: /^(([0-1]\d{0,1})|(2[0-3]{0,1})):[0-5]\d{0,1}$/,
+    URL: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
 };
 
 export const DaysOfWeek = {

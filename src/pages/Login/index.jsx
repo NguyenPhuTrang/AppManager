@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from 'axios';
+import { useLoginForm } from '../../features/auth/forms/login-form';
 
 const LoginPage = () => {
 
@@ -14,16 +16,31 @@ const LoginPage = () => {
         email: yup.string().email("Email không đúng định dạng").required("Email là trường bắt buộc"),
         password: yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').max(20, 'Mật khẩu không được quá 20 ký tự').required("Mật khẩu là trường bắt buộc")
     });
-    const onSubmit = (data) => {
-        console.log(data);
-    };
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema)
     });
+
+    const { loginRegister, loginHandleSubmit, loginErrors } = useLoginForm();
+
+    const onSubmit = (data) => {
+        
+        console.log(data);
+        // try {
+        //     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, data)
+        //         .then(response => {
+        //             console.log(response.data);
+        //         })
+        //         .catch(error => {
+        //             console.error('Error:', error);
+        //         });
+        // } catch (error) {
+        //     console.error('Error:', error);
+        // }
+        loginHandleSubmit(data);
+    };
+
+
 
     return (
         <div className="w-full h-full flex items-center justify-center">
