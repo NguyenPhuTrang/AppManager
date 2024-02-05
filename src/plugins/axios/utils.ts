@@ -1,5 +1,6 @@
 import { HttpStatus, PageName } from '../../common/constants';
 // import localStorageAuthService from '@/common/storages/authStorage';
+import localStorageAuthService from '../../common/storages/authStorage';
 import axios from 'axios';
 // import router from '../vue-router';
 
@@ -16,19 +17,19 @@ export const logout = (redirectToLogin = true) => {
 };
 
 export const sendRefreshToken = async () => {
-  // let response;
-  // try {
-  //   const API_URL = process.env.REACT_APP_API_URL;
-  //   response = await axios.get(`${API_URL}/auth/token`, { withCredentials: true });
-  //   if (response?.status === HttpStatus.OK) {
-  //     localStorageAuthService.setAccessToken(response.data?.data.accessToken);
-  //     localStorageAuthService.setAccessTokenExpiredAt(response.data?.data.expiresIn);
-  //     return;
-  //   }
-  //   logout(true);
-  //   return;
-  // } catch (error) {
-  //   logout(true);
-  //   return;
-  // }
+  let response;
+  try {
+    const API_URL = process.env.REACT_APP_API_URL;
+    response = await axios.get(`${API_URL}/auth/token`, { withCredentials: true });
+    if (response?.status === HttpStatus.OK) {
+      localStorageAuthService.setAccessToken(response.data?.data.accessToken);
+      localStorageAuthService.setAccessTokenExpiredAt(response.data?.data.expiresIn);
+      return;
+    }
+    logout(true);
+    return;
+  } catch (error) {
+    logout(true);
+    return;
+  }
 };

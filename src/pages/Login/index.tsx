@@ -1,8 +1,4 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import axios from 'axios';
 import { useLoginForm } from '../../features/auth/forms/login-form';
 
 const LoginPage = () => {
@@ -12,35 +8,7 @@ const LoginPage = () => {
         setShowPassword(!showPassword);
     };
 
-    const schema = yup.object().shape({
-        email: yup.string().email("Email không đúng định dạng").required("Email là trường bắt buộc"),
-        password: yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').max(20, 'Mật khẩu không được quá 20 ký tự').required("Mật khẩu là trường bắt buộc")
-    });
-
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
-    });
-
-    const { loginRegister, loginHandleSubmit, loginErrors } = useLoginForm();
-
-    const onSubmit = (data) => {
-        
-        console.log(data);
-        // try {
-        //     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, data)
-        //         .then(response => {
-        //             console.log(response.data);
-        //         })
-        //         .catch(error => {
-        //             console.error('Error:', error);
-        //         });
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
-        loginHandleSubmit(data);
-    };
-
-
+    const { register, handleSubmit, errors, onSubmit } = useLoginForm();
 
     return (
         <div className="w-full h-full flex items-center justify-center">
@@ -85,7 +53,7 @@ const LoginPage = () => {
                             <input type="checkbox" className="input-shadow w-4 h-4" />
                             <span className="text-[#464F60] text-[14px] font-[500] leading-[20px] select-none">Ghi nhớ Đăng nhập</span>
                         </div>
-                        <a href="#" className="text-[#0F60FF] text-[14px] font-[500] leading-[20px] select-none">Quên mật khẩu?</a>
+                        <a href="/forget-password" className="text-[#0F60FF] text-[14px] font-[500] leading-[20px] select-none">Quên mật khẩu?</a>
                     </div>
                     <button
                         type="submit"
@@ -95,7 +63,7 @@ const LoginPage = () => {
                 </form>
                 <div className="flex items-center justify-center gap-1">
                     <p className="text-[14px] font-[400] leading-5 text-[#5A5C6F]">Bạn chưa có tài khoản?</p>
-                    <a href="#" className="text-[#0F60FF] text-[14px] font-[600] leading-[20px]">Đăng ký</a>
+                    <a href="/Register" className="text-[#0F60FF] text-[14px] font-[600] leading-[20px]">Đăng ký</a>
                 </div>
             </div>
         </div>
