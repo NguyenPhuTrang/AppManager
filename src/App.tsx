@@ -5,12 +5,9 @@ import Layout from './layouts';
 import useAuthMiddleware from './routes/authMiddleware';
 
 function App() {
-
-  const authMiddleware = useAuthMiddleware();
-  authMiddleware.checkAuthentication();
-
+  useAuthMiddleware();
   return (
-    <Router>
+    <>
       <Routes>
         {publicRoutes.map((route, index) => {
           const Page = route.component;
@@ -27,7 +24,7 @@ function App() {
           );
         })}
       </Routes>
-    </Router>
+    </>
   );
 }
 

@@ -1,3 +1,4 @@
+import { DEFAULT_LANGUAGE, SupportLanguage } from '../constants';
 import { storage } from './localStorage'
 
 const BUFFER_TIME = 60 * 1000;
@@ -13,6 +14,10 @@ export const enum AUTH_SERVICE_KEY {
 }
 
 class LocalStorageAuthService {
+    getLanguage(): SupportLanguage {
+        return (storage.getLocalStorage(AUTH_SERVICE_KEY.LANGUAGE) ||
+          DEFAULT_LANGUAGE) as SupportLanguage;
+      }
     setAccessToken(token: string): void {
         storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN, token);
     }
@@ -27,12 +32,18 @@ class LocalStorageAuthService {
         return +storage.getLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT);
     }
     setAccessTokenExpiredAt(expiredIn: number): void {
-        const expiredAt = new Date().getTime() + expiredIn * 1000 - BUFFER_TIME;
-        storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT, String(expiredAt));
+        storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT, String(expiredIn));
     }
     resetAccessTokenExpiredAt(): void {
         storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT, '');
     }
+
+    getHeader() {
+        return {
+          Authorization: `Bearer ${this.getAccessToken()}`,
+          'Accept-Language': this.getLanguage() || DEFAULT_LANGUAGE,
+        };
+      }
 }
 
 export const localStorageAuthService = new LocalStorageAuthService();

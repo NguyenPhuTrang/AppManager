@@ -6,10 +6,9 @@ export const useAuthStore = () => {
     async function login(body: IBodyLogin) {
         const res = await authApi.login(body);
         console.log(res);
-        localStorageAuthService.setAccessTokenExpiredAt(res.data?.expiresIn)
-        console.log(localStorageAuthService.setAccessTokenExpiredAt(res.data?.expiresIn));
         if (res.success) {
             localStorageAuthService.setAccessToken(res.data?.accessToken);
+            localStorageAuthService.setAccessTokenExpiredAt(res.data?.expiresIn)
         }
         return res;
     }

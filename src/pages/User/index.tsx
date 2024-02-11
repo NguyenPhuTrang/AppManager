@@ -6,9 +6,11 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { increment } from '../../actions/active';
 import { users } from '../../data';
+import { RootState } from '../../types';
+
 
 const UserPage = () => {
-    const active = useSelector((state) => state.active);
+    const active = useSelector((state: RootState) => state.active);
     const dispatch = useDispatch();
     return (
         <LayoutDashboard>

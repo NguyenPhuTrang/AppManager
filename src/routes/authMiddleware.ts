@@ -1,36 +1,28 @@
-// import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
 import localStorageAuthService from '../common/storages/authStorage';
-import dayjs from 'dayjs';
-
-const isAuthenticated = () => {
-    const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
-    const isExpired = dayjs().isAfter(dayjs(tokenExpiredAt), 'second');
-    const hasToken = localStorageAuthService.getAccessToken() ? true : false;
-
-    console.log(tokenExpiredAt);
-    console.log(hasToken);
-    console.log(isExpired);
-
-    const IS_AUTHENTICATED = tokenExpiredAt && !isExpired && hasToken;
-
-    console.log('IS_AUTHENTICATED: ', IS_AUTHENTICATED);
-    
-
-    if (!IS_AUTHENTICATED) {
-        return false;
-    }
-    return dayjs().isBefore(dayjs(tokenExpiredAt));
-};
+import dayjs from './../plugins/dayjs';
+import { useEffect } from "react";
+import { PageName } from '../common/constants';
 
 const useAuthMiddleware = () => {
-    const checkAuthentication = () => {
-        const isAuthenticatedUser = isAuthenticated();
-        if (!isAuthenticatedUser) {
-            // window.location.href = '/login';
-            console.log("isAuthenticatedUser: " + isAuthenticatedUser);
+    const navigate = useNavigate();
+    const locations = useLocation();
+    console.log(locations);
+    
+    useEffect(() => {
+        const hasToken = localStorageAuthService.getAccessToken() ? true : false;
+        const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
+        const isExpired = dayjs().isAfter(dayjs(tokenExpiredAt), 'second');
+        const IS_AUTHENTICATED = tokenExpiredAt && isExpired && hasToken;
+        console.log("IS_AUTHENTICATED: ", IS_AUTHENTICATED);
+
+        if (!IS_AUTHENTICATED) {
+            // sessionStorage.setItem('redirect', location.pathname);
+            navigate(PageName.LOGIN_PAGE, { replace: true });
+        } else {
+            navigate(PageName.PRODUCT_PAGE, { replace: true });
         }
-    };
-    return { checkAuthentication };
+    }, []);
 };
 
 export default useAuthMiddleware;

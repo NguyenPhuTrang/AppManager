@@ -1,4 +1,4 @@
-import { HttpStatus, PageName } from '../../common/constants';
+import { HttpStatus } from '../../common/constants';
 // import localStorageAuthService from '@/common/storages/authStorage';
 import localStorageAuthService from '../../common/storages/authStorage';
 import axios from 'axios';
@@ -20,7 +20,7 @@ export const sendRefreshToken = async () => {
   let response;
   try {
     const API_URL = process.env.REACT_APP_API_URL;
-    response = await axios.get(`${API_URL}/auth/token`, { withCredentials: true });
+    response = await axios.get(`${API_URL}/auth/refresh-token`, { withCredentials: true });
     if (response?.status === HttpStatus.OK) {
       localStorageAuthService.setAccessToken(response.data?.data.accessToken);
       localStorageAuthService.setAccessTokenExpiredAt(response.data?.data.expiresIn);

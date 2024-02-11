@@ -1,9 +1,16 @@
 export enum PageName {
-    LOGIN_PAGE = 'login_page',
+    LOGIN_PAGE = 'login',
     DASHBOARD_PAGE = 'dashboard_page',
+    PRODUCT_PAGE = 'product',
     NOT_FOUND_PAGE = 'not_found_page',
-    FORBIDDEN_PAGE = 'forbidden_page',
 }
+
+export enum SupportLanguage {
+    EN = 'en',
+    VI = 'vi',
+}
+
+export const DEFAULT_LANGUAGE = SupportLanguage.VI;
 
 export enum HttpStatus {
     OK = 200,

@@ -6,19 +6,25 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { increment } from '../../actions/active';
 import { products } from '../../data';
+import { ProductApi } from '../../features/api/product';
+import { RootState } from '../../types';
 
 const ProductPage = () => {
-    const active = useSelector((state) => state.active);
+    const active = useSelector((state: RootState) => state.active);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        fetch('https://ttlab-intern-training-be-iota.vercel.app/api/v1/product')
-            .then((res) => {
-                return res.json();
-            })
-            .then((data) => {
-                console.log(data);
-            });
+        const fetchProducts = async () => {
+            try {
+                const productApi = ProductApi();
+                await productApi.getAllProducts();
+                console.log((await productApi.getAllProducts()).data.items);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchProducts();
     }, []);
 
     return (
