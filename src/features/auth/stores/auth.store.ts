@@ -1,6 +1,6 @@
-import { IBodyLogin } from "../auth/interfaces";
-import { authApi } from "../auth/services";
-import localStorageAuthService from '../../common/storages/authStorage';
+import { IBodyLogin } from "../interfaces";
+import { authApi } from "../services";
+import localStorageAuthService from '../../../common/storages/authStorage';
 
 export const useAuthStore = () => {
     async function login(body: IBodyLogin) {

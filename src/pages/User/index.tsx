@@ -4,9 +4,9 @@ import Navigation from "../../components/Navigation";
 import Modal from "../../components/Modal";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { increment } from '../../actions/active';
+import { increment } from '../../features/actions/active';
 import { users } from '../../data';
-import { RootState } from '../../types';
+import { RootState } from '../../common/interfaces';
 
 
 const UserPage = () => {

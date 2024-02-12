@@ -16,8 +16,8 @@ export const enum AUTH_SERVICE_KEY {
 class LocalStorageAuthService {
     getLanguage(): SupportLanguage {
         return (storage.getLocalStorage(AUTH_SERVICE_KEY.LANGUAGE) ||
-          DEFAULT_LANGUAGE) as SupportLanguage;
-      }
+            DEFAULT_LANGUAGE) as SupportLanguage;
+    }
     setAccessToken(token: string): void {
         storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN, token);
     }
@@ -38,12 +38,31 @@ class LocalStorageAuthService {
         storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT, '');
     }
 
+    // setLoginUser(user: null | IUserProfile, role: IUserRole | null): void {
+    //     if (!user) {
+    //         storage.setLocalStorage(AUTH_SERVICE_KEY.USER, '');
+    //     }
+    //     if (!isStringify(user)) {
+    //         return;
+    //     }
+    //     storage.setLocalStorage(AUTH_SERVICE_KEY.USER, JSON.stringify(user));
+    //     storage.setLocalStorage(AUTH_SERVICE_KEY.ROLE, JSON.stringify(role));
+    // }
+
     getHeader() {
         return {
-          Authorization: `Bearer ${this.getAccessToken()}`,
-          'Accept-Language': this.getLanguage() || DEFAULT_LANGUAGE,
+            Authorization: `Bearer ${this.getAccessToken()}`,
+            'Accept-Language': this.getLanguage() || DEFAULT_LANGUAGE,
         };
-      }
+    }
+
+    resetAll(): void {
+        this.resetAccessToken();
+        this.resetAccessTokenExpiredAt();
+        // this.setLoginUser(null, null);
+    }
+
+
 }
 
 export const localStorageAuthService = new LocalStorageAuthService();

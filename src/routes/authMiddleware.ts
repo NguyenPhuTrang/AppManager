@@ -7,14 +7,12 @@ import { PageName } from '../common/constants';
 const useAuthMiddleware = () => {
     const navigate = useNavigate();
     const locations = useLocation();
-    console.log(locations);
     
     useEffect(() => {
         const hasToken = localStorageAuthService.getAccessToken() ? true : false;
         const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
         const isExpired = dayjs().isAfter(dayjs(tokenExpiredAt), 'second');
         const IS_AUTHENTICATED = tokenExpiredAt && isExpired && hasToken;
-        console.log("IS_AUTHENTICATED: ", IS_AUTHENTICATED);
 
         if (!IS_AUTHENTICATED) {
             // sessionStorage.setItem('redirect', location.pathname);

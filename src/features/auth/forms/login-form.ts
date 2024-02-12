@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useAuthStore } from "../../stores";
+import { useAuthStore } from "../stores";
 import yup from "../../../plugins/yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNotification } from "../../../common/helpers";

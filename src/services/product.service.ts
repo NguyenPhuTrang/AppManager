@@ -1,4 +1,4 @@
-import axiosInstance, { ApiService } from "../../plugins/axios";
+import axiosInstance, { ApiService } from "../plugins/axios";
 
 class ProductApiService extends ApiService {
     getAll() {

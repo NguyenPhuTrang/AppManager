@@ -1,24 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import LayoutDashboard from '../LayoutDashboard';
 import Navigation from "../../components/Navigation";
 import Modal from "../../components/Modal";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { increment } from '../../actions/active';
-import { products } from '../../data';
+import { increment } from '../../features/actions/active';
+// import { products } from '../../data';
 import { ProductApi } from '../../features/api/product';
-import { RootState } from '../../types';
+import { RootState } from '../../common/interfaces';
+
+interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: number;  
+    quantity: number;
+    image: string;
+}
 
 const ProductPage = () => {
     const active = useSelector((state: RootState) => state.active);
     const dispatch = useDispatch();
+
+    const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const productApi = ProductApi();
                 await productApi.getAllProducts();
-                console.log((await productApi.getAllProducts()).data.items);
+                setProducts((await productApi.getAllProducts()).data.items);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }

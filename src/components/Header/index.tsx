@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { increment } from '../../actions/active';
+import { increment } from '../../features/actions/active';
 import InFoAdmin from '../InfoAdmin';
 import Search from '../Search';
 

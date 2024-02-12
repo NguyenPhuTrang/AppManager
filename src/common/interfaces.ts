@@ -20,3 +20,7 @@ export interface IBodyResponse<T> extends AxiosResponse {
     data: T;
     errors?: IResponseError<any>[];
 }
+
+export interface RootState {
+    active: boolean;
+}

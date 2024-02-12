@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setShowToast } from '../../actions/showToast';
+import { setShowToast } from '../../features/actions/showToast';
 
 interface Props {
     showNotification: boolean;
