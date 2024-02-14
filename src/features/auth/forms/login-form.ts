@@ -3,11 +3,7 @@ import { useAuthStore } from "../stores";
 import yup from "../../../plugins/yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNotification } from "../../../common/helpers";
-
-interface LoginFormInputs {
-    email: string;
-    password: string;
-}
+import { LoginFormInputs } from "../../../types";
 
 export const useLoginForm = () => {
     const authStore = useAuthStore();
@@ -41,7 +37,7 @@ export const useLoginForm = () => {
     return {
         register,
         handleSubmit,
-        errors,
-        onSubmit
+        onSubmit,
+        errors
     };
 };

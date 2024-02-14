@@ -18,7 +18,7 @@ const useAuthMiddleware = () => {
             // sessionStorage.setItem('redirect', location.pathname);
             navigate(PageName.LOGIN_PAGE, { replace: true });
         } else {
-            navigate(PageName.PRODUCT_PAGE, { replace: true });
+            // navigate(PageName.PRODUCT_PAGE, { replace: true });
         }
     }, []);
 };

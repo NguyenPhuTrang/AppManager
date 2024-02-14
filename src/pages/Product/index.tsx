@@ -5,18 +5,11 @@ import Modal from "../../components/Modal";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { increment } from '../../features/actions/active';
-// import { products } from '../../data';
-import { ProductApi } from '../../features/api/product';
+import * as ProductApi from '../../features/api';
 import { RootState } from '../../common/interfaces';
-
-interface Product {
-    id: number;
-    name: string;
-    description: string;
-    price: number;  
-    quantity: number;
-    image: string;
-}
+import { AxiosResponse } from 'axios';
+import { Product } from '../../types';
+import { useCreateProducts } from '../../features/api';
 
 const ProductPage = () => {
     const active = useSelector((state: RootState) => state.active);
@@ -27,16 +20,21 @@ const ProductPage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const productApi = ProductApi();
-                await productApi.getAllProducts();
-                setProducts((await productApi.getAllProducts()).data.items);
+                const response: AxiosResponse<any> = await ProductApi.getAllProducts();
+                setProducts((await response.data.items));
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
-
         fetchProducts();
     }, []);
+
+    const {
+        register,
+        handleSubmit,
+        errors,
+        useOnSubmit
+    } = useCreateProducts();
 
     return (
         <LayoutDashboard>
@@ -54,7 +52,7 @@ const ProductPage = () => {
                     </thead>
                     <tbody className="divide-y divide-[#E9E7FD]">
                         {products.map((product) => (
-                            <tr key={product.name} className="py-">
+                            <tr key={product.id} className="py-">
                                 <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">{product.name}</td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.price}</td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.quantity}</td>
@@ -79,34 +77,65 @@ const ProductPage = () => {
                 active && (
                     <Modal title={'Tạo mới sản phẩm'}>
                         <div className="w-full bg-[#F7F8FA] pt-4 pb-5 px-5">
-                            <form className="w-full flex flex-col gap-4">
+                            <form
+                                className="w-full flex flex-col gap-4"
+                            >
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Tên sản phẩm
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
-                                    <input className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="Nhập tên sản phẩm" />
+                                    <input
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập tên sản phẩm" 
+                                        type='text'
+                                        {...register('name')}
+                                    />
+                                    {errors.name && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.name.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Giá
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
-                                    <input className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="Nhập giá sản phẩm" />
+                                    <input
+                                        type='text'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        `}
+                                        placeholder="Nhập giá sản phẩm" 
+                                        {...register('price')}
+                                    />
+                                    {/* {errors.price && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.price.message}</span>} */}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số lượng
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
-                                    <input className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="Nhập số lượng sản phẩm" />
+                                    <input
+                                        type='text'
+                                        className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none"
+                                        placeholder="Nhập số lượng sản phẩm" 
+                                        {...register('quantity')}    
+                                    />
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Mô tả</label>
-                                    <textarea rows={6} className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="Nhập mô tả" />
+                                    <textarea
+                                        rows={6}
+                                        className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none"
+                                        placeholder="Nhập mô tả" 
+                                        {...register('description')}    
+                                    />
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ảnh sản phẩm
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
-                                    <input className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="Nhập link ảnh sản phẩm" />
+                                    <input
+                                        type='text'
+                                        className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none"
+                                        placeholder="Nhập link ảnh sản phẩm" 
+                                        {...register('image')}
+                                    />
                                 </div>
                             </form>
                         </div>
@@ -116,7 +145,9 @@ const ProductPage = () => {
                                 className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 button_cancel-shadow">
                                 Hủy
                             </button>
-                            <button className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]">
+                            <button
+                                onClick={handleSubmit(useOnSubmit)}
+                                className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]">
                                 Tạo mới
                             </button>
                         </div>
