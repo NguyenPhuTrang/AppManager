@@ -1,5 +1,6 @@
 // import type { IBodyResponse } from '../../common/interfaces';
 import { type AxiosInstance } from 'axios';
+import { IBodyResponse, ICommonListQuery, IGetListResponse } from '../../common/interfaces';
 
 
 interface IServiceOption {
@@ -35,13 +36,13 @@ export class ApiService {
         this.client = axios;
     }
 
-    // _getList<T>(
-    //     queryString: ICommonListQuery,
-    // ): Promise<IBodyResponse<IGetListResponse<T>>> {
-    //     return this.client.get(`${this.baseUrl}`, {
-    //         params: queryString,
-    //     });
-    // }
+    _getList<T>(
+        queryString: ICommonListQuery,
+    ): Promise<IBodyResponse<IGetListResponse<T>>> {
+        return this.client.get(`${this.baseUrl}`, {
+            params: queryString,
+        });
+    }
 
     _getDetail<R>(id: number | string): Promise<R> {
         return this.client.get<R, R>(this.detailUrl + '/' + id);

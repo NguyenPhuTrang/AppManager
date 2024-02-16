@@ -6,28 +6,25 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { increment } from '../../features/actions/active';
 import * as ProductApi from '../../features/api';
-import { RootState } from '../../common/interfaces';
+import { IBodyResponse, RootState } from '../../common/interfaces';
 import { AxiosResponse } from 'axios';
 import { Product } from '../../types';
 import { useCreateProducts } from '../../features/api';
+import { useNotification } from '../../common/helpers';
+import { HttpStatus } from '../../common/constants';
+import { totalPage, totalProduct } from '../../features/actions/page';
 
 const ProductPage = () => {
     const active = useSelector((state: RootState) => state.active);
+
+    const page = useSelector((state: RootState) => state.page);
+
+    const totalPages = Math.ceil(page.totalProducts / page.limit);
+
+    const { showSuccessNotification, showErrorNotification } = useNotification();
     const dispatch = useDispatch();
 
     const [products, setProducts] = useState<Product[]>([]);
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response: AxiosResponse<any> = await ProductApi.getAllProducts();
-                setProducts((await response.data.items));
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
-        fetchProducts();
-    }, []);
 
     const {
         register,
@@ -35,6 +32,42 @@ const ProductPage = () => {
         errors,
         useOnSubmit
     } = useCreateProducts();
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response: AxiosResponse<any> = await ProductApi.getAllProducts({
+                    page: page.number,
+                    limit: page.limit,
+                });
+                
+                dispatch(totalProduct(response.data.totalItems));
+                if (totalPages == 0) {
+                    dispatch(totalPage(1));
+                } else {
+                    dispatch(totalPage(totalPages));
+                }
+                
+                setProducts((await response.data.items));
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        fetchProducts();
+    }, [page.limit, page.number, page.totalPages, totalPages]);
+
+    const handleDeleteProduct = async (productId: any) => {
+        try {
+            const response: IBodyResponse<any> = await ProductApi.deleteProduct(productId);
+            console.log("response: ", response.code);
+            if (response.code === HttpStatus.OK) {
+                showSuccessNotification("Xóa thành công", "Xóa sản phẩm thành công!");
+            }
+        } catch (error) {
+            console.error("Product deleted failed", error);
+            showErrorNotification("Xóa thất bại", "Xóa sản phẩm thất bại!");
+        }
+    }
 
     return (
         <LayoutDashboard>
@@ -52,7 +85,7 @@ const ProductPage = () => {
                     </thead>
                     <tbody className="divide-y divide-[#E9E7FD]">
                         {products.map((product) => (
-                            <tr key={product.id} className="py-">
+                            <tr key={product.id} className="">
                                 <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">{product.name}</td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.price}</td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.quantity}</td>
@@ -63,7 +96,12 @@ const ProductPage = () => {
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">
                                     <div className="w-full h-full flex gap-[10px] items-center">
                                         <img src="../icons/ic-edit.svg" className="w-6 h-6 cursor-pointer" alt="" />
-                                        <img src="../icons/ic-trash.svg" className="w-6 h-6 cursor-pointer" alt="" />
+                                        <img
+                                            src="../icons/ic-trash.svg"
+                                            className="w-6 h-6 cursor-pointer"
+                                            alt=""
+                                            onClick={() => handleDeleteProduct(product.id)}
+                                        />
                                     </div>
                                 </td>
                             </tr>
@@ -87,7 +125,7 @@ const ProductPage = () => {
                                     <input
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                         ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
-                                        placeholder="Nhập tên sản phẩm" 
+                                        placeholder="Nhập tên sản phẩm"
                                         type='text'
                                         {...register('name')}
                                     />
@@ -98,33 +136,38 @@ const ProductPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        type='text'
+                                        type='number'
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
-                                        `}
-                                        placeholder="Nhập giá sản phẩm" 
+                                        ${errors.quantity ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập giá sản phẩm"
                                         {...register('price')}
                                     />
-                                    {/* {errors.price && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.price.message}</span>} */}
+
+                                    {errors.price && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.price.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số lượng
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        type='text'
-                                        className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none"
-                                        placeholder="Nhập số lượng sản phẩm" 
-                                        {...register('quantity')}    
+                                        type='number'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.quantity ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập số lượng sản phẩm"
+                                        {...register('quantity')}
                                     />
+                                    {errors.quantity && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.quantity.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Mô tả</label>
                                     <textarea
                                         rows={6}
-                                        className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none"
-                                        placeholder="Nhập mô tả" 
-                                        {...register('description')}    
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.description ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập mô tả"
+                                        {...register('description')}
                                     />
+                                    {errors.description && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.description.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ảnh sản phẩm
@@ -132,10 +175,12 @@ const ProductPage = () => {
                                     </label>
                                     <input
                                         type='text'
-                                        className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none"
-                                        placeholder="Nhập link ảnh sản phẩm" 
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.image ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập link ảnh sản phẩm"
                                         {...register('image')}
                                     />
+                                    {errors.image && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.image.message}</span>}
                                 </div>
                             </form>
                         </div>

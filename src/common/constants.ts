@@ -10,6 +10,11 @@ export enum SupportLanguage {
     VI = 'vi',
 }
 
+export enum OrderDirection {
+    ASC = 'asc',
+    DESC = 'desc',
+}
+
 export const DEFAULT_LANGUAGE = SupportLanguage.VI;
 
 export enum HttpStatus {

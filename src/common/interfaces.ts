@@ -1,7 +1,8 @@
 import { type AxiosResponse } from 'axios';
 import {
     ErrorCode,
-    HttpStatus
+    HttpStatus,
+    OrderDirection
 } from './constants';
 
 export interface IResponseError<T = any> {
@@ -9,7 +10,7 @@ export interface IResponseError<T = any> {
     message: string;
     errorCode: ErrorCode;
     data?: T;
-}
+};
 
 export interface IBodyResponse<T> extends AxiosResponse {
     success: boolean;
@@ -19,8 +20,32 @@ export interface IBodyResponse<T> extends AxiosResponse {
     error: string;
     data: T;
     errors?: IResponseError<any>[];
-}
+};
+
+export interface ICommonListQuery {
+    page?: number;
+    limit?: number;
+    orderBy?: string;
+    orderDirection?: OrderDirection | string;
+    keyword?: string;
+};
+
+export interface IGetListResponse<T> {
+    items: T[];
+    totalItems: number;
+};
+
+export interface ItemRootState {
+    number: number;
+    totalPages: number;
+    totalProducts: number;
+    limit: number;
+};
 
 export interface RootState {
     active: boolean;
-}
+    page: ItemRootState;
+};
+
+// export interface PageState {
+// };

@@ -1,17 +1,37 @@
-import { AxiosResponse } from "axios";
 import axiosInstance, { ApiService } from "../plugins/axios";
-import { createProductProps } from "../types";
-import { IBodyResponse } from "../common/interfaces";
+import { createProductProps, updateProductProps } from "../types";
+import { IBodyResponse, ICommonListQuery, IGetListResponse } from "../common/interfaces";
 
 class ProductApiService extends ApiService {
-    getAll() {
-        return this.client.get(`${this.baseUrl}/`);
+    constructor() {
+        super({
+            baseUrl: '/product'
+        }, axiosInstance);
     }
+
+    // getAll() {
+    //     return this.client.get(this.baseUrl);
+    // }
+
+    getAll<T>(queryString: ICommonListQuery): Promise<IBodyResponse<IGetListResponse<T>>> {
+        return this._getList<T>(queryString);
+    }
+
     create(body: createProductProps): Promise<IBodyResponse<any>> {
-        return this.client.post(`${this.baseUrl}/`, body);
+        return this._create(body);
+    }
+
+    getDetail<R>(id: string | number): Promise<R> {
+        return this._getDetail<R>(id);
+    }
+
+    update(id: string, body: updateProductProps): Promise<IBodyResponse<any>> {
+        return this._update(id, body);
+    }
+
+    delete(id: string): Promise<IBodyResponse<any>> {
+        return this._delete<any>(id);
     }
 }
 
-export const productApi = new ProductApiService({
-    baseUrl: '/product',
-}, axiosInstance)
+export const productApi = new ProductApiService();

@@ -16,7 +16,7 @@ const Modal = ({
                     <div className="flex items-center justify-start pt-[17px] pb-[18px] pl-5">
                         <h2 className="text-[18px] font-[500] text-[#1A2240] leading-normal">{title}</h2>
                     </div>
-                    <div className='w-full overflow-x-auto'>
+                    <div className='w-full overflow-y-auto'>
                         {children}
                     </div>
                 </div>
