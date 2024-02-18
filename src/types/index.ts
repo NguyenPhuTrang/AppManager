@@ -4,7 +4,7 @@ export interface LoginFormInputs {
 }
 
 export interface Product {
-    id: number;
+    id: string;
     name: string;
     description: string;
     price: number;
@@ -28,18 +28,30 @@ export interface createProductForm {
     image: string;
 }
 
-export interface updateProductProps {
+export interface updateProductPropsItem {
     name: string;
     price: string;
     quantity: string;
     description: string;
     image: string;
 }
+export interface updateProductProps {
+    id: string;
+    body: updateProductPropsItem;
+}
 
-export interface updateProductForm {
+export interface updateProductFormItem {
     name: string;
     price: number;
     quantity: number;
     description: string;
     image: string;
+}
+export interface updateProductForm {
+    id: string;
+    body: updateProductFormItem;
+}
+
+export interface deleteProductProps {
+    id: string;
 }

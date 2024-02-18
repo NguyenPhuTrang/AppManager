@@ -55,7 +55,7 @@ const Navigation = () => {
                         ))}
                     </ul>
                 </div>
-                <p className="text-[15px] font-[500] text-[#8B909A] leading-[18px]">of 50</p>
+                <p className="text-[15px] font-[500] text-[#8B909A] leading-[18px]">of {page.totalProducts}</p>
             </div>
             <div className="flex items-center gap-[2px]">
                 <div className="flex items-center justify-center cursor-pointer select-none py-[6px] px-2 rounded-[4px] bg-[#F1F2F6]">

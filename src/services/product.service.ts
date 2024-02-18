@@ -25,8 +25,8 @@ class ProductApiService extends ApiService {
         return this._getDetail<R>(id);
     }
 
-    update(id: string, body: updateProductProps): Promise<IBodyResponse<any>> {
-        return this._update(id, body);
+    update(body: updateProductProps): Promise<IBodyResponse<any>> {
+        return this._update(body.id, body.body);
     }
 
     delete(id: string): Promise<IBodyResponse<any>> {

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { increment } from '../../features/actions/active';
 import InFoAdmin from '../InfoAdmin';
 import Search from '../Search';
+import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
 
 interface Props {
     title: string;
@@ -10,6 +11,10 @@ interface Props {
 
 const HeaderDashboard = ({ title }: Props) => {
     const dispatch = useDispatch();
+    const handleOpenModal = () => {
+        dispatch(increment(true));
+        dispatch(setIsCreatOrUpdate('create'));
+    }
     return (
         <div className='w-full'>
             <div className='w-full flex items-center justify-between py-3'>
@@ -19,7 +24,7 @@ const HeaderDashboard = ({ title }: Props) => {
             <div className="pt-[36px] pb-[17px] flex items-center justify-between">
                 <Search />
                 <button
-                    onClick={() => dispatch(increment(true))}
+                    onClick={handleOpenModal}
                     type="button"
                     className="px-6 py-3 rounded-[6px] bg-[#0F60FF] flex items-center gap-[6px]"
                 >

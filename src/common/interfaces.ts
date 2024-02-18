@@ -44,8 +44,7 @@ export interface ItemRootState {
 
 export interface RootState {
     active: boolean;
+    isCreateOrUpdate: string;
     page: ItemRootState;
+    product: any[];
 };
-
-// export interface PageState {
-// };
