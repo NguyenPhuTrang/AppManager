@@ -16,6 +16,7 @@ import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
 const ProductPage = () => {
     const dispatch = useDispatch();
     const [products, setProducts] = useState<Product[]>([]);
+    const [showModalDelele, setShowModalDelele] = useState(false);
     const active = useSelector((state: RootState) => state.active);
     const isCreateOrUpdate = useSelector((state: RootState) => state.isCreateOrUpdate);
     const page = useSelector((state: RootState) => state.page);
@@ -30,10 +31,13 @@ const ProductPage = () => {
         selectProductForUpdate,
         selectedProduct,
         errors,
+        isCreate,
+        isUpdate,
 
     } = useCreateProducts();
 
     const { handleDeleteProduct, isDeleted } = useDeleteProducts();
+    const [idDeleteProduct, setIdDeleteProduct] = useState(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -56,7 +60,7 @@ const ProductPage = () => {
         };
         fetchProducts();
 
-    }, [isDeleted, page.limit, page.number, page.totalPages, totalPages, dispatch]);
+    }, [isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch]);
 
     const handleClickUpdate = (product: Product) => {
         selectProductForUpdate(product);
@@ -65,10 +69,21 @@ const ProductPage = () => {
     }
 
     const handleCancel = () => {
-        resetForm(); 
+        resetForm();
         dispatch(increment(true));
     };
-    
+
+    const handleShowModalDelete = (id: any) => {
+        setIdDeleteProduct(id);
+        setShowModalDelele(true);
+    }
+
+    const handleSubmitDelete = () => {
+        handleDeleteProduct(idDeleteProduct);
+        setShowModalDelele(false);
+        setIdDeleteProduct(null);
+    }
+
 
     return (
         <LayoutDashboard>
@@ -111,7 +126,7 @@ const ProductPage = () => {
                                                 src="../icons/ic-trash.svg"
                                                 className="w-6 h-6 cursor-pointer"
                                                 alt=""
-                                                onClick={() => handleDeleteProduct(product.id)}
+                                                onClick={() => handleShowModalDelete(product.id)}
                                             />
                                         </div>
                                     </td>
@@ -123,184 +138,220 @@ const ProductPage = () => {
                 <hr></hr>
                 <Navigation />
             </div>
-            {active && isCreateOrUpdate === 'create' && (
-                <Modal title={'Tạo mới sản phẩm'}>
-                    <div className="w-full bg-[#F7F8FA] pt-4 pb-5 px-5">
-                        <form
-                            className="w-full flex flex-col gap-4"
-                        >
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Tên sản phẩm
-                                    <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
-                                </label>
-                                <input
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+
+            {
+                showModalDelele && (
+                    <Modal title={'Xóa sản phẩm'}>
+                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all px-6 pb-6">
+                            <div className="sm:flex sm:items-start">
+                                <div className="mt-1 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                    <p className="text-sm text-red-600">Bạn muốn xóa sản phẩm này?</p>
+                                </div>
+                            </div>
+                            <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                                <button 
+                                    type="button" 
+                                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                                    onClick={handleSubmitDelete}
+                                >
+                                    Xóa
+                                </button>
+                                <button 
+                                    type="button" 
+                                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                    onClick={() => setShowModalDelele(false)}
+                                >
+                                    Hủy
+                                </button>
+                                    
+                            </div>
+                        </div>
+                    </Modal>
+                )
+            }
+
+            {
+                active && isCreateOrUpdate === 'create' && (
+                    <Modal title={'Tạo mới sản phẩm'}>
+                        <div className="w-full bg-[#F7F8FA] pt-4 pb-5 px-5">
+                            <form
+                                className="w-full flex flex-col gap-4"
+                            >
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Tên sản phẩm
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                         ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập tên sản phẩm"
-                                    type='text'
-                                    {...register('name')}
-                                />
-                                {errors.name && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.name.message}</span>}
-                            </div>
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Giá
-                                    <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
-                                </label>
-                                <input
-                                    type='number'
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        placeholder="Nhập tên sản phẩm"
+                                        type='text'
+                                        {...register('name')}
+                                    />
+                                    {errors.name && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.name.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Giá
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type='text'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                         ${errors.price ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập giá sản phẩm"
-                                    {...register('price')}
-                                />
+                                        placeholder="Nhập giá sản phẩm"
+                                        {...register('price')}
+                                    />
 
-                                {errors.price && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.price.message}</span>}
-                            </div>
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số lượng
-                                    <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
-                                </label>
-                                <input
-                                    type='number'
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                    {errors.price && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.price.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số lượng
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type='text'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                         ${errors.quantity ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập số lượng sản phẩm"
-                                    {...register('quantity')}
-                                />
-                                {errors.quantity && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.quantity.message}</span>}
-                            </div>
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Mô tả</label>
-                                <textarea
-                                    rows={6}
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        placeholder="Nhập số lượng sản phẩm"
+                                        {...register('quantity')}
+                                    />
+                                    {errors.quantity && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.quantity.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Mô tả</label>
+                                    <textarea
+                                        rows={6}
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                         ${errors.description ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập mô tả"
-                                    {...register('description')}
-                                />
-                                {errors.description && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.description.message}</span>}
-                            </div>
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ảnh sản phẩm
-                                    <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
-                                </label>
-                                <input
-                                    type='text'
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        placeholder="Nhập mô tả"
+                                        {...register('description')}
+                                    />
+                                    {errors.description && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.description.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ảnh sản phẩm
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type='text'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                         ${errors.image ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập link ảnh sản phẩm"
-                                    {...register('image')}
-                                />
-                                {errors.image && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.image.message}</span>}
-                            </div>
-                        </form>
-                    </div>
-                    <div className="w-full flex items-center justify-end py-4 pr-5 rounded-b-xl gap-4 bg-[#fff]">
-                        <button
-                            onClick={handleCancel}
-                            className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 button_cancel-shadow">
-                            Hủy
-                        </button>
-                        <button
-                            onClick={handleSubmit(useOnSubmitCreate)}
-                            className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]">
-                            Tạo mới
-                        </button>
-                    </div>
-                </Modal>
-            )}
-            {active && isCreateOrUpdate === 'update' && selectedProduct && (
-                <Modal title={'Cập nhật sản phẩm'}>
-                    <div className="w-full bg-[#F7F8FA] pt-4 pb-5 px-5">
-                        <form
-                            className="w-full flex flex-col gap-4"
-                        >
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Tên sản phẩm
-                                    <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
-                                </label>
-                                <input
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        placeholder="Nhập link ảnh sản phẩm"
+                                        {...register('image')}
+                                    />
+                                    {errors.image && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.image.message}</span>}
+                                </div>
+                            </form>
+                        </div>
+                        <div className="w-full flex items-center justify-end py-4 pr-5 rounded-b-xl gap-4 bg-[#fff]">
+                            <button
+                                onClick={handleCancel}
+                                className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 button_cancel-shadow">
+                                Hủy
+                            </button>
+                            <button
+                                onClick={handleSubmit(useOnSubmitCreate)}
+                                className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]">
+                                Tạo mới
+                            </button>
+                        </div>
+                    </Modal>
+                )
+            }
+            {
+                active && isCreateOrUpdate === 'update' && selectedProduct && (
+                    <Modal title={'Cập nhật sản phẩm'}>
+                        <div className="w-full bg-[#F7F8FA] pt-4 pb-5 px-5">
+                            <form
+                                className="w-full flex flex-col gap-4"
+                            >
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Tên sản phẩm
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                     ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập tên sản phẩm"
-                                    type='text'
-                                    defaultValue={selectedProduct.name}
-                                    {...register('name')}
-                                />
-                                {errors.name && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.name.message}</span>}
-                            </div>
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Giá
-                                    <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
-                                </label>
-                                <input
-                                    type='number'
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        placeholder="Nhập tên sản phẩm"
+                                        type='text'
+                                        defaultValue={selectedProduct.name}
+                                        {...register('name')}
+                                    />
+                                    {errors.name && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.name.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Giá
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type='number'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                     ${errors.price ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập giá sản phẩm"
-                                    defaultValue={selectedProduct.price}
-                                    {...register('price')}
-                                />
+                                        placeholder="Nhập giá sản phẩm"
+                                        defaultValue={selectedProduct.price}
+                                        {...register('price')}
+                                    />
 
-                                {errors.price && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.price.message}</span>}
-                            </div>
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số lượng
-                                    <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
-                                </label>
-                                <input
-                                    type='number'
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                    {errors.price && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.price.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số lượng
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type='number'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                     ${errors.quantity ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập số lượng sản phẩm"
-                                     defaultValue={selectedProduct.quantity}
-                                    {...register('quantity')}
-                                />
-                                {errors.quantity && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.quantity.message}</span>}
-                            </div>
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Mô tả</label>
-                                <textarea
-                                    rows={6}
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        placeholder="Nhập số lượng sản phẩm"
+                                        defaultValue={selectedProduct.quantity}
+                                        {...register('quantity')}
+                                    />
+                                    {errors.quantity && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.quantity.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Mô tả</label>
+                                    <textarea
+                                        rows={6}
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                     ${errors.description ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập mô tả"
-                                    defaultValue={selectedProduct.description}
-                                    {...register('description')}
-                                />
-                                {errors.description && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.description.message}</span>}
-                            </div>
-                            <div className="w-full flex flex-col gap-2">
-                                <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ảnh sản phẩm
-                                    <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
-                                </label>
-                                <input
-                                    type='text'
-                                    className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        placeholder="Nhập mô tả"
+                                        defaultValue={selectedProduct.description}
+                                        {...register('description')}
+                                    />
+                                    {errors.description && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.description.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ảnh sản phẩm
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type='text'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                     ${errors.image ? 'input-shadow-error' : 'input-shadow'}`}
-                                    placeholder="Nhập link ảnh sản phẩm"
-                                    defaultValue={selectedProduct.image}
-                                    {...register('image')}
-                                />
-                                {errors.image && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.image.message}</span>}
-                            </div>
-                        </form>
-                    </div>
-                    <div className="w-full flex items-center justify-end py-4 pr-5 rounded-b-xl gap-4 bg-[#fff]">
-                        <button
-                            onClick={handleCancel}
-                            className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 button_cancel-shadow">
-                            Hủy
-                        </button>
-                        <button
-                            onClick={handleSubmit(useOnSubmitUpdate)}
-                            className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]">
-                            Cập nhật
-                        </button>
-                    </div>
-                </Modal>
-            )}
-        </LayoutDashboard>
+                                        placeholder="Nhập link ảnh sản phẩm"
+                                        defaultValue={selectedProduct.image}
+                                        {...register('image')}
+                                    />
+                                    {errors.image && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.image.message}</span>}
+                                </div>
+                            </form>
+                        </div>
+                        <div className="w-full flex items-center justify-end py-4 pr-5 rounded-b-xl gap-4 bg-[#fff]">
+                            <button
+                                onClick={handleCancel}
+                                className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 button_cancel-shadow">
+                                Hủy
+                            </button>
+                            <button
+                                onClick={handleSubmit(useOnSubmitUpdate)}
+                                className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]">
+                                Cập nhật
+                            </button>
+                        </div>
+                    </Modal>
+                )
+            }
+        </LayoutDashboard >
     );
 };
 

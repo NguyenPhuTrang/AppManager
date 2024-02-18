@@ -1,22 +1,17 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAuthStore } from "../stores";
-import yup from "../../../plugins/yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNotification } from "../../../common/helpers";
 import { LoginFormInputs } from "../../../types";
+import { loginWithPasswordSchema } from "../schema";
 
 export const useLoginForm = () => {
     const authStore = useAuthStore();
 
-    const schema = yup.object().shape({
-        email: yup.string().email("Email không đúng định dạng").required("Email là trường bắt buộc"),
-        password: yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').max(20, 'Mật khẩu không được quá 20 ký tự').required("Mật khẩu là trường bắt buộc")
-    });
-
     const {
         register, handleSubmit, formState: { errors }
     } = useForm<LoginFormInputs>({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(loginWithPasswordSchema)
     });
 
     const { showSuccessNotification, showErrorNotification } = useNotification();

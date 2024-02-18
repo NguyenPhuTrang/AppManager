@@ -1,7 +1,6 @@
-import { Product, createProductForm, updateProductForm } from '../../types/index';
+import { Product, productForm } from '../../types/index';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import yup from "../../plugins/yup";
 import { useDispatch } from "react-redux";
 import { ICommonListQuery } from "../../common/interfaces";
 import { useNotification } from '../../common/helpers';
@@ -9,6 +8,7 @@ import { HttpStatus } from "../../common/constants";
 import { productApi } from "../../services";
 import { increment } from '../actions/active';
 import { useState } from 'react';
+import { productSchema } from '../../schemas/product.schema';
 
 export async function getAllProducts(query: ICommonListQuery): Promise<any> {
     try {
@@ -20,30 +20,26 @@ export async function getAllProducts(query: ICommonListQuery): Promise<any> {
     }
 }
 
-
 export const useCreateProducts = () => {
-    const schema = yup.object().shape({
-        name: yup.string().required('Tên sản phẩm là bắt buộc').max(255, 'Tên sản phẩm không được vượt quá 255 ký tự'),
-        price: yup.number().typeError('Giá sản phẩm phải là số').required('Giá sản phẩm là bắt buộc').positive('Giá sản phẩm phải là số lớn hơn 0').integer('Giá sản phẩm phải là số nguyên'),
-        quantity: yup.number().typeError('Số lượng sản phẩm phải là số').required('Số lượng sản phẩm là bắt buộc').positive('Số lượng sản phẩm phải là số lớn hơn 0').integer('Số lượng sản phẩm phải là số nguyên'),
-        description: yup.string().required('Mô tả sản phẩm là bắt buộc'),
-        image: yup.string().url('Link ảnh sản phẩm không hợp lệ').required('Link ảnh sản phẩm là bắt buộc')
-    });
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [isCreate, setIsCreate] = useState(false);
+    const [isUpdate, setIsUpdate] = useState(false);
+    const { showSuccessNotification, showErrorNotification } = useNotification();
+    const dispatch = useDispatch();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset
-    } = useForm<createProductForm>({
-        resolver: yupResolver(schema)
+    } = useForm<productForm>({
+        resolver: yupResolver(productSchema)
     });
-    const dispatch = useDispatch();
     const closeModal = () => {
+        reset();
         dispatch(increment(true));
     }
-    const { showSuccessNotification, showErrorNotification } = useNotification();
-    const useOnSubmitCreate: SubmitHandler<createProductForm> = async (data) => {
+    const useOnSubmitCreate: SubmitHandler<productForm> = async (data) => {
         try {
             const res = await productApi.create({
                 name: data.name,
@@ -54,6 +50,7 @@ export const useCreateProducts = () => {
             })
             if (res.success) {
                 closeModal();
+                setIsCreate(!isCreate);
                 showSuccessNotification("Thêm thành công", "Thêm sản phẩm thành công!");
             }
 
@@ -63,9 +60,7 @@ export const useCreateProducts = () => {
         }
     }
 
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-    const useOnSubmitUpdate: SubmitHandler<createProductForm> = async (data) => {
+    const useOnSubmitUpdate: SubmitHandler<productForm> = async (data) => {
         if (!selectedProduct) return;
         try {
             const res = await productApi.update({
@@ -80,6 +75,7 @@ export const useCreateProducts = () => {
             })
             if (res.success) {
                 closeModal();
+                setIsUpdate(!isUpdate);
                 showSuccessNotification("Sửa thành công", "Sửa sản phẩm thành công!");
             }
 
@@ -107,6 +103,8 @@ export const useCreateProducts = () => {
         selectProductForUpdate,
         selectedProduct,
         errors,
+        isCreate,
+        isUpdate,
     }
 }
 
@@ -118,7 +116,7 @@ export const useDeleteProducts = () => {
             const res = await productApi.delete(productId);
             if (res.code === HttpStatus.OK) {
                 showSuccessNotification("Xóa thành công", "Xóa sản phẩm thành công!");
-                setIsDeleted(true);
+                setIsDeleted(!isDeleted);
             }
         } catch (error) {
             console.error("Product deleted failed", error);

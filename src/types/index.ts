@@ -20,7 +20,7 @@ export interface createProductProps {
     image: string;
 }
 
-export interface createProductForm {
+export interface productForm {
     name: string;
     price: number;
     quantity: number;
@@ -38,18 +38,6 @@ export interface updateProductPropsItem {
 export interface updateProductProps {
     id: string;
     body: updateProductPropsItem;
-}
-
-export interface updateProductFormItem {
-    name: string;
-    price: number;
-    quantity: number;
-    description: string;
-    image: string;
-}
-export interface updateProductForm {
-    id: string;
-    body: updateProductFormItem;
 }
 
 export interface deleteProductProps {
