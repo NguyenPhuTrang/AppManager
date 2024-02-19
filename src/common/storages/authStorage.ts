@@ -1,8 +1,6 @@
 import { DEFAULT_LANGUAGE, SupportLanguage } from '../constants';
 import { storage } from './localStorage'
 
-const BUFFER_TIME = 60 * 1000;
-
 export const enum AUTH_SERVICE_KEY {
     ACCESS_TOKEN = 'ACCESS_TOKEN',
     REFRESH_TOKEN = 'REFRESH_TOKEN',
@@ -24,8 +22,20 @@ class LocalStorageAuthService {
     getAccessToken(): string {
         return storage.getLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN);
     }
+
+    setRefreshToken(token: string): void {
+        storage.setLocalStorage(AUTH_SERVICE_KEY.REFRESH_TOKEN, token);
+    }
+    getRefreshToken(): string {
+        return storage.getLocalStorage(AUTH_SERVICE_KEY.REFRESH_TOKEN);
+    }
+
     resetAccessToken(): void {
         storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN, '');
+    }
+
+    resetRefreshToken(): void {
+        storage.setLocalStorage(AUTH_SERVICE_KEY.REFRESH_TOKEN, '');
     }
 
     getAccessTokenExpiredAt(): number {
@@ -59,6 +69,7 @@ class LocalStorageAuthService {
     resetAll(): void {
         this.resetAccessToken();
         this.resetAccessTokenExpiredAt();
+        this.resetRefreshToken();
         // this.setLoginUser(null, null);
     }
 

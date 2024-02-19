@@ -4,7 +4,7 @@ import yup from "../plugins/yup";
 
 const nameSchema = yup
     .string()
-    .required('Tên sản phẩm không được để trống')
+    .required('Tên sản phẩm là bắt buộc')
     .max(FORM_VALIDATION.textMaxLength, 'Tên sản phẩm không được vượt quá 255 ký tự')
     .min(FORM_VALIDATION.textMinLength, 'Tên sản phẩm nhiều hơn 3 ký tự')
     .matches(FORM_VALIDATION.nameRegExp, 'Tên sản phẩm sai định dạng');

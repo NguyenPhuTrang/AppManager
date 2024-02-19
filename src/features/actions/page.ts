@@ -5,9 +5,9 @@ export const numberPage = (number: any) => {
     };
 };
 
-export const totalProduct = (product: any) => {
+export const totalData = (product: any) => {
     return {
-        type: "TOTALPRODUCT",
+        type: "TOTALDATA",
         payload: product,
     };
 }

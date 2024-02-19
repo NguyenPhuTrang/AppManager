@@ -34,7 +34,7 @@ const Navigation = () => {
         }
     }, [count, dispatch, page.number, page.totalPages]);
 
-    const quantityList = [1, 2, 3, 4, 5];
+    const quantityList = [10, 20, 30, 40, 50];
 
     return (
         <div className="w-full py-4 px-6 flex items-center justify-between">
@@ -55,7 +55,7 @@ const Navigation = () => {
                         ))}
                     </ul>
                 </div>
-                <p className="text-[15px] font-[500] text-[#8B909A] leading-[18px]">of {page.totalProducts}</p>
+                <p className="text-[15px] font-[500] text-[#8B909A] leading-[18px]">of {page.totalData}</p>
             </div>
             <div className="flex items-center gap-[2px]">
                 <div className="flex items-center justify-center cursor-pointer select-none py-[6px] px-2 rounded-[4px] bg-[#F1F2F6]">

@@ -1,8 +1,8 @@
 export enum PageName {
-    LOGIN_PAGE = 'login',
+    LOGIN_PAGE = '/login',
     DASHBOARD_PAGE = 'dashboard_page',
-    PRODUCT_PAGE = 'product',
-    NOT_FOUND_PAGE = 'not_found_page',
+    PRODUCT_PAGE = '/product',
+    NOT_FOUND_PAGE = '/not_found_page',
 }
 
 export enum SupportLanguage {
@@ -79,6 +79,7 @@ export const FORM_VALIDATION = {
     passwordMinLength: 6,
     passwordMaxLength: 20,
     numberRegExp: /^[0-9]+$/,
+    maxNumberPhone: 10,
     phoneRegExp: /^(((\+)84)|0)(3|5|7|8|9)([0-9]{3,13})/,
     nameRegExp: /^([^!@`~#$:%^*&().<>?\\/\\+|=]+?)$/,
     specialCharacters: /[~`!@#$%^&*()+={}[\];:'"<>.,/\\?-_]/g,
@@ -95,6 +96,7 @@ export const Regex = {
     PASSWORD: /^(?=.*[a-zA-z])(?=.*\d).{8,}$/,
     COLOR: /^#(?:[0-9a-fA-F]{3}){1,2}$/,
     TIME: /^(([0-1]\d{0,1})|(2[0-3]{0,1})):[0-5]\d{0,1}$/,
+    /* eslint-disable no-useless-escape */
     URL: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
 };
 

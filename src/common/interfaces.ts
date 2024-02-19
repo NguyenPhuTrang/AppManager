@@ -38,7 +38,7 @@ export interface IGetListResponse<T> {
 export interface ItemRootState {
     number: number;
     totalPages: number;
-    totalProducts: number;
+    totalData: number;
     limit: number;
 };
 

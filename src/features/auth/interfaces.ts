@@ -7,5 +7,6 @@ export type IBodyLogin = {
 
 export type ILoginResponse = {
     accessToken: string;
+    refreshToken: string;
     expiresIn: number;
 };

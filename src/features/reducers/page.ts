@@ -1,14 +1,14 @@
-export const pageReducer = (state = { number: 1, totalPages: 0, limit: 10, totalProducts: 0 }, action: any) => {
+export const pageReducer = (state = { number: 1, totalPages: 0, limit: 10, totalData: 0 }, action: any) => {
     switch (action.type) {
         case "NUMBERPAGE":
             return {
                 ...state,
                 number: action.payload
             };
-        case "TOTALPRODUCT":
+        case "TOTALDATA":
             return {
                 ...state,
-                totalProducts: action.payload
+                totalData: action.payload
             };
         case "TOTALPAGE":
             return {

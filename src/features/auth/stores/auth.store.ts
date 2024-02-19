@@ -7,7 +7,8 @@ export const useAuthStore = () => {
         const res = await authApi.login(body);
         if (res.success) {
             localStorageAuthService.setAccessToken(res.data?.accessToken);
-            localStorageAuthService.setAccessTokenExpiredAt(res.data?.expiresIn)
+            localStorageAuthService.setAccessTokenExpiredAt(res.data?.expiresIn);
+            localStorageAuthService.setRefreshToken(res.data?.refreshToken);
         }
         return res;
     }

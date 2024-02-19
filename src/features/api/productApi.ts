@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { ICommonListQuery } from "../../common/interfaces";
 import { useNotification } from '../../common/helpers';
 import { HttpStatus } from "../../common/constants";
-import { productApi } from "../../services";
+import { productApi } from "../../services/product.service";
 import { increment } from '../actions/active';
 import { useState } from 'react';
 import { productSchema } from '../../schemas/product.schema';

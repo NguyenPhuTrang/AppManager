@@ -22,13 +22,13 @@ const options: AxiosRequestConfig = {
 };
 
 const axiosInstance = axios.create(options);
-// const throttled = throttle(useSendRefreshToken, 10000, { trailing: false });
+const throttled = throttle(useSendRefreshToken, 10000, { trailing: false });
 
 axiosInstance.interceptors.request.use(async (config: any) => {
   const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
   if (tokenExpiredAt && dayjs(tokenExpiredAt).isBefore()) {
     // check refresh token ok, call refresh token api
-    // await throttled();
+    await throttled();
   }
   Object.assign(config, {
     headers: {

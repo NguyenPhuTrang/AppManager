@@ -4,10 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNotification } from "../../../common/helpers";
 import { LoginFormInputs } from "../../../types";
 import { loginWithPasswordSchema } from "../schema";
+import { useNavigate } from "react-router-dom";
 
 export const useLoginForm = () => {
     const authStore = useAuthStore();
-
+    const navigate = useNavigate();
     const {
         register, handleSubmit, formState: { errors }
     } = useForm<LoginFormInputs>({
@@ -22,6 +23,7 @@ export const useLoginForm = () => {
             password: data.password
         });
         if (res.success) {
+            navigate('/product');
             showSuccessNotification("Đăng nhập thành công", "Bạn đã đăng nhập thành công!");
             
         } else {

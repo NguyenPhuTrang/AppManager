@@ -10,7 +10,7 @@ import { RootState } from '../../common/interfaces';
 import { AxiosResponse } from 'axios';
 import { Product } from '../../types';
 import { useCreateProducts, useDeleteProducts } from '../../features/api';
-import { totalProduct, totalPage } from '../../features/actions/page';
+import { totalPage, totalData } from '../../features/actions/page';
 import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
 
 const ProductPage = () => {
@@ -21,7 +21,7 @@ const ProductPage = () => {
     const isCreateOrUpdate = useSelector((state: RootState) => state.isCreateOrUpdate);
     const page = useSelector((state: RootState) => state.page);
 
-    const totalPages = Math.ceil(page.totalProducts / page.limit);
+    const totalPages = Math.ceil(page.totalData / page.limit);
     const {
         register,
         handleSubmit,
@@ -46,7 +46,7 @@ const ProductPage = () => {
                     page: page.number,
                     limit: page.limit,
                 });
-                dispatch(totalProduct(response.data.totalItems));
+                dispatch(totalData(response.data.totalItems));
                 if (totalPages === 0) {
                     dispatch(totalPage(1));
                 } else {
@@ -83,7 +83,6 @@ const ProductPage = () => {
         setShowModalDelele(false);
         setIdDeleteProduct(null);
     }
-
 
     return (
         <LayoutDashboard>

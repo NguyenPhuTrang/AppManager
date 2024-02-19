@@ -1,5 +1,6 @@
 import axiosInstance, { ApiService } from "../plugins/axios";
-import { IBodyResponse } from "../common/interfaces";
+import { IBodyResponse, ICommonListQuery, IGetListResponse } from "../common/interfaces";
+import { createUserProps, updateUserProps } from "../types";
 
 class UserApiService extends ApiService {
     constructor() {
@@ -8,24 +9,24 @@ class UserApiService extends ApiService {
         }, axiosInstance);
     }
 
-    getAllUsers(): Promise<IBodyResponse<any>> {
-        return this.client.get(`${this.baseUrl}/`);
+    getAll<T>(queryString: ICommonListQuery): Promise<IBodyResponse<IGetListResponse<T>>> {
+        return this._getList<T>(queryString);
     }
 
-    createUser(userData: any): Promise<IBodyResponse<any>> {
-        return this.client.post(`${this.baseUrl}/`, userData);
+    create(body: createUserProps): Promise<IBodyResponse<any>> {
+        return this._create(body);
     }
 
-    getUserDetail(userId: string | number): Promise<IBodyResponse<any>> {
-        return this.client.get(`${this.baseUrl}/${userId}`);
+    getDetail<R>(id: string | number): Promise<R> {
+        return this._getDetail<R>(id);
     }
 
-    updateUser(userId: string | number, userData: any): Promise<IBodyResponse<any>> {
-        return this.client.patch(`${this.baseUrl}/${userId}`, userData);
+    update(body: updateUserProps): Promise<IBodyResponse<any>> {
+        return this._update(body.id, body.body);
     }
 
-    deleteUser(userId: string | number): Promise<IBodyResponse<any>> {
-        return this.client.delete(`${this.baseUrl}/${userId}`);
+    delete(id: string): Promise<IBodyResponse<any>> {
+        return this._delete<any>(id);
     }
 }
 

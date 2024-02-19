@@ -1,17 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LayoutDashboard from '../LayoutDashboard';
 import Navigation from "../../components/Navigation";
 import Modal from "../../components/Modal";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { increment } from '../../features/actions/active';
-import { users } from '../../data';
+// import { users } from '../../data';
+import * as UserApi from '../../features/api'
 import { RootState } from '../../common/interfaces';
-
+import { User } from '../../types';
+import { AxiosResponse } from 'axios';
+import { totalPage, totalData } from '../../features/actions/page';
+import { useDeleteUsers } from '../../features/api';
 
 const UserPage = () => {
-    const active = useSelector((state: RootState) => state.active);
     const dispatch = useDispatch();
+    const active = useSelector((state: RootState) => state.active);
+    const isCreateOrUpdate = useSelector((state: RootState) => state.isCreateOrUpdate);
+    const page = useSelector((state: RootState) => state.page);
+    const totalPages = Math.ceil(page.totalData / page.limit);
+    const [users, setUsers] = useState<User[]>([])
+    const [idDeleteUser, setIdDeleteUser] = useState(null);
+    const [showModalDelele, setShowModalDelele] = useState(false);
+    const { handleDeleteUser, isDeleted } = useDeleteUsers();
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response: AxiosResponse<any> = await UserApi.getAllUsers({
+                    page: page.number,
+                    limit: page.limit,
+                });
+                dispatch(totalData(response.data.totalItems));
+                if (totalPages === 0) {
+                    dispatch(totalPage(1));
+                } else {
+                    dispatch(totalPage(totalPages));
+                }
+                setUsers(await response.data.items);
+                
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchUsers();
+    }, [isDeleted, page.limit, totalPages, page.number, dispatch])
+
+    const handleShowModalDelete = (id: any) => {
+        setIdDeleteUser(id);
+        setShowModalDelele(true);
+    }
+
+    const handleSubmitDelete = () => {
+        handleDeleteUser(idDeleteUser);
+        setShowModalDelele(false);
+        setIdDeleteUser(null);
+    }
+
     return (
         <LayoutDashboard>
             <div className="w-full flex flex-col bg-white rounded-[16px] pt-2 shadow-[0px_4px_10px_#00000014]">
@@ -27,10 +71,14 @@ const UserPage = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#E9E7FD]">
-                        {users.map((user) => (
-                            <tr key={user.name} className="py-">
+                        {users.length === 0 ? (
+                            <tr>
+                                <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">Không có sản phẩm nào.</td>
+                            </tr>
+                        ) : (users.map((user) => (
+                            <tr key={user.id} className="py-">
                                 <td className="py-4 pr-5 pl-9 select-none w-9 h-9 rounded-[2px]">
-                                    <img src={user.avatar} alt="" />
+                                    <img src={user.avatarUrl} alt="" />
                                 </td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">{user.name}</td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.email}</td>
@@ -38,16 +86,59 @@ const UserPage = () => {
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400] w-[313px]">{user.numberPhone}</td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
                                     <div className="w-full h-full flex gap-[10px] items-center">
-                                        <img src="../icons/ic-edit.svg" className="w-6 h-6 cursor-pointer" alt="" />
-                                        <img src="../icons/ic-trash.svg" className="w-6 h-6 cursor-pointer" alt="" />
+                                        <img
+                                            src="../icons/ic-edit.svg"
+                                            className="w-6 h-6 cursor-pointer"
+                                            alt=""
+                                        // onClick={() => handleClickUpdate(product)}
+                                        />
+                                        <img
+                                            src="../icons/ic-trash.svg"
+                                            className="w-6 h-6 cursor-pointer"
+                                            alt=""
+                                            onClick={() => handleShowModalDelete(user.id)}
+                                        />
                                     </div>
                                 </td>
                             </tr>
-                        ))}
+                        ))
+                        )}
                     </tbody>
                 </table>
                 <Navigation />
             </div>
+
+            {
+                showModalDelele && (
+                    <Modal title={'Xóa người dùng'}>
+                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all px-6 pb-6">
+                            <div className="sm:flex sm:items-start">
+                                <div className="mt-1 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                    <p className="text-sm text-red-600">Bạn muốn người dùng này?</p>
+                                </div>
+                            </div>
+                            <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                                <button
+                                    type="button"
+                                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                                    onClick={handleSubmitDelete}
+                                >
+                                    Xóa
+                                </button>
+                                <button
+                                    type="button"
+                                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                    onClick={() => setShowModalDelele(false)}
+                                >
+                                    Hủy
+                                </button>
+
+                            </div>
+                        </div>
+                    </Modal>
+                )
+            }
+
             {
                 active && (
                     <Modal title={'Tạo mới người dùng'}>
