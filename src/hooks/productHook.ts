@@ -1,14 +1,14 @@
-import { Product, productForm } from '../../types/index';
+import { Product, productForm } from '../types/index';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "react-redux";
-import { ICommonListQuery } from "../../common/interfaces";
-import { useNotification } from '../../common/helpers';
-import { HttpStatus } from "../../common/constants";
-import { productApi } from "../../services/product.service";
-import { increment } from '../actions/active';
+import { ICommonListQuery } from "../common/interfaces";
+import { useNotification } from '../common/helpers';
+import { HttpStatus } from "../common/constants";
+import { productApi } from "../services/product.service";
+import { increment } from '../features/actions/active';
 import { useState } from 'react';
-import { productSchema } from '../../schemas/product.schema';
+import { productSchema } from '../schemas/product.schema';
 
 export async function getAllProducts(query: ICommonListQuery): Promise<any> {
     try {

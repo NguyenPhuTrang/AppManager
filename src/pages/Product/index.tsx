@@ -5,11 +5,11 @@ import Modal from "../../components/Modal";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { increment } from '../../features/actions/active';
-import * as ProductApi from '../../features/api';
+import * as ProductApi from '../../hooks';
 import { RootState } from '../../common/interfaces';
 import { AxiosResponse } from 'axios';
 import { Product } from '../../types';
-import { useCreateProducts, useDeleteProducts } from '../../features/api';
+import { useCreateProducts, useDeleteProducts } from '../../hooks';
 import { totalPage, totalData } from '../../features/actions/page';
 import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
 

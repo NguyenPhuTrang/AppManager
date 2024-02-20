@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
-import { useNotification } from "../../common/helpers";
-import { ICommonListQuery } from "../../common/interfaces";
-import { userApi } from './../../services/user.service';
-import { HttpStatus } from "../../common/constants";
-import { User, userForm } from "../../types";
+import { useNotification } from "../common/helpers";
+import { ICommonListQuery } from "../common/interfaces";
+import { userApi } from '../services/user.service';
+import { HttpStatus } from "../common/constants";
+import { User, userForm } from "../types";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { userSchema } from "../../schemas/user.schema";
-import { increment } from "../actions/active";
+import { userSchema } from "../schemas/user.schema";
+import { increment } from "../features/actions/active";
 
 export async function getAllUsers(query: ICommonListQuery): Promise<any> {
     try {

@@ -5,12 +5,12 @@ import Modal from "../../components/Modal";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { increment } from '../../features/actions/active';
-import * as UserApi from '../../features/api'
+import * as UserApi from '../../hooks'
 import { RootState } from '../../common/interfaces';
 import { User } from '../../types';
 import { AxiosResponse } from 'axios';
 import { totalPage, totalData } from '../../features/actions/page';
-import { useDeleteUsers, useCreateUsers } from '../../features/api';
+import { useDeleteUsers, useCreateUsers } from '../../hooks';
 import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
 
 const UserPage = () => {
