@@ -33,10 +33,8 @@ const ProductPage = () => {
         errors,
         isCreate,
         isUpdate,
-
     } = useCreateProducts();
     console.log(selectedProduct);
-    
 
     const { handleDeleteProduct, isDeleted } = useDeleteProducts();
     const [idDeleteProduct, setIdDeleteProduct] = useState(null);
