@@ -35,6 +35,8 @@ const ProductPage = () => {
         isUpdate,
 
     } = useCreateProducts();
+    console.log(selectedProduct);
+    
 
     const { handleDeleteProduct, isDeleted } = useDeleteProducts();
     const [idDeleteProduct, setIdDeleteProduct] = useState(null);
@@ -52,7 +54,6 @@ const ProductPage = () => {
                 } else {
                     dispatch(totalPage(totalPages));
                 }
-
                 setProducts((await response.data.items));
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -148,21 +149,21 @@ const ProductPage = () => {
                                 </div>
                             </div>
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                                     onClick={handleSubmitDelete}
                                 >
                                     Xóa
                                 </button>
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                     onClick={() => setShowModalDelele(false)}
                                 >
                                     Hủy
                                 </button>
-                                    
+
                             </div>
                         </div>
                     </Modal>
@@ -270,7 +271,7 @@ const ProductPage = () => {
                                     </label>
                                     <input
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
-                                    ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
+                                        ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập tên sản phẩm"
                                         type='text'
                                         defaultValue={selectedProduct.name}
@@ -285,7 +286,7 @@ const ProductPage = () => {
                                     <input
                                         type='number'
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
-                                    ${errors.price ? 'input-shadow-error' : 'input-shadow'}`}
+                                        ${errors.price ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập giá sản phẩm"
                                         defaultValue={selectedProduct.price}
                                         {...register('price')}
@@ -300,7 +301,7 @@ const ProductPage = () => {
                                     <input
                                         type='number'
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
-                                    ${errors.quantity ? 'input-shadow-error' : 'input-shadow'}`}
+                                        ${errors.quantity ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập số lượng sản phẩm"
                                         defaultValue={selectedProduct.quantity}
                                         {...register('quantity')}
@@ -312,7 +313,7 @@ const ProductPage = () => {
                                     <textarea
                                         rows={6}
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
-                                    ${errors.description ? 'input-shadow-error' : 'input-shadow'}`}
+                                        ${errors.description ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập mô tả"
                                         defaultValue={selectedProduct.description}
                                         {...register('description')}
@@ -326,7 +327,7 @@ const ProductPage = () => {
                                     <input
                                         type='text'
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
-                                    ${errors.image ? 'input-shadow-error' : 'input-shadow'}`}
+                                        ${errors.image ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập link ảnh sản phẩm"
                                         defaultValue={selectedProduct.image}
                                         {...register('image')}

@@ -17,7 +17,7 @@ const emailSchema = yup
 const birthdaySchema = yup
     .string()
     .required('Ngày sinh là bắt buộc')
-    .matches(Regex.TIME, 'Ngày sinh sai định dạng')
+    // .matches(Regex.TIME, 'Ngày sinh sai định dạng')
 
 const numberPhoneSchema = yup
     .string()
@@ -28,7 +28,7 @@ const numberPhoneSchema = yup
 const avatarUrlSchema = yup
     .string()
     .required('Link avatar là bắt buộc')
-    .matches(Regex.URL)
+    .matches(Regex.URL, 'Link avatar sai định dạng')
 
 export const userSchema = yup.object().shape({
     name: nameSchema,

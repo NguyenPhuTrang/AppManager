@@ -1,6 +1,6 @@
 import React from 'react';
 import { publicRoutes } from './routes';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Layout from './layouts';
 import useAuthMiddleware from './routes/authMiddleware';
 

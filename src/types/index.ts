@@ -40,32 +40,7 @@ export interface updateProductProps {
     body: updateProductPropsItem;
 }
 
-export interface deleteProductProps {
-    id: string;
-}
-
-export interface createUserProps {
-    name: string;
-    email: string;
-    numberPhone: string;
-    birthday: string;
-    avaterUrl: string;
-}
-
-export interface updateUserPropsItem {
-    name: string;
-    email: string;
-    numberPhone: string;
-    birthday: string;
-    avaterUrl: string;
-}
-export interface updateUserProps {
-    id: string;
-    body: updateProductPropsItem;
-}
-
 //user
-
 export interface User {
     id: string;
     name: string;
@@ -74,3 +49,32 @@ export interface User {
     birthday: string;
     avatarUrl: string;
 };
+
+export interface userForm {
+    name: string;
+    email: string;
+    birthday: string;
+    numberPhone: string;
+    avatarUrl: string;
+}
+
+export interface createUserProps {
+    name: string;
+    email: string;
+    numberPhone: string;
+    birthday: string;
+    avatarUrl: string;
+}
+
+export interface updateUserPropsItem {
+    name: string;
+    email: string;
+    numberPhone: string;
+    birthday: string;
+    avatarUrl: string;
+}
+export interface updateUserProps {
+    id: string;
+    body: updateUserPropsItem;
+}
+

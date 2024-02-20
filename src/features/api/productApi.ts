@@ -35,6 +35,7 @@ export const useCreateProducts = () => {
     } = useForm<productForm>({
         resolver: yupResolver(productSchema)
     });
+    
     const closeModal = () => {
         reset();
         dispatch(increment(true));
@@ -78,7 +79,6 @@ export const useCreateProducts = () => {
                 setIsUpdate(!isUpdate);
                 showSuccessNotification("Sửa thành công", "Sửa sản phẩm thành công!");
             }
-
         } catch (error) {
             showErrorNotification("Sửa thất bại", "Sửa sản phẩm thất bại!");
             console.log("create failed: ", error);

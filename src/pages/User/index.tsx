@@ -5,25 +5,54 @@ import Modal from "../../components/Modal";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { increment } from '../../features/actions/active';
-// import { users } from '../../data';
 import * as UserApi from '../../features/api'
 import { RootState } from '../../common/interfaces';
 import { User } from '../../types';
 import { AxiosResponse } from 'axios';
 import { totalPage, totalData } from '../../features/actions/page';
-import { useDeleteUsers } from '../../features/api';
+import { useDeleteUsers, useCreateUsers } from '../../features/api';
+import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
 
 const UserPage = () => {
     const dispatch = useDispatch();
+    const [users, setUsers] = useState<User[]>([])
+    const [showModalDelele, setShowModalDelele] = useState(false);
     const active = useSelector((state: RootState) => state.active);
     const isCreateOrUpdate = useSelector((state: RootState) => state.isCreateOrUpdate);
     const page = useSelector((state: RootState) => state.page);
+
     const totalPages = Math.ceil(page.totalData / page.limit);
-    const [users, setUsers] = useState<User[]>([])
-    const [idDeleteUser, setIdDeleteUser] = useState(null);
-    const [showModalDelele, setShowModalDelele] = useState(false);
+
+    const {
+        reset,
+        register,
+        handleSubmit,
+        useOnSubmitCreate,
+        useOnSubmitUpdate,
+        resetForm,
+        selectUserForUpdate,
+        selectedUser,
+        errors,
+        isCreate,
+        isUpdate,
+
+    } = useCreateUsers();
     const { handleDeleteUser, isDeleted } = useDeleteUsers();
+    const [idDeleteUser, setIdDeleteUser] = useState(null);
+
     useEffect(() => {
+        if (selectedUser !== null) {
+            reset(selectedUser);
+        } else {
+            reset({
+                name: "",
+                email: "",
+                numberPhone: "",
+                birthday: "",
+                avatarUrl: "",
+            });
+        }
+
         const fetchUsers = async () => {
             try {
                 const response: AxiosResponse<any> = await UserApi.getAllUsers({
@@ -37,13 +66,24 @@ const UserPage = () => {
                     dispatch(totalPage(totalPages));
                 }
                 setUsers(await response.data.items);
-                
+
             } catch (error) {
                 console.log(error);
             }
         }
         fetchUsers();
-    }, [isDeleted, page.limit, totalPages, page.number, dispatch])
+    }, [selectedUser, isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch])
+
+    const handleClickUpdate = (user: User) => {
+        selectUserForUpdate(user);
+        dispatch(increment(true));
+        dispatch(setIsCreatOrUpdate('update'));
+    }
+
+    const handleCancel = () => {
+        resetForm();
+        dispatch(increment(true));
+    };
 
     const handleShowModalDelete = (id: any) => {
         setIdDeleteUser(id);
@@ -90,7 +130,7 @@ const UserPage = () => {
                                             src="../icons/ic-edit.svg"
                                             className="w-6 h-6 cursor-pointer"
                                             alt=""
-                                        // onClick={() => handleClickUpdate(product)}
+                                            onClick={() => handleClickUpdate(user)}
                                         />
                                         <img
                                             src="../icons/ic-trash.svg"
@@ -140,7 +180,7 @@ const UserPage = () => {
             }
 
             {
-                active && (
+                active && isCreateOrUpdate === 'create' && (
                     <Modal title={'Tạo mới người dùng'}>
                         <div className="w-full bg-[#F7F8FA] pt-4 pb-5 px-5">
                             <form className="w-full flex flex-col gap-4">
@@ -148,31 +188,66 @@ const UserPage = () => {
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Tên người dùng
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
-                                    <input className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="Nhập tên người dùng" />
+                                    <input
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập tên người dùng"
+                                        type="text"
+                                        {...register('name')}
+                                    />
+                                    {errors.name && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.name.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Email
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
-                                    <input className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="Nhập email" />
+                                    <input
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.email ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập email"
+                                        type="text"
+                                        {...register('email')}
+                                    />
+                                    {errors.email && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.email.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ngày sinh
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
-                                    <input type="date" className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="YYYY/MM/DD" />
+                                    <input
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.birthday ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="YYYY/MM/DD"
+                                        type="text"
+                                        {...register('birthday')}
+                                    />
+                                    {errors.birthday && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.birthday.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số điện thoại
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
-                                    <input className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="Nhập số điện thoại" />
+                                    <input
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.numberPhone ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập số điện thoại"
+                                        type='text'
+                                        {...register('numberPhone')}
+                                    />
+                                    {errors.numberPhone && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.numberPhone.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Avatar
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
-                                    <input className="py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none" placeholder="Nhập link ảnh avatar" />
+                                    <input
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.avatarUrl ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập link ảnh avatar"
+                                        type='text'
+                                        {...register('avatarUrl')}
+                                    />
+                                    {errors.avatarUrl && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.avatarUrl.message}</span>}
                                 </div>
                             </form>
                         </div>
@@ -182,8 +257,103 @@ const UserPage = () => {
                                 className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 shadow">
                                 Hủy
                             </button>
-                            <button className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]">
+                            <button
+                                onClick={handleSubmit(useOnSubmitCreate)}
+                                className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]"
+                            >
                                 Tạo mới
+                            </button>
+                        </div>
+                    </Modal>
+                )
+            }
+            {
+                active && isCreateOrUpdate === 'update' && selectedUser && (
+                    <Modal title={'Cập nhật người dùng'}>
+                        <div className="w-full bg-[#F7F8FA] pt-4 pb-5 px-5">
+                            <form className="w-full flex flex-col gap-4">
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Tên người dùng
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập tên người dùng"
+                                        defaultValue={selectedUser.name}
+                                        {...register('name')}
+                                    />
+                                    {errors.name && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.name.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Email
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.email ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập email"
+                                        defaultValue={selectedUser.email}
+                                        {...register('email')}
+                                    />
+                                    {errors.email && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.email.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ngày sinh
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.birthday ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="YYYY/MM/DD"
+                                        defaultValue={selectedUser.birthday}
+                                        {...register('birthday')}
+                                    />
+                                    {errors.birthday && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.birthday.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số điện thoại
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type='text'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.numberPhone ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập số điện thoại"
+                                        defaultValue={selectedUser.numberPhone}
+                                        {...register('numberPhone')}
+                                    />
+                                    {errors.numberPhone && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.numberPhone.message}</span>}
+                                </div>
+                                <div className="w-full flex flex-col gap-2">
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Avatar
+                                        <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
+                                    </label>
+                                    <input
+                                        type='text'
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        ${errors.avatarUrl ? 'input-shadow-error' : 'input-shadow'}`}
+                                        placeholder="Nhập link ảnh avatar"
+                                        defaultValue={selectedUser.avatarUrl}
+                                        {...register('avatarUrl')}
+                                    />
+                                    {errors.avatarUrl && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.avatarUrl.message}</span>}
+                                </div>
+                            </form>
+                        </div>
+                        <div className="w-full flex items-center justify-end py-4 pr-5 rounded-b-xl gap-4 bg-[#fff]">
+                            <button
+                                onClick={handleCancel}
+                                className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 shadow">
+                                Hủy
+                            </button>
+                            <button
+                                onClick={handleSubmit(useOnSubmitUpdate)}
+                                className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]">
+                                Cập nhật
                             </button>
                         </div>
                     </Modal>

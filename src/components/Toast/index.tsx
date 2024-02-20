@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setShowToast } from '../../features/actions/showToast';
 
@@ -40,10 +40,10 @@ const ToastMessage = ({
         info: 'border-[#9DC0EE]',
     };
 
-    const handleCloseToast = () => {
+    const handleCloseToast = useCallback(() => {
         dispatch(setShowToast(false));
         setShowToastMessage(false);
-    };
+    }, [dispatch]);
 
     useEffect(() => {
         setShowToastMessage(showNotification);
@@ -52,7 +52,7 @@ const ToastMessage = ({
         }, 5000);
 
         return () => clearTimeout(timeout);
-    }, [showNotification]);
+    }, [showNotification, handleCloseToast]);
 
     const iconSrc = icons[type];
     const bgColor = backgroundColors[type];
