@@ -23,7 +23,7 @@ export async function getAllUsers(query: ICommonListQuery): Promise<any> {
 export const useCreateUsers = () => {
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const memoizedSelectedUser = useMemo(() => selectedUser, [selectedUser]);
-    
+
     const [isCreate, setIsCreate] = useState(false);
     const [isUpdate, setIsUpdate] = useState(false);
     const { showSuccessNotification, showErrorNotification } = useNotification();
@@ -55,6 +55,13 @@ export const useCreateUsers = () => {
             if (res.success) {
                 closeModal();
                 setIsCreate(!isCreate);
+                reset({
+                    name: "",
+                    email: "",
+                    numberPhone: "",
+                    birthday: "",
+                    avatarUrl: "",
+                });
                 showSuccessNotification("Thêm thành công", "Thêm người dùng thành công!");
             }
         } catch (error) {
@@ -62,9 +69,9 @@ export const useCreateUsers = () => {
             console.log("create failed: ", error);
         }
     }
-    
+
     const useOnSubmitUpdate: SubmitHandler<userForm> = async (data) => {
-        if(!selectedUser) return;
+        if (!selectedUser) return;
         try {
             const res = await userApi.update({
                 id: selectedUser.id,

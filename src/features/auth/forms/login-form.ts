@@ -5,6 +5,7 @@ import { useNotification } from "../../../common/helpers";
 import { LoginFormInputs } from "../../../types";
 import { loginWithPasswordSchema } from "../schema";
 import { useNavigate } from "react-router-dom";
+import localStorageAuthService from "../../../common/storages/authStorage";
 
 export const useLoginForm = () => {
     const authStore = useAuthStore();
@@ -24,6 +25,7 @@ export const useLoginForm = () => {
         });
         if (res.success) {
             navigate('/product');
+            
             showSuccessNotification("Đăng nhập thành công", "Bạn đã đăng nhập thành công!");
             
         } else {

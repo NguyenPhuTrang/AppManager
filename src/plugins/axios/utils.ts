@@ -15,12 +15,16 @@ export const logout = (redirectToLogin = true) => {
 
 export const useSendRefreshToken = async () => {
   try {
-    const refresh_Token = localStorageAuthService.getRefreshToken();
     const API_URL = process.env.REACT_APP_API_URL;
-    const response = await axios.post(`${API_URL}/auth/refresh-token`, { refreshToken : refresh_Token });
+    const response = await axios.get(`${API_URL}/auth/refresh-token`, {
+      withCredentials: false,
+      headers: localStorageAuthService.getHeaderRefreshToken(),
+    });
+
     if (response?.status === HttpStatus.OK) {
       localStorageAuthService.setAccessToken(response.data?.data.accessToken);
       localStorageAuthService.setAccessTokenExpiredAt(response.data?.data.expiresIn);
+      localStorageAuthService.setRefreshToken(response.data?.data.refreshToken);
       return;
     } else {
       logout(true);

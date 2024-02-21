@@ -113,7 +113,7 @@ const UserPage = () => {
                     <tbody className="divide-y divide-[#E9E7FD]">
                         {users.length === 0 ? (
                             <tr>
-                                <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">Không có sản phẩm nào.</td>
+                                <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">Không có người dùng nào.</td>
                             </tr>
                         ) : (users.map((user) => (
                             <tr key={user.id} className="py-">
