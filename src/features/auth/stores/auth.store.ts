@@ -21,5 +21,4 @@ export const useAuthStore = () => {
         login,
         hasToken
     }
-
 }

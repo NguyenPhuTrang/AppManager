@@ -1,4 +1,3 @@
-// import type { IBodyResponse } from '../../common/interfaces';
 import { type AxiosInstance } from 'axios';
 import { IBodyResponse, ICommonListQuery, IGetListResponse } from '../../common/interfaces';
 

@@ -72,7 +72,7 @@ const UserPage = () => {
             }
         }
         fetchUsers();
-    }, [selectedUser, isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch])
+    }, [reset, selectedUser, isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch])
 
     const handleClickUpdate = (user: User) => {
         selectUserForUpdate(user);

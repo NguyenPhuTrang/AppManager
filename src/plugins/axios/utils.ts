@@ -33,3 +33,20 @@ export const useSendRefreshToken = async () => {
     logout(true);
   }
 };
+
+export const useGetUserProfile = async () => {
+  try {
+    const API_URL = process.env.REACT_APP_API_URL;
+    const response = await axios.get(`${API_URL}/auth/get-user-profile`, {
+      withCredentials: false,
+      headers: localStorageAuthService.getHeader(),
+    });
+    if (response?.status === HttpStatus.OK) {
+      
+    } else {
+      logout(true);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

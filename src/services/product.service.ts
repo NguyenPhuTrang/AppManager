@@ -9,10 +9,6 @@ class ProductApiService extends ApiService {
         }, axiosInstance);
     }
 
-    // getAll() {
-    //     return this.client.get(this.baseUrl);
-    // }
-
     getAll<T>(queryString: ICommonListQuery): Promise<IBodyResponse<IGetListResponse<T>>> {
         return this._getList<T>(queryString);
     }

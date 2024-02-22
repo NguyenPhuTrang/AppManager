@@ -12,7 +12,6 @@ const passwordSchema = yup
     .required("Mật khẩu là trường bắt buộc")
     .min(FORM_VALIDATION.passwordMinLength, 'Mật khẩu phải có ít nhất 6 ký tự')
     .max(FORM_VALIDATION.passwordMaxLength, 'Mật khẩu không được quá 20 ký tự')
-    .matches(Regex.PASSWORD, 'Password không đúng định dạng')
 
 export const loginWithPasswordSchema = yup.object().shape({
     email: emailSchema,

@@ -85,6 +85,7 @@ export const useCreateUsers = () => {
             })
             if (res.success) {
                 closeModal();
+                resetForm();
                 setIsUpdate(!isUpdate);
                 showSuccessNotification("Cập nhật thành công", "Cập nhật người dùng thành công!");
             }
@@ -95,7 +96,13 @@ export const useCreateUsers = () => {
     }
 
     const resetForm = () => {
-        reset();
+        reset({
+            name: "",
+            email: "",
+            numberPhone: "",
+            birthday: "",
+            avatarUrl: "",
+        });
         setSelectedUser(null);
     }
 
