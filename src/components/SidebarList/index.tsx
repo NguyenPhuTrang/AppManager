@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface Props {
     showSidebar: boolean;
@@ -28,11 +29,11 @@ const SidebarList = ({
         <div className='w-full flex flex-col gap-2 px-[14px]'>
             {ArraySidebar.map((item) => {
                 return (
-                    <a
+                    <Link to={item.href}
                         key={item.id}
                         className={`w-full lg:flex lg:items-center py-[9px] px-[16px] gap-2 rounded-[6px] 
                         ${item.href === currentUrl ? 'bg-[#F3F4F8]' : ''}`}
-                        href={item.href}
+
                     >
                         <img
                             src={item.icon}
@@ -46,7 +47,7 @@ const SidebarList = ({
                                 {item.title}
                             </p>
                         }
-                    </a>
+                    </Link>
                 )
             })}
         </div>

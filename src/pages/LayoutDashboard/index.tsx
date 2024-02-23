@@ -10,12 +10,12 @@ const LayoutDashboard: React.FC<Props> = ({ children }) => {
         {
             id: 1,
             title: 'Danh sách sản phẩm',
-            href: ['https://manager-app-rho.vercel.app/manager/product', 'http://localhost:3000/product']
+            href: ['https://manager-app-rho.vercel.app/product', 'http://localhost:3000/product', 'http://localhost:3001/product']
         },
         {
             id: 2,
             title: 'Danh sách người dùng',
-            href: ['https://manager-app-rho.vercel.app/manager/user', 'http://localhost:3000/user']
+            href: ['https://manager-app-rho.vercel.app/user', 'http://localhost:3000/user', 'http://localhost:3001/user']
         },
     ];
     const currentPath = window.location.href;

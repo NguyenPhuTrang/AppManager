@@ -124,7 +124,7 @@ const UserPage = () => {
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">{user.name}</td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.email}</td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.birthday}</td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400] w-[313px]">{user.numberPhone}</td>
+                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.numberPhone}</td>
                                 <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
                                     <div className="w-full h-full flex gap-[10px] items-center">
                                         <img
