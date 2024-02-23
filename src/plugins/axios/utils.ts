@@ -29,10 +29,10 @@ export const sendRefreshToken = async () => {
       localStorageAuthService.setRefreshToken(response.data?.data.refreshToken);
       return;
     } else {
-      // logout(true);
+      logout(true);
     }
   } catch (error) {
-    // logout(true);
+    logout(true);
   }
 };
 

@@ -45,8 +45,6 @@ const ProductPage = () => {
                     page: page.number,
                     limit: page.limit,
                 });
-                console.log(response);
-                
                 dispatch(totalData(response.data.totalItems));
                 if (totalPages === 0) {
                     dispatch(totalPage(1));
