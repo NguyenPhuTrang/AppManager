@@ -1,6 +1,8 @@
+import { useDispatch } from 'react-redux';
 import { HttpStatus, PageName } from '../../common/constants';
 import localStorageAuthService from '../../common/storages/authStorage';
 import axios from 'axios';
+import { setProfile } from '../../features/actions/userProfile';
 
 export const logout = (redirectToLogin = true) => {
   localStorageAuthService.resetAll();
@@ -34,18 +36,22 @@ export const useSendRefreshToken = async () => {
   }
 };
 
-export const useGetUserProfile = async () => {
+export const useGetProfile = async () => {
+  const dispatch = useDispatch();
   try {
     const API_URL = process.env.REACT_APP_API_URL;
     const response = await axios.get(`${API_URL}/auth/get-user-profile`, {
       withCredentials: false,
       headers: localStorageAuthService.getHeader(),
     });
-    if (response?.status === HttpStatus.OK) {
+
+    console.log(response);
       
-    } else {
-      logout(true);
-    }
+    // if (response?.status === HttpStatus.OK) {
+    //   const userProfile = response.data.data.user;
+    //   console.log(userProfile);
+    //   dispatch(setProfile(userProfile));
+    // }
   } catch (error) {
     console.log(error);
   }

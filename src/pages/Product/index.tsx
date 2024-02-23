@@ -45,13 +45,15 @@ const ProductPage = () => {
                     page: page.number,
                     limit: page.limit,
                 });
-                dispatch(totalData(response.data.totalItems));
+                console.log(response);
+                
+                // dispatch(totalData(response.data.totalItems));
                 if (totalPages === 0) {
                     dispatch(totalPage(1));
                 } else {
                     dispatch(totalPage(totalPages));
                 }
-                setProducts((await response.data.items));
+                // setProducts((await response.data.items));
             } catch (error) {
                 console.error('Error fetching products:', error);
             }

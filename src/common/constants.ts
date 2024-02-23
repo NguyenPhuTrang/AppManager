@@ -78,6 +78,7 @@ export const FORM_VALIDATION = {
     textAreaMinLength: 3,
     passwordMinLength: 6,
     passwordMaxLength: 20,
+    passwordForm: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w!@#$%^&*]{6,20}$/,
     numberRegExp: /^[0-9]+$/,
     maxNumberPhone: 10,
     phoneRegExp: /^(((\+)84)|0)(3|5|7|8|9)([0-9]{3,13})/,

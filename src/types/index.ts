@@ -78,3 +78,10 @@ export interface updateUserProps {
     body: updateUserPropsItem;
 }
 
+export interface UserProfile {
+    name: string;
+    email: string;
+    birthday: string;
+    numberPhone: string;
+    avatarUrl: string;
+}

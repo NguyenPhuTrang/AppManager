@@ -60,6 +60,7 @@ const UserPage = () => {
                     limit: page.limit,
                 });
                 dispatch(totalData(response.data.totalItems));
+                
                 if (totalPages === 0) {
                     dispatch(totalPage(1));
                 } else {

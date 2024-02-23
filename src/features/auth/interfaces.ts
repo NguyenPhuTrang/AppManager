@@ -10,3 +10,14 @@ export type ILoginResponse = {
     refreshToken: string;
     expiresIn: number;
 };
+
+export interface IUserUpdatePassword {
+    oldPassword: string;
+    newPassword: string;
+}
+
+export interface IUserChangePassword {
+    password?: string;
+    code: string;
+    email: string;
+}

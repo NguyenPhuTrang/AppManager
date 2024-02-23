@@ -6,7 +6,7 @@ import axios, {
   type AxiosResponse,
 } from 'axios';
 import dayjs from '../dayjs';
-import { useGetUserProfile, useSendRefreshToken } from './utils';
+import { useSendRefreshToken, useGetProfile } from './utils';
 import { throttle } from 'lodash';
 import localStorageAuthService from '../../common/storages/authStorage';
 
@@ -22,16 +22,27 @@ const options: AxiosRequestConfig = {
 };
 
 const axiosInstance = axios.create(options);
-const throttledRefreshToken = throttle(useSendRefreshToken, 10000, { trailing: false });
-const throttledUserProfile = throttle(useGetUserProfile, 10000, { trailing: false });
+
+const throttled = throttle(async () => {
+  await useSendRefreshToken();
+}, 10000, { trailing: false });
+
+const throttledProfile = throttle(async () => {
+  await useGetProfile();
+}, 10000, { trailing: false });
 
 axiosInstance.interceptors.request.use(async (config: any) => {
   const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
+  const accessToken = localStorageAuthService.getAccessToken();
   if (tokenExpiredAt && dayjs(tokenExpiredAt).isBefore()) {
     // check refresh token ok, call refresh token api
-    await throttledRefreshToken();
-    await throttledUserProfile();
+    await throttled();
   }
+
+  if (accessToken) {
+    await throttledProfile();
+  } 
+
   Object.assign(config, {
     headers: {
       ...localStorageAuthService.getHeader(),
@@ -40,6 +51,7 @@ axiosInstance.interceptors.request.use(async (config: any) => {
   });
   return config;
 });
+
 
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
