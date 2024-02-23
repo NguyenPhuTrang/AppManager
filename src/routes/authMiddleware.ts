@@ -18,10 +18,10 @@ const useAuthMiddleware = () => {
         if (!IS_AUTHENTICATED) {
             const redirectPath = window.location.href;
             sessionStorage.setItem('redirect', redirectPath);
-            navigate(PageName.LOGIN_PAGE, { replace: true });
+            // navigate(PageName.LOGIN_PAGE, { replace: true });
         } else {
             if(currentPath === PageName.LOGIN_PAGE) {
-                navigate(PageName.PRODUCT_PAGE, { replace: true });
+                // navigate(PageName.PRODUCT_PAGE, { replace: true });
             }
             return;
         }

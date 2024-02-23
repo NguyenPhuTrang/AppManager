@@ -6,7 +6,7 @@ import axios, {
   type AxiosResponse,
 } from 'axios';
 import dayjs from '../dayjs';
-import { useSendRefreshToken, useGetProfile } from './utils';
+import { sendRefreshToken } from './utils';
 import { throttle } from 'lodash';
 import localStorageAuthService from '../../common/storages/authStorage';
 
@@ -23,25 +23,14 @@ const options: AxiosRequestConfig = {
 
 const axiosInstance = axios.create(options);
 
-const throttled = throttle(async () => {
-  await useSendRefreshToken();
-}, 10000, { trailing: false });
-
-const throttledProfile = throttle(async () => {
-  await useGetProfile();
-}, 10000, { trailing: false });
+const throttled = throttle(sendRefreshToken, 10000, { trailing: false });
 
 axiosInstance.interceptors.request.use(async (config: any) => {
   const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
-  const accessToken = localStorageAuthService.getAccessToken();
   if (tokenExpiredAt && dayjs(tokenExpiredAt).isBefore()) {
     // check refresh token ok, call refresh token api
     await throttled();
   }
-
-  if (accessToken) {
-    await throttledProfile();
-  } 
 
   Object.assign(config, {
     headers: {
