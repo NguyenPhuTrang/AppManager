@@ -18,6 +18,7 @@ const LayoutDashboard: React.FC<Props> = ({ children }) => {
             href: ['https://manager-app-rho.vercel.app/user', 'http://localhost:3000/user', 'http://localhost:3001/user']
         },
     ];
+    
     const currentPath = window.location.href;
     let pageTitle = '';
     const currentPage = arrPages.find(page => page.href.flatMap(url => url).includes(currentPath));

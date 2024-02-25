@@ -1,4 +1,4 @@
-export const activeReducer = (state = false, action: any) => {
+const activeReducer = (state = false, action: any) => {
     switch (action.type) {
         case "ACTIVE":
             return !state;

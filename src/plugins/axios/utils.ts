@@ -22,7 +22,6 @@ export const sendRefreshToken = async () => {
       withCredentials: false,
       headers: localStorageAuthService.getHeaderRefreshToken(),
     });
-
     if (response?.status === HttpStatus.OK) {
       localStorageAuthService.setAccessToken(response.data?.data.accessToken);
       localStorageAuthService.setAccessTokenExpiredAt(response.data?.data.expiresIn);

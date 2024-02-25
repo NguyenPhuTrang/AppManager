@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import LayoutDashboard from '../LayoutDashboard';
+import LayoutDashboard from '../../layouts/LayoutDashboard';
 import Navigation from "../../components/Navigation";
 import Modal from "../../components/Modal";
 import { useSelector } from 'react-redux';
@@ -20,6 +20,9 @@ const ProductPage = () => {
     const active = useSelector((state: RootState) => state.active);
     const isCreateOrUpdate = useSelector((state: RootState) => state.isCreateOrUpdate);
     const page = useSelector((state: RootState) => state.page);
+    const keyword = useSelector((state: RootState) => state.keyword); 
+    const userProfile = useSelector((state: RootState) => state.userProfile);
+    console.log("userProfile: ", userProfile);
 
     const totalPages = Math.ceil(page.totalData / page.limit);
     const {
@@ -41,24 +44,31 @@ const ProductPage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response: AxiosResponse<any> = await ProductApi.getAllProducts({
+                let queryParams: {
+                    page: number;
+                    limit: number;
+                    keyword?: string; 
+                } = {
                     page: page.number,
-                    limit: page.limit,
-                });
-                dispatch(totalData(response.data.totalItems));
-                if (totalPages === 0) {
-                    dispatch(totalPage(1));
-                } else {
-                    dispatch(totalPage(totalPages));
+                    limit: page.limit
+                };
+                
+                if (keyword) {
+                    queryParams.keyword = keyword;
                 }
-                setProducts((await response.data.items));
+                
+    
+                const response: AxiosResponse<any> = await ProductApi.getAllProducts(queryParams);
+                dispatch(totalData(response.data.totalItems));
+                dispatch(totalPage(Math.ceil(response.data.totalItems / page.limit)));
+                setProducts(response.data.items);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
         fetchProducts();
 
-    }, [isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch]);
+    }, [isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch, keyword]);
 
     const handleClickUpdate = (product: Product) => {
         selectProductForUpdate(product);

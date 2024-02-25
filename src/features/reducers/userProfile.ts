@@ -1,4 +1,5 @@
 import { UserProfile } from "../../types";
+import { SET_USER_PROFILE } from "../actions/userProfile";
 
 const initialState: UserProfile = {
     name: "",
@@ -8,9 +9,9 @@ const initialState: UserProfile = {
     avatarUrl: "",
 };
 
-export const userProfileReducer = (state: UserProfile = initialState, action: any) => {
+const userProfileReducer = (state: UserProfile = initialState, action: { type: string; profile: UserProfile }) => {
     switch (action.type) {
-        case "SET_PROFILE":
+        case SET_USER_PROFILE:
             return {
                 ...state,
                 ...action.profile
@@ -19,3 +20,5 @@ export const userProfileReducer = (state: UserProfile = initialState, action: an
             return state;
     }
 };
+
+export default userProfileReducer;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLoginForm } from '../../features/auth/forms/login-form';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
 
@@ -53,7 +54,7 @@ const LoginPage = () => {
                             <input type="checkbox" className="input-shadow w-4 h-4" />
                             <span className="text-[#464F60] text-[14px] font-[500] leading-[20px] select-none">Ghi nhớ Đăng nhập</span>
                         </div>
-                        <a href="/forget-password" className="text-[#0F60FF] text-[14px] font-[500] leading-[20px] select-none">Quên mật khẩu?</a>
+                        <Link to="/forget-password" className="text-[#0F60FF] text-[14px] font-[500] leading-[20px] select-none">Quên mật khẩu?</Link>
                     </div>
                     <button
                         type="submit"
@@ -63,7 +64,7 @@ const LoginPage = () => {
                 </form>
                 <div className="flex items-center justify-center gap-1">
                     <p className="text-[14px] font-[400] leading-5 text-[#5A5C6F]">Bạn chưa có tài khoản?</p>
-                    <a href="/Register" className="text-[#0F60FF] text-[14px] font-[600] leading-[20px]">Đăng ký</a>
+                    <Link to="/Register" className="text-[#0F60FF] text-[14px] font-[600] leading-[20px]">Đăng ký</Link>
                 </div>
             </div>
         </div>

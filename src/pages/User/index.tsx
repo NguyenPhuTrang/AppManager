@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import LayoutDashboard from '../LayoutDashboard';
+import LayoutDashboard from '../../layouts/LayoutDashboard';
 import Navigation from "../../components/Navigation";
 import Modal from "../../components/Modal";
 import { useSelector } from 'react-redux';

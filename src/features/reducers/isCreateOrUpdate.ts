@@ -1,4 +1,4 @@
-export const isCreateOrUpdateReducer = (state = '', action: any) => {
+const isCreateOrUpdateReducer = (state = '', action: any) => {
     switch (action.type) {
         case "IS_CREATE_OR_UPDATE":
             return action.payload;

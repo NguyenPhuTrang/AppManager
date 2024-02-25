@@ -4,6 +4,7 @@ import {
     HttpStatus,
     OrderDirection
 } from './constants';
+import { UserProfile } from '../types';
 
 export interface IResponseError<T = any> {
     key: string;
@@ -43,8 +44,10 @@ export interface ItemRootState {
 };
 
 export interface RootState {
+    keyword: string;
     active: boolean;
     isCreateOrUpdate: string;
     page: ItemRootState;
     product: any[];
+    userProfile: UserProfile;
 };

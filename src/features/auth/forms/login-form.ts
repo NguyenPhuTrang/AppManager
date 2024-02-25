@@ -22,6 +22,7 @@ export const useLoginForm = () => {
             email: data.email,
             password: data.password
         });
+        
         if (res.success) {
             navigate('/product');
             showSuccessNotification("Đăng nhập thành công", "Bạn đã đăng nhập thành công!");

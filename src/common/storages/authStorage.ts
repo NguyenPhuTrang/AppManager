@@ -10,7 +10,7 @@ export const enum AUTH_SERVICE_KEY {
     ACCESS_TOKEN_EXPIRED_AT = 'ACCESS_TOKEN_EXPIRED_AT',
     REFRESH_TOKEN_EXPIRED_AT = 'REFRESH_TOKEN_EXPIRED_AT',
 }
-
+// const BUFFER_TIME = 60 * 1000;
 class LocalStorageAuthService {
     getLanguage(): SupportLanguage {
         return (storage.getLocalStorage(AUTH_SERVICE_KEY.LANGUAGE) ||
@@ -41,8 +41,13 @@ class LocalStorageAuthService {
     getAccessTokenExpiredAt(): number {
         return +storage.getLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT);
     }
+    // setAccessTokenExpiredAt(expiredIn: number): void {
+    //     storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT, String(expiredIn));
+    // }
+
     setAccessTokenExpiredAt(expiredIn: number): void {
-        storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT, String(expiredIn));
+        const expiredAt = new Date().getTime() + expiredIn * 1000;
+        storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT, String(expiredAt));
     }
     resetAccessTokenExpiredAt(): void {
         storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN_EXPIRED_AT, '');

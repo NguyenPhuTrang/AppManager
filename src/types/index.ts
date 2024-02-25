@@ -50,6 +50,14 @@ export interface User {
     avatarUrl: string;
 };
 
+export interface UserProfile {
+    name: string;
+    email: string;
+    birthday: string;
+    numberPhone: string;
+    avatarUrl: string;
+};
+
 export interface userForm {
     name: string;
     email: string;

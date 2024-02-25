@@ -3,8 +3,8 @@ import axiosInstance, { ApiService } from "../../../plugins/axios";
 import { IUserChangePassword, IUserUpdatePassword } from "../interfaces";
 
 class UserApiService extends ApiService {
-    _getOwnProfile<R>(): Promise<R> {
-        return this.client.get<R, R>(`${this.baseUrl}/get-user-profile`);
+    _getOwnProfile<R>(): Promise<IBodyResponse<R>> {
+        return this.client.get('/auth/get-user-profile');
     }
 
     updatePassword(body: IUserUpdatePassword): Promise<IBodyResponse<any>> {
