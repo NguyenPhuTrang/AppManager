@@ -1,20 +1,35 @@
-import { UserProfile } from "../../types";
-import { SET_USER_PROFILE } from "../actions/userProfile";
-
-const initialState: UserProfile = {
+const userProfileReducer = (state = {
     name: "",
     email: "",
     birthday: "",
     numberPhone: "",
     avatarUrl: "",
-};
-
-const userProfileReducer = (state: UserProfile = initialState, action: { type: string; profile: UserProfile }) => {
+}, action: any) => {
     switch (action.type) {
-        case SET_USER_PROFILE:
+        case 'SETNAME':
             return {
                 ...state,
-                ...action.profile
+                name: action.payload
+            };
+        case 'SETEMAIL':
+            return {
+                ...state,
+                email: action.payload
+            };
+        case 'SETBIRTHDAY':
+            return {
+                ...state,
+                birthday: action.payload
+            };
+        case 'SETNUMBERPHONE':
+            return {
+                ...state,
+                numberPhone: action.payload
+            };
+        case 'SETAVATARURL':
+            return {
+                ...state,
+                avatarUrl: action.payload
             };
         default:
             return state;

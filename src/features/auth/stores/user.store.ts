@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { userApiService } from "../services";
-import { setUserProfile } from "../../actions/userProfile";
 import { UserProfile } from "../../../types";
+import { setAvatarUrl, setBirthday, setEmail, setNumberPhone, setUserName } from "../../actions/userProfile";
 
 export const useUserStore = () => {
     const dispatch = useDispatch();
@@ -9,9 +9,15 @@ export const useUserStore = () => {
     async function getUserProfile() {
         try {
             const res = await userApiService._getOwnProfile();
+            console.log(res);
+            
             if (res.success) {
                 const userProfileData: UserProfile = res.data as UserProfile;
-                dispatch(setUserProfile(userProfileData));
+                dispatch(setUserName(userProfileData.name));
+                dispatch(setEmail(userProfileData.email));
+                dispatch(setBirthday(userProfileData.birthday));
+                dispatch(setNumberPhone(userProfileData.numberPhone));
+                dispatch(setAvatarUrl(userProfileData.avatarUrl));
             }
         } catch (error) {
             console.error("Error getting user profile:", error);

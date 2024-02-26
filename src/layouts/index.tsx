@@ -2,12 +2,16 @@ import React from 'react';
 import ToastMessage from '../components/Toast';
 import { useSelector } from 'react-redux';
 
-const Layout = ({ children }) => {
+interface Props {
+    children: React.ReactNode;
+}   
 
-    const toastShowState = useSelector(state => state.toast.show);
-    const toastTitleState = useSelector(state => state.toast.title);
-    const toastMessageState = useSelector(state => state.toast.message);
-    const toastTypeState = useSelector(state => state.toast.type);
+const Layout = ({ children }: Props) => {
+
+    const toastShowState = useSelector((state: any) => state.toast.show);
+    const toastTitleState = useSelector((state: any) => state.toast.title);
+    const toastMessageState = useSelector((state: any) => state.toast.message);
+    const toastTypeState = useSelector((state: any) => state.toast.type);
 
     return (
         <div>

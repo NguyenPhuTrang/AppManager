@@ -1,7 +1,24 @@
-import { UserProfile } from '../../types';
-export const SET_USER_PROFILE = 'SET_USER_PROFILE' as const;
-
-export const setUserProfile = (profileData: UserProfile) => ({
-    type: SET_USER_PROFILE,
-    payload: profileData
+export const setUserName = (name: any) => ({
+    type: "SETNAME",
+    payload: name
 });
+
+export const setEmail = (email: any) => ({
+    type: "SETEMAIL",
+    payload: email
+});
+
+export const setBirthday = (birthday: any) => ({
+    type: "SETBIRTHDAY",
+    payload: birthday
+});
+
+export const setNumberPhone = (numberPhone: any) => ({
+    type: "SETNUMBERPHONE",
+    payload: numberPhone
+});
+
+export const setAvatarUrl = (avatarUrl: any) => ({
+    type: "SETAVATARURL",
+    payload: avatarUrl
+}); 

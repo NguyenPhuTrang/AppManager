@@ -65,15 +65,15 @@ body {
 }
 
 .modal-animation {
-  animation: slideZoom .2s ease-in;
+  animation: slideZoom 0.2s ease-in;
 }
 
 .sort-custom-animation {
-  animation: slideInFromBottomRight .2s ease-out;
+  animation: slideInFromBottomRight 0.2s ease-out;
 }
 
 .custom-animation-in {
-  animation: slideIn .2s ease-out forwards;
+  animation: slideIn 0.2s ease-out forwards;
 }
 
 ::-webkit-scrollbar {

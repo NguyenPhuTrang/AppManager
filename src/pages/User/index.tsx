@@ -12,6 +12,7 @@ import { AxiosResponse } from 'axios';
 import { totalPage, totalData } from '../../features/actions/page';
 import { useDeleteUsers, useCreateUsers } from '../../hooks';
 import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
+import Loading from '../../components/Loading';
 
 const UserPage = () => {
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const UserPage = () => {
     const active = useSelector((state: RootState) => state.active);
     const isCreateOrUpdate = useSelector((state: RootState) => state.isCreateOrUpdate);
     const page = useSelector((state: RootState) => state.page);
-
+    const keyword = useSelector((state: RootState) => state.keyword);
     const totalPages = Math.ceil(page.totalData / page.limit);
 
     const {
@@ -39,7 +40,7 @@ const UserPage = () => {
     } = useCreateUsers();
     const { handleDeleteUser, isDeleted } = useDeleteUsers();
     const [idDeleteUser, setIdDeleteUser] = useState(null);
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         if (selectedUser !== null) {
             reset(selectedUser);
@@ -55,25 +56,35 @@ const UserPage = () => {
 
         const fetchUsers = async () => {
             try {
-                const response: AxiosResponse<any> = await UserApi.getAllUsers({
+                let queryParams: {
+                    page: number;
+                    limit: number;
+                    keyword?: string;
+                } = {
                     page: page.number,
-                    limit: page.limit,
-                });
+                    limit: page.limit
+                };
+
+                if (keyword) {
+                    queryParams.keyword = keyword;
+                }
+                const response: AxiosResponse<any> = await UserApi.getAllUsers(queryParams);
                 dispatch(totalData(response.data.totalItems));
-                
+
                 if (totalPages === 0) {
                     dispatch(totalPage(1));
                 } else {
                     dispatch(totalPage(totalPages));
                 }
                 setUsers(await response.data.items);
-
+                setLoading(false);
             } catch (error) {
                 console.log(error);
+                setLoading(false);
             }
         }
         fetchUsers();
-    }, [reset, selectedUser, isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch])
+    }, [reset, selectedUser, isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch, keyword])
 
     const handleClickUpdate = (user: User) => {
         selectUserForUpdate(user);
@@ -111,40 +122,46 @@ const UserPage = () => {
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">HÀNH ĐỘNG</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#E9E7FD]">
-                        {users.length === 0 ? (
-                            <tr>
-                                <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">Không có người dùng nào.</td>
-                            </tr>
-                        ) : (users.map((user) => (
-                            <tr key={user.id} className="py-">
-                                <td className="py-4 pr-5 pl-9 select-none w-9 h-9 rounded-[2px]">
-                                    <img src={user.avatarUrl} alt="" />
-                                </td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">{user.name}</td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.email}</td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.birthday}</td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.numberPhone}</td>
-                                <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
-                                    <div className="w-full h-full flex gap-[10px] items-center">
-                                        <img
-                                            src="../icons/ic-edit.svg"
-                                            className="w-6 h-6 cursor-pointer"
-                                            alt=""
-                                            onClick={() => handleClickUpdate(user)}
-                                        />
-                                        <img
-                                            src="../icons/ic-trash.svg"
-                                            className="w-6 h-6 cursor-pointer"
-                                            alt=""
-                                            onClick={() => handleShowModalDelete(user.id)}
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                        )}
-                    </tbody>
+                    {
+                        loading ? (
+                            <Loading/>
+                        ) : (
+                            <tbody className="divide-y divide-[#E9E7FD]">
+                                {users.length === 0 ? (
+                                    <tr>
+                                        <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">Không có người dùng nào.</td>
+                                    </tr>
+                                ) : (users.map((user) => (
+                                    <tr key={user.id} className="py-">
+                                        <td className="py-4 pr-5 pl-9 select-none">
+                                            <img src={user.avatarUrl} alt="avatar" className='w-9 h-9 rounded-[2px]'/>
+                                        </td>
+                                        <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">{user.name}</td>
+                                        <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.email}</td>
+                                        <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.birthday}</td>
+                                        <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.numberPhone}</td>
+                                        <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
+                                            <div className="w-full h-full flex gap-[10px] items-center">
+                                                <img
+                                                    src="../icons/ic-edit.svg"
+                                                    className="w-6 h-6 cursor-pointer"
+                                                    alt=""
+                                                    onClick={() => handleClickUpdate(user)}
+                                                />
+                                                <img
+                                                    src="../icons/ic-trash.svg"
+                                                    className="w-6 h-6 cursor-pointer"
+                                                    alt=""
+                                                    onClick={() => handleShowModalDelete(user.id)}
+                                                />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                                )}
+                            </tbody>
+                        )
+                    }
                 </table>
                 <Navigation />
             </div>

@@ -25,8 +25,8 @@ export const useLoginForm = () => {
         
         if (res.success) {
             navigate('/product');
+            // window.location.href = '/product'
             showSuccessNotification("Đăng nhập thành công", "Bạn đã đăng nhập thành công!");
-            
         } else {
             showErrorNotification('Đăng nhập thất bại', 'Email hoặc mật khẩu không đúng');
         }

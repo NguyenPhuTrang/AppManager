@@ -12,6 +12,7 @@ import { Product } from '../../types';
 import { useCreateProducts, useDeleteProducts } from '../../hooks';
 import { totalPage, totalData } from '../../features/actions/page';
 import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
+import Loading from '../../components/Loading';
 
 const ProductPage = () => {
     const dispatch = useDispatch();
@@ -20,9 +21,7 @@ const ProductPage = () => {
     const active = useSelector((state: RootState) => state.active);
     const isCreateOrUpdate = useSelector((state: RootState) => state.isCreateOrUpdate);
     const page = useSelector((state: RootState) => state.page);
-    const keyword = useSelector((state: RootState) => state.keyword); 
-    const userProfile = useSelector((state: RootState) => state.userProfile);
-    console.log("userProfile: ", userProfile);
+    const keyword = useSelector((state: RootState) => state.keyword);
 
     const totalPages = Math.ceil(page.totalData / page.limit);
     const {
@@ -40,6 +39,7 @@ const ProductPage = () => {
 
     const { handleDeleteProduct, isDeleted } = useDeleteProducts();
     const [idDeleteProduct, setIdDeleteProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -47,23 +47,24 @@ const ProductPage = () => {
                 let queryParams: {
                     page: number;
                     limit: number;
-                    keyword?: string; 
+                    keyword?: string;
                 } = {
                     page: page.number,
                     limit: page.limit
                 };
-                
+
                 if (keyword) {
                     queryParams.keyword = keyword;
                 }
-                
-    
+
                 const response: AxiosResponse<any> = await ProductApi.getAllProducts(queryParams);
                 dispatch(totalData(response.data.totalItems));
                 dispatch(totalPage(Math.ceil(response.data.totalItems / page.limit)));
                 setProducts(response.data.items);
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching products:', error);
+                setLoading(false);
             }
         };
         fetchProducts();
@@ -98,49 +99,55 @@ const ProductPage = () => {
                 <table className="min-w-full divide-y divide-[#E9E7FD] pl-[16px] pr-[24px]">
                     <thead>
                         <tr>
-                            <th className="py-4 pr-5 pl-9 text-left text-[13px] select-none text-[#8B909A] font-[500]">TÊN SẢN PHẨM</th>
-                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">GIÁ</th>
+                            <th className="py-4 pr-5 pl-9 text-left text-[13px] max-w-[200px] select-none text-[#8B909A] font-[500]">TÊN SẢN PHẨM</th>
+                            <th className="py-4 px-5 text-left text-[13px] max-w-[165px] select-none text-[#8B909A] font-[500]">GIÁ</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">SỐ LƯỢNG</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">MÔ TẢ</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">ẢNH</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">HÀNH ĐỘNG</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#E9E7FD]">
-                        {products.length === 0 ? (
-                            <tr>
-                                <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">Không có sản phẩm nào.</td>
-                            </tr>
+                    {
+                        loading ? (
+                            <Loading />
                         ) : (
-                            products.map((product) => (
-                                <tr key={product.id} className="">
-                                    <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">{product.name}</td>
-                                    <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.price}</td>
-                                    <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.quantity}</td>
-                                    <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400] w-[313px]">{product.description}</td>
-                                    <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
-                                        <img src={product.image} alt="" className="w-9 h-9 rounded-[2px]" />
-                                    </td>
-                                    <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">
-                                        <div className="w-full h-full flex gap-[10px] items-center">
-                                            <img
-                                                src="../icons/ic-edit.svg"
-                                                className="w-6 h-6 cursor-pointer"
-                                                alt=""
-                                                onClick={() => handleClickUpdate(product)}
-                                            />
-                                            <img
-                                                src="../icons/ic-trash.svg"
-                                                className="w-6 h-6 cursor-pointer"
-                                                alt=""
-                                                onClick={() => handleShowModalDelete(product.id)}
-                                            />
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
+                            <tbody className="divide-y divide-[#E9E7FD]">
+                                {products.length === 0 ? (
+                                    <tr>
+                                        <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">Không có sản phẩm nào.</td>
+                                    </tr>
+                                ) : (
+                                    products.map((product) => (
+                                        <tr key={product.id} className="">
+                                            <td className="py-4 pr-5 pl-9 text-[15px] max-w-[200px] text-[#23272E] select-none font-[600]">{product.name}</td>
+                                            <td className="py-4 px-5 text-[15px] max-w-[165px] text-[#23272E] select-none font-[400]">{product.price}</td>
+                                            <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.quantity}</td>
+                                            <td className="py-4 px-5 text-[15px] max-w-[315px] text-[#23272E] select-none font-[400] line-clamp-3">{product.description}</td>
+                                            <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
+                                                <img src={product.image} alt="" className="w-9 h-9 rounded-[2px]" />
+                                            </td>
+                                            <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">
+                                                <div className="w-full h-full flex gap-[10px] items-center">
+                                                    <img
+                                                        src="../icons/ic-edit.svg"
+                                                        className="w-6 h-6 cursor-pointer"
+                                                        alt=""
+                                                        onClick={() => handleClickUpdate(product)}
+                                                    />
+                                                    <img
+                                                        src="../icons/ic-trash.svg"
+                                                        className="w-6 h-6 cursor-pointer"
+                                                        alt=""
+                                                        onClick={() => handleShowModalDelete(product.id)}
+                                                    />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        )
+                    }
                 </table>
                 <hr></hr>
                 <Navigation />

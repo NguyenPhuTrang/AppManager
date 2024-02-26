@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { logout } from '../../plugins/axios';
 import Modal from '../Modal';
+import { RootState } from '../../common/interfaces';
+import { useSelector } from 'react-redux';
 
 const InFoAdmin = () => {
     const [isShowModal, setIsShowModal] = useState(false);
@@ -8,6 +10,8 @@ const InFoAdmin = () => {
         setIsShowModal(false);
         logout(true);
     }
+    const userProfile = useSelector((state: RootState) => state.userProfile);
+
     return (
         <div className='flex items-center justify-between'>
             <div className='relative mr-5'>
@@ -17,14 +21,14 @@ const InFoAdmin = () => {
                 </div>
             </div>
             <div className='flex items-center justify-center w-[38px] h-[38px] relative group'>
-                <img src='../images/avatar-admin.png' className='rounded-full cursor-pointer' alt='avatar' />
+                <img src={userProfile.avatarUrl} className='rounded-full cursor-pointer w-full h-full' alt='avatar' />
                 <span className='p-[2px] rounded-full bg-[#fff] flex items-center justify-center absolute bottom-0 right-0'>
                     <span className='w-2 h-2 rounded-full bg-[#28C76F]'></span>
                 </span>
-                <div className='w-[120px] md:w-[150px] lg:w-[200px] absolute bg-white top-[100%] right-0 rounded-md shadow-md group-hover:block hidden'>
+                <div className='w-[120px] md:w-[150px] lg:w-[200px] absolute bg-white top-[100%] right-0 rounded-md shadow-md animate-flip-down animate-once animate-ease-out group-hover:block hidden'>
                     <div className="px-4 py-3" role="none">
                         <p className="text-sm" role="none">Đăng nhập bởi</p>
-                        <p className="truncate text-sm font-medium text-gray-900" role="none">tom@example.com</p>
+                        <p className="truncate text-sm font-medium text-gray-900" role="none">{userProfile.email}</p>
                     </div>
                     <hr />
                     <ul className="w-full">

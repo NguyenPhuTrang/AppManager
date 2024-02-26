@@ -7,7 +7,7 @@ const Sidebar = () => {
     return (
         <div
             className={`lg:flex md:hidden sm:hidden flex-col items-center bg-white 
-                ${showSidebar ? 'lg:w-[260px]' : 'lg:w-[80px]'}
+                ${showSidebar ? 'lg:min-w-[260px]' : 'lg:w-[80px]'}
             `}>
             <div 
                 className={`w-full py-[18px] pl-[18px] pr-[14px] flex items-center 
