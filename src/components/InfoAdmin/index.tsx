@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { logout } from '../../plugins/axios';
 import Modal from '../Modal';
 import { RootState } from '../../common/interfaces';
 import { useSelector } from 'react-redux';
+import { useUserStore } from '../../features/auth/stores';
 
 const InFoAdmin = () => {
     const [isShowModal, setIsShowModal] = useState(false);
@@ -11,7 +12,10 @@ const InFoAdmin = () => {
         logout(true);
     }
     const userProfile = useSelector((state: RootState) => state.userProfile);
-
+    const { getUserProfile } = useUserStore();
+    useEffect(() => {
+        getUserProfile();
+    }, []);
     return (
         <div className='flex items-center justify-between'>
             <div className='relative mr-5'>

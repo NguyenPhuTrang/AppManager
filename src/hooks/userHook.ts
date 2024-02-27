@@ -50,7 +50,8 @@ export const useCreateUsers = () => {
                 email: data.email,
                 birthday: data.birthday,
                 numberPhone: data.numberPhone,
-                avatarUrl: data.avatarUrl
+                avatarUrl: data.avatarUrl,
+                role: 'user',
             })
             if (res.success) {
                 closeModal();

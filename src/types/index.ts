@@ -72,6 +72,7 @@ export interface createUserProps {
     numberPhone: string;
     birthday: string;
     avatarUrl: string;
+    role: string
 }
 
 export interface updateUserPropsItem {

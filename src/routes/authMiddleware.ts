@@ -9,10 +9,8 @@ const useAuthMiddleware = () => {
     const hasToken = localStorageAuthService.getAccessToken() ? true : false;
     // const isExpired = dayjs().isAfter(dayjs(tokenExpiredAt), 'second');
     const isAuthenticated = tokenExpiredAt && hasToken;
-    console.log(isAuthenticated);
     
     const currentPath = window.location.pathname;
-    console.log(currentPath);
     
     useEffect(() => {
         if (!isAuthenticated) {

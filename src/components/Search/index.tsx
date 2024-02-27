@@ -6,7 +6,7 @@ import { setKeyword } from "../../features/actions/keywordSearch";
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useDispatch();
-  const debouncedSetKeyword = debounce((term: string) => dispatch(setKeyword(term)), 500);
+  const debouncedSetKeyword = debounce((term: string) => dispatch(setKeyword(term)), 1000);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;

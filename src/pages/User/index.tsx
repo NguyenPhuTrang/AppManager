@@ -271,7 +271,7 @@ const UserPage = () => {
                         </div>
                         <div className="w-full flex items-center justify-end py-4 pr-5 rounded-b-xl gap-4 bg-[#fff]">
                             <button
-                                onClick={() => dispatch(increment(true))}
+                                onClick={handleCancel}
                                 className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 shadow">
                                 Hủy
                             </button>
