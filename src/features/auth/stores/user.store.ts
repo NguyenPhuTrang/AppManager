@@ -9,7 +9,6 @@ export const useUserStore = () => {
     async function getUserProfile() {
         try {
             const res = await userApiService._getOwnProfile();
-            console.log(res);
             
             if (res.success) {
                 const userProfileData: UserProfile = res.data as UserProfile;
