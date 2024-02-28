@@ -122,7 +122,7 @@ const ProductPage = () => {
                                             <td className="py-4 pr-5 pl-9 text-[15px] max-w-[200px] text-[#23272E] select-none font-[600]">{product.name}</td>
                                             <td className="py-4 px-5 text-[15px] max-w-[165px] text-[#23272E] select-none font-[400]">{product.price}</td>
                                             <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.quantity}</td>
-                                            <td className="py-4 px-5 text-[15px] max-w-[315px] text-[#23272E] select-none font-[400] line-clamp-3">{product.description}</td>
+                                            <td className="py-4 px-5 text-[15px] max-w-[315px] text-[#23272E] select-none font-[400]">{product.description}</td>
                                             <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
                                                 <img src={product.image} alt="" className="w-9 h-9 rounded-[2px]" />
                                             </td>

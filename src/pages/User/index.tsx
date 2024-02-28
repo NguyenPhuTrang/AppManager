@@ -64,25 +64,31 @@ const UserPage = () => {
                     page: page.number,
                     limit: page.limit
                 };
-
+        
                 if (keyword) {
                     queryParams.keyword = keyword;
                 }
                 const response: AxiosResponse<any> = await UserApi.getAllUsers(queryParams);
-                dispatch(totalData(response.data.totalItems));
-
-                if (totalPages === 0) {
-                    dispatch(totalPage(1));
+        
+                if (response.data?.items) {
+                    const fetchedUsers = response.data.items.filter((item: any) => item.role === 'user');
+        
+                    setUsers(fetchedUsers);
+                    dispatch(totalData(response.data.totalItems));
+                    const totalPages = Math.ceil(response.data.totalItems / page.limit);
+                    dispatch(totalPage(totalPages > 0 ? totalPages : 1));
                 } else {
-                    dispatch(totalPage(totalPages));
+                    setUsers([]);
+                    dispatch(totalData(0));
+                    dispatch(totalPage(1));
                 }
-                setUsers(await response.data.items);
                 setLoading(false);
+        
             } catch (error) {
                 console.log(error);
                 setLoading(false);
             }
-        }
+        }        
         fetchUsers();
     }, [reset, selectedUser, isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch, keyword])
 
@@ -110,7 +116,7 @@ const UserPage = () => {
 
     return (
         <LayoutDashboard>
-            <div className="w-full flex flex-col bg-white rounded-[16px] pt-2 shadow-[0px_4px_10px_#00000014]">
+            <div className="w-full flex flex-col bg-white rounded-[16px] pt-2">
                 <table className="min-w-full divide-y divide-[#E9E7FD] pl-[16px] pr-[24px]">
                     <thead>
                         <tr>
@@ -124,7 +130,7 @@ const UserPage = () => {
                     </thead>
                     {
                         loading ? (
-                            <Loading/>
+                            <Loading />
                         ) : (
                             <tbody className="divide-y divide-[#E9E7FD]">
                                 {users.length === 0 ? (
@@ -134,7 +140,7 @@ const UserPage = () => {
                                 ) : (users.map((user) => (
                                     <tr key={user.id} className="py-">
                                         <td className="py-4 pr-5 pl-9 select-none">
-                                            <img src={user.avatarUrl} alt="avatar" className='w-9 h-9 rounded-[2px]'/>
+                                            <img src={user.avatarUrl} alt="avatar" className='w-9 h-9 rounded-[2px]' />
                                         </td>
                                         <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">{user.name}</td>
                                         <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{user.email}</td>

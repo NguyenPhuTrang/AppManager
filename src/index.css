@@ -9,7 +9,6 @@ body {
   width: 100%;
   font-family: "Inter";
 }
-
 .input-shadow {
   box-shadow: 0px 0px 0px 1px rgba(134, 143, 160, 0.16),
     0px 1px 2px 0px rgba(0, 0, 0, 0.06);
@@ -26,7 +25,7 @@ body {
 }
 
 .table-shadow {
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: 1px 4px 10px 5px rgba(0, 0, 0, 0.08);
 }
 
 .button-option-shadow {

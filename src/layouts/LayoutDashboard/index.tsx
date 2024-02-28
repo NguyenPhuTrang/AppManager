@@ -31,7 +31,7 @@ const LayoutDashboard: React.FC<Props> = ({ children }) => {
             <Sidebar />
             <div className='flex-1 flex flex-col px-[26px] pt-2 justify-center items-center'>
                 <HeaderDashboard title={pageTitle} />
-                <div className='w-full h-full overflow-y-auto'>
+                <div className='w-full h-full overflow-y-auto pb-5 shadow-sm'>
                     {children}
                 </div>
             </div>
