@@ -7,7 +7,7 @@ const nameSchema = yup
     .required('Tên người dùng là bắt buộc')
     .max(FORM_VALIDATION.textMaxLength, 'Tên người dùng không được vượt quá 255 ký tự')
     .min(FORM_VALIDATION.textMinLength, 'Tên người dùng nhiều hơn 3 ký tự')
-    .matches(FORM_VALIDATION.nameRegExp, 'Tên người dùng sai định dạng');
+    .matches(FORM_VALIDATION.name, 'Tên người dùng sai định dạng');
     
 const emailSchema = yup
     .string()
@@ -17,12 +17,13 @@ const emailSchema = yup
 const birthdaySchema = yup
     .string()
     .required('Ngày sinh là bắt buộc')
-    // .matches(Regex.TIME, 'Ngày sinh sai định dạng')
+    .matches(FORM_VALIDATION.dateForm, 'Ngày sinh sai định dạng')
 
 const numberPhoneSchema = yup
     .string()
     .required('Số điện thoại là bắt buộc')
     .max(FORM_VALIDATION.maxNumberPhone, 'Số điện thoại không được nhiều hơn 10 số')
+    .min(FORM_VALIDATION.minNumberPhone, 'Số điện thoại không được ít hơn 10 số')
     .matches(FORM_VALIDATION.phoneRegExp, 'Số điện thoại sai định dạng')
 
 const avatarUrlSchema = yup

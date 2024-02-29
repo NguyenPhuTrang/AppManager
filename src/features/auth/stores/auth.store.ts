@@ -1,6 +1,7 @@
 import { IBodyLogin } from "../interfaces";
 import { authApi } from "../services";
 import localStorageAuthService from '../../../common/storages/authStorage';
+import { updateUserProps } from "../../../types";
 
 export const useAuthStore = () => {
     async function login(body: IBodyLogin) {
@@ -14,12 +15,22 @@ export const useAuthStore = () => {
         return res;
     }
 
+    async function updateProfile(profile: updateUserProps) {
+        try {
+            const res = await authApi.updateProfile(profile);
+            return res;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const hasToken = () => {
         return !!localStorageAuthService.getAccessToken();
     };
 
     return {
         login,
+        updateProfile,
         hasToken
     }
 }

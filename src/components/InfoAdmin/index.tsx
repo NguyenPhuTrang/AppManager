@@ -4,6 +4,7 @@ import Modal from '../Modal';
 import { RootState } from '../../common/interfaces';
 import { useSelector } from 'react-redux';
 import { useUserStore } from '../../features/auth/stores';
+import { Link } from 'react-router-dom';
 
 const InFoAdmin = () => {
     const [isShowModal, setIsShowModal] = useState(false);
@@ -36,7 +37,9 @@ const InFoAdmin = () => {
                     </div>
                     <hr />
                     <ul className="w-full">
-                        <li className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm">Cài đặt</li>
+                        <li className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm">
+                            <Link to="/setting" className='w-full h-full'>Cài đặt</Link>
+                        </li>
                         <li className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm">Hỗ trợ</li>
                         <li
                             className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm"

@@ -1,4 +1,5 @@
 const userProfileReducer = (state = {
+    id: "",
     name: "",
     email: "",
     birthday: "",
@@ -6,6 +7,11 @@ const userProfileReducer = (state = {
     avatarUrl: "",
 }, action: any) => {
     switch (action.type) {
+        case 'SETID':
+            return {
+             ...state,
+                id: action.payload
+            };
         case 'SETNAME':
             return {
                 ...state,

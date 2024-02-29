@@ -69,6 +69,8 @@ export enum DATE_TIME_FORMAT {
 };
 
 export const FORM_VALIDATION = {
+
+    name: /^(?=.*[a-zA-ZàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễđĐìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳỹỷý])(?!.*[0-9]{5,})[a-zA-Z0-9\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễđĐìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳỹỷý.,_-]+$/,
     textMinLength: 3,
     textMaxLength: 255,
     numberMaxLength: 9999999999,
@@ -81,6 +83,7 @@ export const FORM_VALIDATION = {
     passwordForm: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w!@#$%^&*]{6,20}$/,
     numberRegExp: /^[0-9]+$/,
     maxNumberPhone: 10,
+    minNumberPhone: 10,
     phoneRegExp: /^(((\+)84)|0)(3|5|7|8|9)([0-9]{3,13})/,
     nameRegExp: /^([^!@`~#$:%^*&().<>?\\/\\+|=]+?)$/,
     specialCharacters: /[~`!@#$%^&*()+={}[\];:'"<>.,/\\?-_]/g,
@@ -88,6 +91,7 @@ export const FORM_VALIDATION = {
     intPattern: /^\d+?$/,
     floatPattern: /^\d+(\.\d{0,2})?$/,
     tenantMaxLength: 30,
+    dateForm: /^(\d{4})\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])$/
 };
 
 export const Regex = {

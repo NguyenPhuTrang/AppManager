@@ -64,31 +64,23 @@ const UserPage = () => {
                     page: page.number,
                     limit: page.limit
                 };
-        
+
                 if (keyword) {
                     queryParams.keyword = keyword;
                 }
                 const response: AxiosResponse<any> = await UserApi.getAllUsers(queryParams);
-        
-                if (response.data?.items) {
-                    const fetchedUsers = response.data.items.filter((item: any) => item.role === 'user');
-        
-                    setUsers(fetchedUsers);
-                    dispatch(totalData(response.data.totalItems));
-                    const totalPages = Math.ceil(response.data.totalItems / page.limit);
-                    dispatch(totalPage(totalPages > 0 ? totalPages : 1));
-                } else {
-                    setUsers([]);
-                    dispatch(totalData(0));
-                    dispatch(totalPage(1));
-                }
+
+                setUsers(response.data.items);
+                dispatch(totalData(response.data.totalItems));
+                const totalPages = Math.ceil(response.data.totalItems / page.limit);
+                dispatch(totalPage(totalPages > 0 ? totalPages : 1));
                 setLoading(false);
-        
+
             } catch (error) {
                 console.log(error);
                 setLoading(false);
             }
-        }        
+        }
         fetchUsers();
     }, [reset, selectedUser, isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch, keyword])
 
@@ -113,6 +105,21 @@ const UserPage = () => {
         setShowModalDelele(false);
         setIdDeleteUser(null);
     }
+    const [date, setDate] = useState('');
+    const handleDateChange = (e: any) => {
+        let input = e.target.value.replace(/\D/g, '').substring(0, 8);
+        let dateFormat = input.match(/^(\d{4})(\d{0,2})(\d{0,2})$/);
+
+        if (dateFormat) {
+            let formattedDate = dateFormat[1];
+            if (dateFormat[2]) formattedDate += '/' + dateFormat[2];
+            if (dateFormat[3]) formattedDate += '/' + dateFormat[3];
+            setDate(formattedDate);
+        } else {
+            setDate(input);
+        }
+        register('birthday', e);
+    };
 
     return (
         <LayoutDashboard>
@@ -138,8 +145,8 @@ const UserPage = () => {
                                         <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">Không có người dùng nào.</td>
                                     </tr>
                                 ) : (users.map((user) => (
-                                    <tr key={user.id} className="py-">
-                                        <td className="py-4 pr-5 pl-9 select-none">
+                                    <tr key={user.id}>
+                                        <td className="py-4 pr-5 pl-9 w-9 select-none">
                                             <img src={user.avatarUrl} alt="avatar" className='w-9 h-9 rounded-[2px]' />
                                         </td>
                                         <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[600]">{user.name}</td>
@@ -150,13 +157,13 @@ const UserPage = () => {
                                             <div className="w-full h-full flex gap-[10px] items-center">
                                                 <img
                                                     src="../icons/ic-edit.svg"
-                                                    className="w-6 h-6 cursor-pointer"
+                                                    className="w-6 h-6 cursor-pointer hover:opacity-80"
                                                     alt=""
                                                     onClick={() => handleClickUpdate(user)}
                                                 />
                                                 <img
                                                     src="../icons/ic-trash.svg"
-                                                    className="w-6 h-6 cursor-pointer"
+                                                    className="w-6 h-6 cursor-pointer hover:opacity-80"
                                                     alt=""
                                                     onClick={() => handleShowModalDelete(user.id)}
                                                 />
@@ -243,7 +250,12 @@ const UserPage = () => {
                                         ${errors.birthday ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="YYYY/MM/DD"
                                         type="text"
-                                        {...register('birthday')}
+                                        value={date}
+                                        {...register('birthday', {
+                                            onChange: (e) => {
+                                                handleDateChange(e);
+                                            }
+                                        })}
                                     />
                                     {errors.birthday && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.birthday.message}</span>}
                                 </div>
@@ -334,7 +346,11 @@ const UserPage = () => {
                                         ${errors.birthday ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="YYYY/MM/DD"
                                         defaultValue={selectedUser.birthday}
-                                        {...register('birthday')}
+                                        {...register('birthday', {
+                                            onChange: (e) => {
+                                                handleDateChange(e);
+                                            }
+                                        })}
                                     />
                                     {errors.birthday && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.birthday.message}</span>}
                                 </div>

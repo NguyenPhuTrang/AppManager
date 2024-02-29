@@ -7,7 +7,7 @@ const nameSchema = yup
     .required('Tên sản phẩm là bắt buộc')
     .max(FORM_VALIDATION.textMaxLength, 'Tên sản phẩm không được vượt quá 255 ký tự')
     .min(FORM_VALIDATION.textMinLength, 'Tên sản phẩm nhiều hơn 3 ký tự')
-    .matches(FORM_VALIDATION.nameRegExp, 'Tên sản phẩm sai định dạng');
+    .matches(FORM_VALIDATION.name, 'Tên sản phẩm sai định dạng');
 
 const priceSchema = yup
     .number()

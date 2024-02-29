@@ -3,6 +3,7 @@ const routes = {
   usertManager: "/user",
   loginManager: "/login",
   registerManager: "/register",
+  settingManager: "/setting",
   notFoundPage: "/*",
 };
 const config = {

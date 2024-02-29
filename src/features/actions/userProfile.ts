@@ -1,3 +1,8 @@
+export const setId = (id: any) => ({
+    type: "SETID",
+    payload: id
+});
+
 export const setUserName = (name: any) => ({
     type: "SETNAME",
     payload: name

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { userApiService } from "../services";
 import { UserProfile } from "../../../types";
-import { setAvatarUrl, setBirthday, setEmail, setNumberPhone, setUserName } from "../../actions/userProfile";
+import { setAvatarUrl, setBirthday, setEmail, setId, setNumberPhone, setUserName } from "../../actions/userProfile";
 
 export const useUserStore = () => {
     const dispatch = useDispatch();
@@ -12,6 +12,7 @@ export const useUserStore = () => {
             
             if (res.success) {
                 const userProfileData: UserProfile = res.data as UserProfile;
+                dispatch(setId(userProfileData.id));
                 dispatch(setUserName(userProfileData.name));
                 dispatch(setEmail(userProfileData.email));
                 dispatch(setBirthday(userProfileData.birthday));
