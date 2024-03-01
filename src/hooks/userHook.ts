@@ -52,6 +52,7 @@ export const useCreateUsers = () => {
                 numberPhone: data.numberPhone,
                 avatarUrl: data.avatarUrl,
                 role: 'user',
+                password: 'user-password'
             })
             if (res.success) {
                 closeModal();

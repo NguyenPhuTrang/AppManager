@@ -30,19 +30,21 @@ const InFoAdmin = () => {
                 <span className='p-[2px] rounded-full bg-[#fff] flex items-center justify-center absolute bottom-0 right-0'>
                     <span className='w-2 h-2 rounded-full bg-[#28C76F]'></span>
                 </span>
-                <div className='w-[120px] md:w-[150px] lg:w-[200px] absolute bg-white top-[100%] right-0 rounded-md shadow-md animate-flip-down animate-once animate-ease-out group-hover:block hidden'>
+                <div className='
+                    w-[120px] md:w-[150px] lg:w-[200px] absolute bg-white top-[100%] right-0 
+                    rounded-md shadow-md animate-flip-down animate-once animate-ease-out group-hover:block hidden'>
                     <div className="px-4 py-3" role="none">
                         <p className="text-sm" role="none">Đăng nhập bởi</p>
                         <p className="truncate text-sm font-medium text-gray-900" role="none">{userProfile.email}</p>
                     </div>
                     <hr />
                     <ul className="w-full">
-                        <li className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm">
+                        <li className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm select-none">
                             <Link to="/setting" className='w-full h-full'>Cài đặt</Link>
                         </li>
-                        <li className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm">Hỗ trợ</li>
+                        <li className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm select-none">Hỗ trợ</li>
                         <li
-                            className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm"
+                            className="text-gray-700 cursor-pointer hover:bg-slate-100 px-4 py-3 flex items-center justify-between text-sm select-none"
                             onClick={() => setIsShowModal(true)}
                         >
                             Đăng xuất

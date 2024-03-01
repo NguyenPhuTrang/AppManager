@@ -18,6 +18,8 @@ export interface createProductProps {
     quantity: string;
     description: string;
     image: string;
+    rating?: string;
+    sale?: string;
 }
 
 export interface productForm {
@@ -26,6 +28,8 @@ export interface productForm {
     quantity: number;
     description: string;
     image: string;
+    rating?: string;
+    sale?: string;
 }
 
 export interface updateProductPropsItem {
@@ -65,6 +69,8 @@ export interface userForm {
     birthday: string;
     numberPhone: string;
     avatarUrl: string;
+    password?: string;
+    role?: string;
 }
 
 export interface createUserProps {
@@ -73,7 +79,8 @@ export interface createUserProps {
     numberPhone: string;
     birthday: string;
     avatarUrl: string;
-    role: string
+    role?: string;
+    password?: string;
 }
 
 export interface updateUserPropsItem {

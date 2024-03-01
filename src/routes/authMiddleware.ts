@@ -7,20 +7,23 @@ const useAuthMiddleware = () => {
     const navigate = useNavigate();
     const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
     const hasToken = localStorageAuthService.getAccessToken() ? true : false;
-    // const isExpired = dayjs().isAfter(dayjs(tokenExpiredAt), 'second');
     const isAuthenticated = tokenExpiredAt && hasToken;
-    
     const currentPath = window.location.pathname;
-    
+
     useEffect(() => {
         if (!isAuthenticated) {
             const redirectPath = window.location.href;
             sessionStorage.setItem('redirect', redirectPath);
-            navigate(PageName.LOGIN_PAGE, { replace: true });
-        } else if (currentPath === PageName.LOGIN_PAGE) {
+            if (currentPath === PageName.LOGIN_PAGE) {
+                navigate(PageName.LOGIN_PAGE, { replace: true });
+            } else if (currentPath === PageName.REGISTER_PAGE) {
+                navigate(PageName.REGISTER_PAGE, { replace: true });
+            } else {
+                navigate(PageName.LOGIN_PAGE, { replace: true });
+            }
+        } else if (currentPath === PageName.LOGIN_PAGE || currentPath === PageName.REGISTER_PAGE) {
             navigate(PageName.PRODUCT_PAGE, { replace: true });
         }
-        return;
     }, [isAuthenticated, currentPath, navigate]);
 };
 

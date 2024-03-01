@@ -14,7 +14,7 @@ const SettingPage = () => {
         setValue("birthday", userProfile.birthday)
         setValue("numberPhone", userProfile.numberPhone)
         setValue("avatarUrl", userProfile.avatarUrl)
-    }, [userProfile]);
+    }, [userProfile, setValue]);
     return (
         <LayoutDashboard>
             <form
@@ -44,21 +44,6 @@ const SettingPage = () => {
                                     />
                                 </div>
                                 {errors.name && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.name.message}</span>}
-                            </div>
-                            <div className="sm:col-span-4">
-                                <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900 select-none">
-                                    Email
-                                </label>
-                                <div className="mt-1 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md">
-                                    <input
-                                        type="text"
-                                        defaultValue={userProfile.email}
-                                        className="block px-4 outline-none flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                        placeholder="Nhập email"
-                                        {...register('email')}
-                                    />
-                                </div>
-                                {errors.email && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.email.message}</span>}
                             </div>
                             <div className="sm:col-span-4">
                                 <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900 select-none">

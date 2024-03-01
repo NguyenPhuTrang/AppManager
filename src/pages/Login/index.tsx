@@ -64,7 +64,7 @@ const LoginPage = () => {
                 </form>
                 <div className="flex items-center justify-center gap-1">
                     <p className="text-[14px] font-[400] leading-5 text-[#5A5C6F]">Bạn chưa có tài khoản?</p>
-                    <Link to="/Register" className="text-[#0F60FF] text-[14px] font-[600] leading-[20px]">Đăng ký</Link>
+                    <Link to="/register" className="text-[#0F60FF] text-[14px] font-[600] leading-[20px]">Đăng ký</Link>
                 </div>
             </div>
         </div>

@@ -35,7 +35,7 @@ export const useCreateProducts = () => {
     } = useForm<productForm>({
         resolver: yupResolver(productSchema)
     });
-    
+
     const closeModal = () => {
         reset();
         dispatch(increment(true));
@@ -47,8 +47,14 @@ export const useCreateProducts = () => {
                 price: data.price.toString(),
                 quantity: data.quantity.toString(),
                 description: data.description,
-                image: data.image
+                image: data.image,
+                rating: "0",
+                sale: "0"
             })
+            console.log(res);
+            if (res.code === HttpStatus.BAD_REQUEST) {
+                showErrorNotification("Thêm thất bại", "Sản phẩm này đã tồn tại!");
+            }
             if (res.success) {
                 closeModal();
                 setIsCreate(!isCreate);

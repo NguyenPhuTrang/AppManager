@@ -33,11 +33,15 @@ const imageSchema = yup
     .string()
     .required('Link ảnh sản phẩm là bắt buộc')
     .matches(Regex.URL, 'Link ảnh sản phẩm sai định dạng')
+const ratingSchema = yup.string();
+const saleSchema = yup.string();
 
 export const productSchema = yup.object().shape({
     name: nameSchema,
     price: priceSchema,
     quantity: quantitySchema,
     description: descriptionSchema,
-    image: imageSchema
+    image: imageSchema,
+    rating: ratingSchema,
+    sale: saleSchema,
 });

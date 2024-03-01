@@ -93,6 +93,10 @@ const ProductPage = () => {
         setIdDeleteProduct(null);
     }
 
+    function formatMoney(amount: any) {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     return (
         <LayoutDashboard>
             <div className="w-full flex flex-col bg-white rounded-[16px] pt-2 pb-[21px] table-shadow">
@@ -120,7 +124,7 @@ const ProductPage = () => {
                                     products.map((product) => (
                                         <tr key={product.id} className="">
                                             <td className="py-4 pr-5 pl-9 text-[15px] max-w-[200px] text-[#23272E] select-none font-[600]">{product.name}</td>
-                                            <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">${product.price}</td>
+                                            <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">${formatMoney(product.price)}</td>
                                             <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.quantity}</td>
                                             <td className="py-4 px-5 text-[15px] min-w-[265px] max-w-[300px] text-[#23272E] select-none font-[400]">{product.description}</td>
                                             <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">

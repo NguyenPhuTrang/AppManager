@@ -45,7 +45,7 @@ const Navigation = () => {
         dispatch(numberPage(selectCountPage));
     }, [count, dispatch, page.number, page.totalPages, selectCountPage]);
 
-    const quantityList = [1, 2, 30, 40, 50];
+    const quantityList = [10, 20, 30, 40, 50];
 
     return (
         <div className="w-full py-4 px-6 flex items-center justify-between">

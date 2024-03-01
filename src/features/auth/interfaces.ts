@@ -21,3 +21,26 @@ export interface IUserChangePassword {
     code: string;
     email: string;
 }
+
+//register
+
+export interface IBodyRegister {
+    name: string;
+    email: string;
+    numberPhone: string;
+    birthday: string;
+    avatarUrl: string;
+    role?: string;
+    password: string;
+
+}
+
+export interface RegisterFormInputs {
+    name: string;
+    email: string;
+    numberPhone: string;
+    birthday: string;
+    avatarUrl: string;
+    role?: string;
+    password: string;
+}
