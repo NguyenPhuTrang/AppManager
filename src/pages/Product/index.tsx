@@ -24,6 +24,9 @@ const ProductPage = () => {
     const keyword = useSelector((state: RootState) => state.keyword);
 
     const totalPages = Math.ceil(page.totalData / page.limit);
+
+    const[sortPrice, setSortPrice] = useState('');
+
     const {
         register,
         handleSubmit,
@@ -48,6 +51,10 @@ const ProductPage = () => {
                     page: number;
                     limit: number;
                     keyword?: string;
+                    orderBy?: string;
+                    orderDirection?: string;
+                    price?: string;
+                    rating?: string;
                 } = {
                     page: page.number,
                     limit: page.limit
@@ -55,6 +62,9 @@ const ProductPage = () => {
 
                 if (keyword) {
                     queryParams.keyword = keyword;
+                }
+                if (sortPrice !== '') {
+                    queryParams.price = sortPrice;
                 }
 
                 const response: AxiosResponse<any> = await ProductApi.getAllProducts(queryParams);
@@ -69,7 +79,7 @@ const ProductPage = () => {
         };
         fetchProducts();
 
-    }, [isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch, keyword]);
+    }, [isDeleted, isCreate, isUpdate, page.limit, page.number, totalPages, dispatch, keyword, sortPrice]);
 
     const handleClickUpdate = (product: Product) => {
         selectProductForUpdate(product);
@@ -104,7 +114,13 @@ const ProductPage = () => {
                     <thead>
                         <tr>
                             <th className="py-4 pr-5 pl-9 text-left text-[13px] select-none text-[#8B909A] font-[500]">TÊN SẢN PHẨM</th>
-                            <th className="py-4 px-5 text-left text-[13px] max-w-[165px] select-none text-[#8B909A] font-[500]">GIÁ</th>
+                            <th className="py-4 px-5 text-left text-[13px] max-w-[165px] h-[72px] gap-2 select-none text-[#8B909A] font-[500] flex items-center">
+                                <p>GIÁ</p>
+                                <div className='flex flex-col items-center justify-center gap-1'>
+                                    <img onClick={() => setSortPrice('desc')} src="./icons/ic-top.svg" alt="icon" className='w-[10px] cursor-pointer'/>
+                                    <img onClick={() => setSortPrice('asc')} src="./icons/ic-bottom.svg" alt="icon" className='w-[10px] cursor-pointer'/>
+                                </div>
+                            </th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500] min-w-[115px]">SỐ LƯỢNG</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">MÔ TẢ</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">ẢNH</th>
@@ -122,11 +138,11 @@ const ProductPage = () => {
                                     </tr>
                                 ) : (
                                     products.map((product) => (
-                                        <tr key={product.id} className="">
+                                        <tr key={product.id}>
                                             <td className="py-4 pr-5 pl-9 text-[15px] max-w-[200px] text-[#23272E] select-none font-[600]">{product.name}</td>
                                             <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">${formatMoney(product.price)}</td>
                                             <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.quantity}</td>
-                                            <td className="py-4 px-5 text-[15px] min-w-[265px] max-w-[300px] text-[#23272E] select-none font-[400]">{product.description}</td>
+                                            <td className="py-4 px-5 text-[15px] min-w-[265px] max-w-[300px] text-[#23272E] select-none font-[400] line-clamp-5 overflow-auto max-h-30">{product.description}</td>
                                             <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
                                                 <img src={product.image} alt="" className="w-9 h-9 rounded-[2px]" />
                                             </td>

@@ -29,6 +29,8 @@ export interface ICommonListQuery {
     orderBy?: string;
     orderDirection?: OrderDirection | string;
     keyword?: string;
+    price?: string;
+    rating?: string;
 };
 
 export interface IGetListResponse<T> {
