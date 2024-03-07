@@ -3,7 +3,7 @@ import { useAuthStore } from "../stores";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchema } from "../../../schemas/user.schema";
-import { User, userForm } from "../../../types";
+import { userForm } from "../../../types";
 import { useNotification } from "../../../common/helpers";
 import { HttpStatus } from "../../../common/constants";
 import { useSelector } from "react-redux";

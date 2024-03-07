@@ -54,7 +54,10 @@ const Navigation = () => {
                 <div className="relative flex items-center justify-center gap-[6px] py-[10px] px-[20px] group rounded border-[1px] border-solid border-[#E9E7FD]">
                     <p className="text-[15px] font-[500] text-[#23272E] leading-[18px] select-none cursor-pointer">{count}</p>
                     <img src="../icons/ic-chevron-down.svg" alt="" className="w-4 h-4 select-none cursor-pointer" />
-                    <ul className="absolute w-full bg-white rounded-[4px] group-hover:block hidden border-solid border-[1px] border-[#E9E7FD] top-[100%] left-0">
+                    <ul 
+                        className="absolute w-full bg-white rounded-[4px] animate-flip-down animate-once animate-ease-out 
+                        group-hover:block hidden border-solid border-[1px] border-[#E9E7FD] top-[100%] left-0"
+                    >
                         {quantityList.map((item, index) => (
                             <li
                                 key={index}

@@ -19,6 +19,7 @@ const SettingPage = () => {
         <LayoutDashboard>
             <form
                 onSubmit={handleSubmit(onSubmit)}
+                className='w-full h-full bg-white rounded-[16px] p-[26px] overflow-y-auto'
             >
                 <div className="space-y-12">
                     <div className="grid grid-cols-1 gap-x-8 gap-y-10 pb-8 md:grid-cols-3">
@@ -79,14 +80,18 @@ const SettingPage = () => {
                                 <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900 select-none">
                                     Avatar
                                 </label>
-                                <div className="mt-1 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md">
-                                    <textarea
-                                        rows={3}
-                                        defaultValue={userProfile.avatarUrl}
-                                        className="block px-4 outline-none flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                        placeholder="Nhập link ảnh avatar"
-                                        {...register('avatarUrl')}
-                                    />
+                                <div className='flex items-center gap-4'>
+                                    <img src={userProfile.avatarUrl} alt="avatar" className='h-20 w-20 rounded-full' />
+                                    <div className="mt-1 flex flex-1 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md">
+                                        <textarea
+                                            rows={3}
+                                            defaultValue={userProfile.avatarUrl}
+                                            className="block px-4 outline-none flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            placeholder="Nhập link ảnh avatar"
+                                            {...register('avatarUrl')}
+                                        />
+                                    </div>
+
                                 </div>
                                 {errors.avatarUrl && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.avatarUrl.message}</span>}
                             </div>

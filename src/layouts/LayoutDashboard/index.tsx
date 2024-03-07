@@ -17,8 +17,13 @@ const LayoutDashboard: React.FC<Props> = ({ children }) => {
             title: 'Danh sách người dùng',
             href: ['https://manager-app-rho.vercel.app/user', 'http://localhost:3000/user', 'http://localhost:3001/user']
         },
+        {
+            id: 3,
+            title: 'Thông tin người dùng',
+            href: ['https://manager-app-rho.vercel.app/setting', 'http://localhost:3000/setting', 'http://localhost:3001/setting']
+        }
     ];
-    
+
     const currentPath = window.location.href;
     let pageTitle = '';
     const currentPage = arrPages.find(page => page.href.flatMap(url => url).includes(currentPath));
@@ -29,9 +34,9 @@ const LayoutDashboard: React.FC<Props> = ({ children }) => {
     return (
         <div className='w-full h-full flex justify-between bg-neutral-50'>
             <Sidebar />
-            <div className='flex-1 flex flex-col px-[26px] pt-2 justify-center items-center'>
+            <div className='flex-1 flex flex-col pt-2 justify-center items-center'>
                 <HeaderDashboard title={pageTitle} />
-                <div className='w-full h-full overflow-y-auto pb-5 shadow-sm'>
+                <div className='w-full h-full overflow-hidden pb-[26px] px-[26px]'>
                     {children}
                 </div>
             </div>

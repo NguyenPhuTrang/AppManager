@@ -13,6 +13,7 @@ import { useCreateProducts, useDeleteProducts } from '../../hooks';
 import { totalPage, totalData } from '../../features/actions/page';
 import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
 import Loading from '../../components/Loading';
+import ModalDelete from '../../components/ModalDelete';
 
 const ProductPage = () => {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const ProductPage = () => {
 
     const totalPages = Math.ceil(page.totalData / page.limit);
 
-    const[sortPrice, setSortPrice] = useState('');
+    const [sortPrice, setSortPrice] = useState('');
 
     const {
         register,
@@ -109,7 +110,7 @@ const ProductPage = () => {
 
     return (
         <LayoutDashboard>
-            <div className="w-full flex flex-col bg-white rounded-[16px] pt-2 pb-[21px] table-shadow">
+            <div className="w-full h-full flex flex-col bg-white rounded-[16px] pt-2 pb-[21px] overflow-y-auto table-shadow">
                 <table className="min-w-full divide-y divide-[#E9E7FD] pl-[16px] pr-[24px]">
                     <thead>
                         <tr>
@@ -117,11 +118,11 @@ const ProductPage = () => {
                             <th className="py-4 px-5 text-left text-[13px] max-w-[165px] h-[72px] gap-2 select-none text-[#8B909A] font-[500] flex items-center">
                                 <p>GIÁ</p>
                                 <div className='flex flex-col items-center justify-center gap-1'>
-                                    <img onClick={() => setSortPrice('desc')} src="./icons/ic-top.svg" alt="icon" className='w-[10px] cursor-pointer'/>
-                                    <img onClick={() => setSortPrice('asc')} src="./icons/ic-bottom.svg" alt="icon" className='w-[10px] cursor-pointer'/>
+                                    <img onClick={() => setSortPrice('asc')} src="./icons/ic-top.svg" alt="icon" className='w-[10px] cursor-pointer' />
+                                    <img onClick={() => setSortPrice('desc')} src="./icons/ic-bottom.svg" alt="icon" className='w-[10px] cursor-pointer' />
                                 </div>
                             </th>
-                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500] min-w-[115px]">SỐ LƯỢNG</th>
+                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">SỐ LƯỢNG</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">MÔ TẢ</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">ẢNH</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">HÀNH ĐỘNG</th>
@@ -139,10 +140,14 @@ const ProductPage = () => {
                                 ) : (
                                     products.map((product) => (
                                         <tr key={product.id}>
-                                            <td className="py-4 pr-5 pl-9 text-[15px] max-w-[200px] text-[#23272E] select-none font-[600]">{product.name}</td>
-                                            <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">${formatMoney(product.price)}</td>
-                                            <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">{product.quantity}</td>
-                                            <td className="py-4 px-5 text-[15px] min-w-[265px] max-w-[300px] text-[#23272E] select-none font-[400] line-clamp-5 overflow-auto max-h-30">{product.description}</td>
+                                            <td className="py-4 pr-5 pl-9 text-[15px] max-w-[200px] min-w-[160px] text-[#23272E] select-none font-[600] public-sans">{product.name}</td>
+                                            <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400] public-sans">${formatMoney(product.price)}</td>
+                                            <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400] max-w-[80px] public-sans">{product.quantity}</td>
+                                            <td className="py-4 px-5 text-[15px] min-w-[250px] max-w-[350px] text-[#23272E] font-[400] public-sans max-h-30">
+                                                <div className="line-clamp-5 h-full w-full overflow-hidden select-none">
+                                                    {product.description}
+                                                </div>
+                                            </td>
                                             <td className="py-4 px-5 text-[15px] text-[#23272E] select-none font-[400]">
                                                 <img src={product.image} alt="" className="w-9 h-9 rounded-[2px]" />
                                             </td>
@@ -175,32 +180,12 @@ const ProductPage = () => {
 
             {
                 showModalDelele && (
-                    <Modal title={'Xóa sản phẩm'}>
-                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all px-6 pb-6">
-                            <div className="sm:flex sm:items-start">
-                                <div className="mt-1 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                    <p className="text-sm text-red-600">Bạn muốn xóa sản phẩm này?</p>
-                                </div>
-                            </div>
-                            <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                <button
-                                    type="button"
-                                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                                    onClick={handleSubmitDelete}
-                                >
-                                    Xóa
-                                </button>
-                                <button
-                                    type="button"
-                                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                                    onClick={() => setShowModalDelele(false)}
-                                >
-                                    Hủy
-                                </button>
-
-                            </div>
-                        </div>
-                    </Modal>
+                    <ModalDelete
+                        title="Xác nhận xóa"
+                        description="Bạn có chắc chắn muốn xóa sản phẩm này không?"
+                        handleSubmit={handleSubmitDelete}
+                        handleClose={() => setShowModalDelele(false)}
+                    />
                 )
             }
 
@@ -320,7 +305,7 @@ const ProductPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        type='number'
+                                        type='text'
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                         ${errors.price ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập giá sản phẩm"
@@ -335,7 +320,7 @@ const ProductPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        type='number'
+                                        type='text'
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
                                         ${errors.quantity ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập số lượng sản phẩm"

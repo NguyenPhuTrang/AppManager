@@ -31,7 +31,6 @@ const avatarUrlSchema = yup
     .required('Link avatar là bắt buộc')
     .matches(Regex.URL, 'Link avatar sai định dạng')
 const passwordSchema = yup.string();
-const roleSchama = yup.string();
 
 export const userSchema = yup.object().shape({
     name: nameSchema,

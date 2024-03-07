@@ -1,5 +1,7 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { showSidebarMobile } from '../../features/actions/showSidebar';
 
 interface Props {
     showSidebar: boolean;
@@ -8,6 +10,8 @@ interface Props {
 const SidebarList = ({
     showSidebar,
 }: Props) => {
+
+    const dispatch = useDispatch();
 
     const ArraySidebar = [
         {
@@ -31,7 +35,8 @@ const SidebarList = ({
                 return (
                     <Link to={item.href}
                         key={item.id}
-                        className={`w-full lg:flex lg:items-center py-[9px] px-[16px] gap-2 rounded-[6px] 
+                        onClick={() => dispatch(showSidebarMobile(false))}
+                        className={`w-full flex items-center py-[9px] px-[16px] gap-2 rounded-[6px] 
                         ${item.href === currentUrl ? 'bg-[#F3F4F8]' : ''}`}
 
                     >
@@ -42,7 +47,7 @@ const SidebarList = ({
                             showSidebar &&
                             <p
                                 className={`${item.href === currentUrl ? 'text-[#23272E]' : 'text-[#8B909A]'} 
-                                text-[15px] font-[600] leading-[22px] md:hidden lg:block
+                                text-[15px] font-[600] leading-[22px] lg:block public-sans
                             `}>
                                 {item.title}
                             </p>

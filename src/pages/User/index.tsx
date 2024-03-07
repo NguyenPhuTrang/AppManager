@@ -13,6 +13,7 @@ import { totalPage, totalData } from '../../features/actions/page';
 import { useDeleteUsers, useCreateUsers } from '../../hooks';
 import { setIsCreatOrUpdate } from '../../features/actions/isCreateOrUpdate';
 import Loading from '../../components/Loading';
+import ModalDelete from '../../components/ModalDelete';
 
 const UserPage = () => {
     const dispatch = useDispatch();
@@ -123,7 +124,7 @@ const UserPage = () => {
 
     return (
         <LayoutDashboard>
-            <div className="w-full flex flex-col bg-white rounded-[16px] pt-2">
+            <div className="w-full h-full flex flex-col bg-white rounded-[16px] pt-2 overflow-y-auto table-shadow">
                 <table className="min-w-full divide-y divide-[#E9E7FD] pl-[16px] pr-[24px]">
                     <thead>
                         <tr>
@@ -181,34 +182,15 @@ const UserPage = () => {
 
             {
                 showModalDelele && (
-                    <Modal title={'Xóa người dùng'}>
-                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all px-6 pb-6">
-                            <div className="sm:flex sm:items-start">
-                                <div className="mt-1 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                    <p className="text-sm text-red-600">Bạn muốn người dùng này?</p>
-                                </div>
-                            </div>
-                            <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                <button
-                                    type="button"
-                                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                                    onClick={handleSubmitDelete}
-                                >
-                                    Xóa
-                                </button>
-                                <button
-                                    type="button"
-                                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                                    onClick={() => setShowModalDelele(false)}
-                                >
-                                    Hủy
-                                </button>
-
-                            </div>
-                        </div>
-                    </Modal>
+                    <ModalDelete
+                        title="Xác Nhận Xóa"
+                        description="Bạn có chắc chắn muốn xóa người dùng này không?"
+                        handleSubmit={handleSubmitDelete}
+                        handleClose={() => setShowModalDelele(false)}
+                    />
                 )
             }
+
 
             {
                 active && isCreateOrUpdate === 'create' && (
