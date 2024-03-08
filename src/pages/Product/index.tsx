@@ -72,9 +72,9 @@ const ProductPage = () => {
                 dispatch(totalData(response.data.totalItems));
                 dispatch(totalPage(Math.ceil(response.data.totalItems / page.limit)));
                 setProducts(response.data.items);
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching products:', error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -201,7 +201,7 @@ const ProductPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập tên sản phẩm"
                                         type='text'
@@ -217,7 +217,7 @@ const ProductPage = () => {
                                     </label>
                                     <input
                                         type='text'
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.price ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập giá sản phẩm"
                                         {...register('price')}
@@ -231,7 +231,7 @@ const ProductPage = () => {
                                     </label>
                                     <input
                                         type='text'
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.quantity ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập số lượng sản phẩm"
                                         {...register('quantity')}
@@ -242,7 +242,7 @@ const ProductPage = () => {
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Mô tả</label>
                                     <textarea
                                         rows={6}
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.description ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập mô tả"
                                         {...register('description')}
@@ -255,7 +255,7 @@ const ProductPage = () => {
                                     </label>
                                     <input
                                         type='text'
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.image ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập link ảnh sản phẩm"
                                         {...register('image')}
@@ -291,7 +291,7 @@ const ProductPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập tên sản phẩm"
                                         type='text'
@@ -306,7 +306,7 @@ const ProductPage = () => {
                                     </label>
                                     <input
                                         type='text'
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.price ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập giá sản phẩm"
                                         defaultValue={selectedProduct.price}
@@ -321,7 +321,7 @@ const ProductPage = () => {
                                     </label>
                                     <input
                                         type='text'
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.quantity ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập số lượng sản phẩm"
                                         defaultValue={selectedProduct.quantity}
@@ -333,7 +333,7 @@ const ProductPage = () => {
                                     <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Mô tả</label>
                                     <textarea
                                         rows={6}
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.description ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập mô tả"
                                         defaultValue={selectedProduct.description}
@@ -347,7 +347,7 @@ const ProductPage = () => {
                                     </label>
                                     <input
                                         type='text'
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.image ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập link ảnh sản phẩm"
                                         defaultValue={selectedProduct.image}

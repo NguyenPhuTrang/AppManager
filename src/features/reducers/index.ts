@@ -6,6 +6,7 @@ import isCreateOrUpdateReducer from "./isCreateOrUpdate";
 import keywordReducer from "./keywordSearch";
 import userProfileReducer from "./userProfile";
 import showSideBarReducer from "./showSidebar";
+import showSideBarDesktopReducer from "./showSiderBarDesktop";
 
 const rootReducer = combineReducers({
   active: activeReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   keyword: keywordReducer,
   userProfile: userProfileReducer,
   showSidebar: showSideBarReducer,
+  showSidebarDesktop: showSideBarDesktopReducer
 });
 
 const store = createStore(rootReducer);

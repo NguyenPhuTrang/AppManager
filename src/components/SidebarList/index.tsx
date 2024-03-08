@@ -44,13 +44,22 @@ const SidebarList = ({
                             src={item.icon}
                             alt='icon' className={`${item.href === currentUrl ? '' : 'opacity-40'} w-[22px] h-[22px]`} />
                         {
-                            showSidebar &&
-                            <p
-                                className={`${item.href === currentUrl ? 'text-[#23272E]' : 'text-[#8B909A]'} 
-                                text-[15px] font-[600] leading-[22px] lg:block public-sans
-                            `}>
-                                {item.title}
-                            </p>
+                            showSidebar ?
+                                (
+                                    <p
+                                        className={`${item.href === currentUrl ? 'text-[#23272E]' : 'text-[#8B909A]'} 
+                                        text-[15px] font-[600] leading-[22px] public-sans
+                                    `}>
+                                        {item.title}
+                                    </p>)
+                                : (
+                                    <p
+                                        className={`${item.href === currentUrl ? 'text-[#23272E]' : 'text-[#8B909A]'} 
+                                        text-[15px] font-[600] leading-[22px] public-sans lg:hidden md:block
+                                    `}>
+                                        {item.title}
+                                    </p>
+                                )
                         }
                     </Link>
                 )

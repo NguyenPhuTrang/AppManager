@@ -202,7 +202,7 @@ const UserPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập tên người dùng"
                                         type="text"
@@ -215,7 +215,7 @@ const UserPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.email ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập email"
                                         type="text"
@@ -228,7 +228,7 @@ const UserPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.birthday ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="YYYY/MM/DD"
                                         type="text"
@@ -246,7 +246,7 @@ const UserPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.numberPhone ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập số điện thoại"
                                         type='text'
@@ -259,7 +259,7 @@ const UserPage = () => {
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.avatarUrl ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập link ảnh avatar"
                                         type='text'
@@ -296,7 +296,7 @@ const UserPage = () => {
                                     </label>
                                     <input
                                         type="text"
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập tên người dùng"
                                         defaultValue={selectedUser.name}
@@ -310,7 +310,7 @@ const UserPage = () => {
                                     </label>
                                     <input
                                         type="text"
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.email ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập email"
                                         defaultValue={selectedUser.email}
@@ -324,7 +324,7 @@ const UserPage = () => {
                                     </label>
                                     <input
                                         type="text"
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.birthday ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="YYYY/MM/DD"
                                         defaultValue={selectedUser.birthday}
@@ -342,7 +342,7 @@ const UserPage = () => {
                                     </label>
                                     <input
                                         type='text'
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.numberPhone ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập số điện thoại"
                                         defaultValue={selectedUser.numberPhone}
@@ -356,7 +356,7 @@ const UserPage = () => {
                                     </label>
                                     <input
                                         type='text'
-                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#A1A9B8] rounded-md outline-none
+                                        className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.avatarUrl ? 'input-shadow-error' : 'input-shadow'}`}
                                         placeholder="Nhập link ảnh avatar"
                                         defaultValue={selectedUser.avatarUrl}
