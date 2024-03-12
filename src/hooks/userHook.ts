@@ -54,6 +54,9 @@ export const useCreateUsers = () => {
                 role: 'user',
                 password: 'user-password'
             })
+            if (res.code === HttpStatus.BAD_REQUEST) {
+                showErrorNotification("Thêm thất bại", "Người dùng này đã tồn tại")
+            }
             if (res.success) {
                 closeModal();
                 setIsCreate(!isCreate);
@@ -85,6 +88,9 @@ export const useCreateUsers = () => {
                     avatarUrl: data.avatarUrl
                 }
             })
+            if (res.code === HttpStatus.BAD_REQUEST)  {
+                showErrorNotification("Cập nhật thất bại", "Người dùng này đã tồn tại")
+            }
             if (res.success) {
                 closeModal();
                 resetForm();

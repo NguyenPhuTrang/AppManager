@@ -51,18 +51,17 @@ export const useCreateProducts = () => {
                 rating: "0",
                 sale: "0"
             })
-            console.log(res);
             if (res.code === HttpStatus.BAD_REQUEST) {
-                showErrorNotification("Thêm thất bại", "Sản phẩm này đã tồn tại!");
+                showErrorNotification("Thêm thất bại", "Sản phẩm này đã tồn tại");
             }
             if (res.success) {
                 closeModal();
                 setIsCreate(!isCreate);
-                showSuccessNotification("Thêm thành công", "Thêm sản phẩm thành công!");
+                showSuccessNotification("Thêm thành công", "Thêm sản phẩm thành công");
             }
 
         } catch (error) {
-            showErrorNotification("Thêm thất bại", "Thêm sản phẩm thất bại!");
+            showErrorNotification("Thêm thất bại", "Thêm sản phẩm thất bại");
             console.log("create failed: ", error);
         }
     }
@@ -80,13 +79,16 @@ export const useCreateProducts = () => {
                     image: data.image
                 }
             })
+            if (res.code === HttpStatus.BAD_REQUEST) {
+                showErrorNotification("Cập nhật thất bại", "Sản phẩm này đã tồn tại!");
+            }
             if (res.success) {
                 closeModal();
                 setIsUpdate(!isUpdate);
-                showSuccessNotification("Sửa thành công", "Sửa sản phẩm thành công!");
+                showSuccessNotification("Cập nhật thành công", "Cập nhật sản phẩm thành công!");
             }
         } catch (error) {
-            showErrorNotification("Sửa thất bại", "Sửa sản phẩm thất bại!");
+            showErrorNotification("Cập nhật thất bại", "Cập nhật sản phẩm thất bại");
             console.log("create failed: ", error);
         }
     }
