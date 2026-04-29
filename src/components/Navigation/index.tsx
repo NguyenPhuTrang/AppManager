@@ -86,7 +86,7 @@ const Navigation = () => {
                                 key={index}
                                 className={`flex items-center justify-center cursor-pointer 
                                 select-none py-1 px-3 rounded-[4px] text-[13px]  font-[400] leading-5 
-                                ${page.number === item ? 'bg-[#0F60FF] text-[#fff]' : 'bg-[#F1F2F6] text-[#8B909A]'}`}
+                                ${page.number === item ? 'bg-[#e87aab] text-[#fff]' : 'bg-[#F1F2F6] text-[#8B909A]'}`}
                                 onClick={() => handleSelectPage(item)}
                             >
                                 {item}

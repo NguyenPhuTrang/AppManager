@@ -16,7 +16,7 @@ const SidebarList = ({
     const ArraySidebar = [
         {
             id: 1,
-            title: 'Sản phẩm',
+            title: 'Products',
             icon: '../icons/ic-box.svg',
             href: '/product'
         },
@@ -26,6 +26,12 @@ const SidebarList = ({
             icon: '../icons/ic-user.svg',
             href: '/user'
         },
+        {
+            id: 3,
+            title: 'Categories',
+            icon: '../icons/ic-box.svg',
+            href: '/category-management'
+        }
     ]
     const currentUrl = window.location.pathname;
 

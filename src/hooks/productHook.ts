@@ -30,6 +30,7 @@ export const useCreateProducts = () => {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
         reset
     } = useForm<productForm>({
@@ -40,6 +41,7 @@ export const useCreateProducts = () => {
         reset();
         dispatch(increment(true));
     }
+
     const useOnSubmitCreate: SubmitHandler<productForm> = async (data) => {
         try {
             const res = await productApi.create({
@@ -48,6 +50,7 @@ export const useCreateProducts = () => {
                 quantity: data.quantity.toString(),
                 description: data.description,
                 image: data.image,
+                categoryId: data.categoryId || '',
                 rating: "0",
                 sale: "0"
             })
@@ -59,7 +62,6 @@ export const useCreateProducts = () => {
                 setIsCreate(!isCreate);
                 showSuccessNotification("Thêm thành công", "Thêm sản phẩm thành công");
             }
-
         } catch (error) {
             showErrorNotification("Thêm thất bại", "Thêm sản phẩm thất bại");
             console.log("create failed: ", error);
@@ -76,7 +78,8 @@ export const useCreateProducts = () => {
                     price: data.price.toString(),
                     quantity: data.quantity.toString(),
                     description: data.description,
-                    image: data.image
+                    image: data.image,
+                    categoryId: data.categoryId || '',
                 }
             })
             if (res.code === HttpStatus.BAD_REQUEST) {
@@ -105,6 +108,7 @@ export const useCreateProducts = () => {
     return {
         register,
         handleSubmit,
+        setValue,
         useOnSubmitCreate,
         useOnSubmitUpdate,
         resetForm,
@@ -119,6 +123,7 @@ export const useCreateProducts = () => {
 export const useDeleteProducts = () => {
     const { showSuccessNotification, showErrorNotification } = useNotification();
     const [isDeleted, setIsDeleted] = useState(false);
+
     const handleDeleteProduct = async (productId: any) => {
         try {
             const res = await productApi.delete(productId);
@@ -131,9 +136,11 @@ export const useDeleteProducts = () => {
             showErrorNotification("Xóa thất bại", "Xóa sản phẩm thất bại!");
         }
     }
+
     const resetIsDeleted = () => {
         setIsDeleted(false);
     };
+
     return {
         handleDeleteProduct,
         resetIsDeleted,

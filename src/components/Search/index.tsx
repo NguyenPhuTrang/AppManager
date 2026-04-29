@@ -31,7 +31,7 @@ const Search = () => {
         onKeyPress={handleKeyPress}
         value={searchTerm}
         className="text-[#8B909A] text-[15px] font-[400] leading-[21px] w-[262px] mr-1 outline-none"
-        placeholder="Tìm kiếm"
+        placeholder="Search ..."
       />
       <img src="../icons/ic-search.svg" alt="search" />
     </div>

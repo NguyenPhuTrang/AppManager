@@ -24,7 +24,7 @@ const Sidebar = () => {
                             className={`w-full py-[18px] pl-[18px] pr-[14px] flex items-center 
                             ${isShowSidebarDesktop ? 'justify-between' : 'justify-center'}
                         `}>
-                            <img src='../icons/ic-logo.svg' alt='logo' className='' />
+                           <img src='../images/Logo.png' alt='logo' className='w-[150px] h-auto' />
                             <img
                                 onClick={() => dispatch(showSidebarDesktop(false))}
                                 src='../icons/ic-indent-decrease.svg'
@@ -50,10 +50,11 @@ const Sidebar = () => {
                     className={`w-full flex items-center justify-start py-[15px] 
                         ${isShowSidebarDesktop ? 'lg:px-[30px]' : 'lg:px-[25px]'}
                     `}>
-                    <p className={`text-[#8B909A] text-[11px] font-[400] public-sans leading-[14px] md:text-center select-none 
-                    ${isShowSidebarDesktop ? 'lg:text-left' : 'font-[600] text-[#656970] lg:text-center'}`}>
-                        QUẢN LÝ SẢN PHẨM
-                    </p>
+                    {isShowSidebarDesktop && ( 
+                        <p className="text-[#8B909A] text-[20px] font-[400] public-sans leading-[14px] text-left select-none">
+                            Admin Management
+                        </p>
+                    )}
                 </div>
                 <SidebarList showSidebar={isShowSidebarDesktop} />
             </div>
@@ -76,7 +77,7 @@ const Sidebar = () => {
                             <div
                                 className={`w-full flex items-center justify-start py-[15px] px-[30px]`}>
                                 <p className={`text-[#8B909A] text-[11px] font-[400] public-sans leading-[14px] md:text-center text-left select-none`}>
-                                    QUẢN LÝ SẢN PHẨM
+                                    Admin Management
                                 </p>
                             </div>
                             <SidebarList showSidebar={isShowSidebarMobile} />

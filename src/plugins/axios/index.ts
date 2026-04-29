@@ -6,7 +6,7 @@ import axios, {
   type AxiosResponse,
 } from 'axios';
 import dayjs from '../dayjs';
-import { sendRefreshToken } from './utils';
+import { sendRefreshToken, logout } from './utils';
 import { throttle } from 'lodash';
 import localStorageAuthService from '../../common/storages/authStorage';
 
@@ -28,7 +28,6 @@ const throttled = throttle(sendRefreshToken, 10000, { trailing: false });
 axiosInstance.interceptors.request.use(async (config: any) => {
   const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
   if (tokenExpiredAt && dayjs(tokenExpiredAt).isBefore()) {
-    // check refresh token ok, call refresh token api
     await throttled();
   }
 
@@ -40,7 +39,6 @@ axiosInstance.interceptors.request.use(async (config: any) => {
   });
   return config;
 });
-
 
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
@@ -59,6 +57,26 @@ axiosInstance.interceptors.response.use(
     return response.data;
   },
   async (error) => {
+    const originalRequest = error.config;
+
+    // Xử lý 419 — token hết hạn, refresh rồi retry
+    if (error?.response?.status === 419 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        await sendRefreshToken();
+        Object.assign(originalRequest, {
+          headers: {
+            ...localStorageAuthService.getHeader(),
+            ...originalRequest.headers,
+          },
+        });
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        logout(true);
+        return Promise.reject(refreshError);
+      }
+    }
+
     if (error.code === 'ERR_NETWORK') {
       error.request.data = {
         ...(error?.request?.data || {}),
@@ -78,7 +96,6 @@ axiosInstance.interceptors.response.use(
           success: false,
         };
       }
-
       return error.response.data as IBodyResponse<unknown>;
     } else if (error.request) {
       error.request.data = {

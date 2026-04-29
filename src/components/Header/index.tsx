@@ -39,10 +39,10 @@ const HeaderDashboard = ({ title }: Props) => {
                 <button
                     onClick={handleOpenModal}
                     type="button"
-                    className="px-6 py-3 rounded-[6px] bg-[#0F60FF] flex items-center gap-[6px] hover:bg-indigo-500"
+                    className="px-6 py-3 rounded-[6px] bg-[#e87aab] flex items-center gap-[6px] hover:bg-[#d4609a]"
                 >
                     <img src="../icons/ic-add_plus.svg" alt="Add Icon" />
-                    <p className="text-[14px] font-[600] leading-4 text-[#fff]">Tạo mới</p>
+                    <p className="text-[14px] font-[600] leading-4 text-[#fff]">Create new</p>
                 </button>
             </div>
         </div>

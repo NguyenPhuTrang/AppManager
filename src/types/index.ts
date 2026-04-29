@@ -10,6 +10,7 @@ export interface Product {
     price: number;
     quantity: number;
     image: string;
+    categoryId?: string; 
 };
 
 export interface createProductProps {
@@ -20,6 +21,7 @@ export interface createProductProps {
     image: string;
     rating?: string;
     sale?: string;
+    categoryId?: string; 
 }
 
 export interface productForm {
@@ -30,6 +32,7 @@ export interface productForm {
     image: string;
     rating?: string;
     sale?: string;
+    categoryId?: string; 
 }
 
 export interface updateProductPropsItem {
@@ -38,6 +41,7 @@ export interface updateProductPropsItem {
     quantity: string;
     description: string;
     image: string;
+    categoryId?: string; 
 }
 export interface updateProductProps {
     id: string;
