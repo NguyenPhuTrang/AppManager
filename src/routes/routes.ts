@@ -7,9 +7,11 @@ import NotFoundPage from '../features/errors/pages/NotFoundPage';
 import CategoryPage from '../pages/Category';
 
 const publicRoutes = [
+    { path: '/', component: LoginPage },
+    { path: '/login', component: LoginPage },
+    { path: config.routes.loginManager, component: LoginPage },
     { path: config.routes.productManager, component: ProductPage },
     { path: config.routes.usertManager, component: UserPage },
-    { path: config.routes.loginManager, component: LoginPage },
     { path: config.routes.settingManager, component: SettingPage },
     { path: config.routes.notFoundPage, component: NotFoundPage },
     { path: '/category-management', component: CategoryPage },

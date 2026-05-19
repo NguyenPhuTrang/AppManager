@@ -129,11 +129,11 @@ const UserPage = () => {
                     <thead>
                         <tr>
                             <th className="py-4 pr-5 pl-9 text-left text-[13px] select-none text-[#8B909A] font-[500]">AVATAR</th>
-                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">TÊN NGƯỜI DÙNG</th>
+                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">USER NAME</th>
                             <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">EMAIL</th>
-                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">NGÀY SINH</th>
-                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">SỐ ĐIỆN THOẠI</th>
-                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">HÀNH ĐỘNG</th>
+                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">BIRTHDAY</th>
+                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">PHONE NUMBER</th>
+                            <th className="py-4 px-5 text-left text-[13px] select-none text-[#8B909A] font-[500]">ACTIONS</th>
                         </tr>
                     </thead>
                     {
@@ -143,7 +143,7 @@ const UserPage = () => {
                             <tbody className="divide-y divide-[#E9E7FD]">
                                 {users.length === 0 ? (
                                     <tr>
-                                        <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">Không có người dùng nào.</td>
+                                        <td className="py-4 pr-5 pl-9 text-[15px] text-[#23272E] select-none font-[600]">No users found.</td>
                                     </tr>
                                 ) : (users.map((user) => (
                                     <tr key={user.id}>
@@ -183,8 +183,8 @@ const UserPage = () => {
             {
                 showModalDelele && (
                     <ModalDelete
-                        title="Xác Nhận Xóa"
-                        description="Bạn có chắc chắn muốn xóa người dùng này không?"
+                        title="Confirm Delete"
+                        description="Are you sure you want to delete this user?"
                         handleSubmit={handleSubmitDelete}
                         handleClose={() => setShowModalDelele(false)}
                     />
@@ -194,17 +194,17 @@ const UserPage = () => {
 
             {
                 active && isCreateOrUpdate === 'create' && (
-                    <Modal title={'Tạo mới người dùng'}>
+                    <Modal title={'Create New User'}>
                         <div className="w-full bg-[#F7F8FA] pt-4 pb-5 px-5">
                             <form className="w-full flex flex-col gap-4">
                                 <div className="w-full flex flex-col gap-2">
-                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Tên người dùng
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">User Name
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
-                                        placeholder="Nhập tên người dùng"
+                                        placeholder="Enter user name"
                                         type="text"
                                         {...register('name')}
                                     />
@@ -217,14 +217,14 @@ const UserPage = () => {
                                     <input
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.email ? 'input-shadow-error' : 'input-shadow'}`}
-                                        placeholder="Nhập email"
+                                        placeholder="Enter email"
                                         type="text"
                                         {...register('email')}
                                     />
                                     {errors.email && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.email.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
-                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ngày sinh
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Birthday
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
@@ -242,13 +242,13 @@ const UserPage = () => {
                                     {errors.birthday && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.birthday.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
-                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số điện thoại
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Phone Number
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.numberPhone ? 'input-shadow-error' : 'input-shadow'}`}
-                                        placeholder="Nhập số điện thoại"
+                                        placeholder="Enter phone number"
                                         type='text'
                                         {...register('numberPhone')}
                                     />
@@ -261,7 +261,7 @@ const UserPage = () => {
                                     <input
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.avatarUrl ? 'input-shadow-error' : 'input-shadow'}`}
-                                        placeholder="Nhập link ảnh avatar"
+                                        placeholder="Enter avatar link"
                                         type='text'
                                         {...register('avatarUrl')}
                                     />
@@ -273,13 +273,13 @@ const UserPage = () => {
                             <button
                                 onClick={handleCancel}
                                 className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 shadow">
-                                Hủy
+                                Cancel
                             </button>
                             <button
                                 onClick={handleSubmit(useOnSubmitCreate)}
                                 className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]"
                             >
-                                Tạo mới
+                                Create
                             </button>
                         </div>
                     </Modal>
@@ -287,18 +287,18 @@ const UserPage = () => {
             }
             {
                 active && isCreateOrUpdate === 'update' && selectedUser && (
-                    <Modal title={'Cập nhật người dùng'}>
+                    <Modal title={'Update User'}>
                         <div className="w-full bg-[#F7F8FA] pt-4 pb-5 px-5">
                             <form className="w-full flex flex-col gap-4">
                                 <div className="w-full flex flex-col gap-2">
-                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Tên người dùng
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">User Name
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
                                         type="text"
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.name ? 'input-shadow-error' : 'input-shadow'}`}
-                                        placeholder="Nhập tên người dùng"
+                                        placeholder="Enter user name"
                                         defaultValue={selectedUser.name}
                                         {...register('name')}
                                     />
@@ -312,14 +312,14 @@ const UserPage = () => {
                                         type="text"
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.email ? 'input-shadow-error' : 'input-shadow'}`}
-                                        placeholder="Nhập email"
+                                        placeholder="Enter email"
                                         defaultValue={selectedUser.email}
                                         {...register('email')}
                                     />
                                     {errors.email && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.email.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
-                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Ngày sinh
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Birthday
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
@@ -337,14 +337,14 @@ const UserPage = () => {
                                     {errors.birthday && <span className="text-red-500 text-[14px] font-[500] leading-[20px] select-none">{errors.birthday.message}</span>}
                                 </div>
                                 <div className="w-full flex flex-col gap-2">
-                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Số điện thoại
+                                    <label className="text-[14px] font-[500] leading-5 text-[#464F60]">Phone Number
                                         <span className="text-[14px] font-[500] leading-5 text-[#0F60FF]"> *</span>
                                     </label>
                                     <input
                                         type='text'
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.numberPhone ? 'input-shadow-error' : 'input-shadow'}`}
-                                        placeholder="Nhập số điện thoại"
+                                        placeholder="Enter phone number"
                                         defaultValue={selectedUser.numberPhone}
                                         {...register('numberPhone')}
                                     />
@@ -358,7 +358,7 @@ const UserPage = () => {
                                         type='text'
                                         className={`py-[6px] px-3 text-[14px] font-[400] leading-5 text-[#464F60] rounded-md outline-none
                                         ${errors.avatarUrl ? 'input-shadow-error' : 'input-shadow'}`}
-                                        placeholder="Nhập link ảnh avatar"
+                                        placeholder="Enter avatar link"
                                         defaultValue={selectedUser.avatarUrl}
                                         {...register('avatarUrl')}
                                     />
@@ -370,12 +370,12 @@ const UserPage = () => {
                             <button
                                 onClick={handleCancel}
                                 className="py-[6px] px-5 rounded-md text-[14px] text-[#464F60] font-[500] leading-5 shadow">
-                                Hủy
+                                Cancel
                             </button>
                             <button
                                 onClick={handleSubmit(useOnSubmitUpdate)}
-                                className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#0F60FF]">
-                                Cập nhật
+                                className="py-[6px] px-5 rounded-md text-[14px] text-[#fff] font-[500] leading-5 shadow bg-[#e87aab]">
+                                Update
                             </button>
                         </div>
                     </Modal>

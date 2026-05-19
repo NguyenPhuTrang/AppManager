@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "react-redux";
 import { ICommonListQuery } from "../common/interfaces";
-import { useNotification } from '../common/helpers';
 import { HttpStatus } from "../common/constants";
 import { productApi } from "../services/product.service";
 import { increment } from '../features/actions/active';
@@ -20,11 +19,15 @@ export async function getAllProducts(query: ICommonListQuery): Promise<any> {
     }
 }
 
-export const useCreateProducts = () => {
+interface CreateProductCallbacks {
+    onSuccess?: (message: string) => void;
+    onError?: (message: string) => void;
+}
+
+export const useCreateProducts = (callbacks?: CreateProductCallbacks) => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [isCreate, setIsCreate] = useState(false);
     const [isUpdate, setIsUpdate] = useState(false);
-    const { showSuccessNotification, showErrorNotification } = useNotification();
     const dispatch = useDispatch();
 
     const {
@@ -53,17 +56,17 @@ export const useCreateProducts = () => {
                 categoryId: data.categoryId || '',
                 rating: "0",
                 sale: "0"
-            })
+            });
             if (res.code === HttpStatus.BAD_REQUEST) {
-                showErrorNotification("Thêm thất bại", "Sản phẩm này đã tồn tại");
+                callbacks?.onError?.('This product already exists.');
             }
             if (res.success) {
                 closeModal();
                 setIsCreate(!isCreate);
-                showSuccessNotification("Thêm thành công", "Thêm sản phẩm thành công");
+                callbacks?.onSuccess?.('Product added successfully !');
             }
         } catch (error) {
-            showErrorNotification("Thêm thất bại", "Thêm sản phẩm thất bại");
+            callbacks?.onError?.('Failed to add product');
             console.log("create failed: ", error);
         }
     }
@@ -81,18 +84,18 @@ export const useCreateProducts = () => {
                     image: data.image,
                     categoryId: data.categoryId || '',
                 }
-            })
+            });
             if (res.code === HttpStatus.BAD_REQUEST) {
-                showErrorNotification("Cập nhật thất bại", "Sản phẩm này đã tồn tại!");
+                callbacks?.onError?.('This product already exists !');
             }
             if (res.success) {
                 closeModal();
                 setIsUpdate(!isUpdate);
-                showSuccessNotification("Cập nhật thành công", "Cập nhật sản phẩm thành công!");
+                callbacks?.onSuccess?.('Product updated successfully !');
             }
         } catch (error) {
-            showErrorNotification("Cập nhật thất bại", "Cập nhật sản phẩm thất bại");
-            console.log("create failed: ", error);
+            callbacks?.onError?.('Failed to update product');
+            console.log("update failed: ", error);
         }
     }
 
@@ -120,20 +123,24 @@ export const useCreateProducts = () => {
     }
 }
 
-export const useDeleteProducts = () => {
-    const { showSuccessNotification, showErrorNotification } = useNotification();
+interface DeleteProductCallbacks {
+    onSuccess?: (message: string) => void;
+    onError?: (message: string) => void;
+}
+
+export const useDeleteProducts = (callbacks?: DeleteProductCallbacks) => {
     const [isDeleted, setIsDeleted] = useState(false);
 
     const handleDeleteProduct = async (productId: any) => {
         try {
             const res = await productApi.delete(productId);
             if (res.code === HttpStatus.OK) {
-                showSuccessNotification("Xóa thành công", "Xóa sản phẩm thành công!");
+                callbacks?.onSuccess?.('Product deleted successfully !');
                 setIsDeleted(!isDeleted);
             }
         } catch (error) {
             console.error("Product deleted failed", error);
-            showErrorNotification("Xóa thất bại", "Xóa sản phẩm thất bại!");
+            callbacks?.onError?.('Failed to delete product !');
         }
     }
 

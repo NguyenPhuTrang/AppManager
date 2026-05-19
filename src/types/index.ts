@@ -48,7 +48,6 @@ export interface updateProductProps {
     body: updateProductPropsItem;
 }
 
-//user
 export interface User {
     id: string;
     name: string;

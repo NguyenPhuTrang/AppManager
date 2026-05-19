@@ -55,7 +55,7 @@ export const useCreateUsers = () => {
                 password: 'user-password'
             })
             if (res.code === HttpStatus.BAD_REQUEST) {
-                showErrorNotification("Thêm thất bại", "Người dùng này đã tồn tại")
+                showErrorNotification("Another failure", "This user already exists")
             }
             if (res.success) {
                 closeModal();
@@ -67,10 +67,10 @@ export const useCreateUsers = () => {
                     birthday: "",
                     avatarUrl: "",
                 });
-                showSuccessNotification("Thêm thành công", "Thêm người dùng thành công!");
+                showSuccessNotification("Another success", "Another user created successfully !");
             }
         } catch (error) {
-            showErrorNotification("Thêm thất bại", "Thêm người dùng thất bại")
+            showErrorNotification("Another failure", "Another user creation failed")
             console.log("create failed: ", error);
         }
     }
@@ -89,16 +89,16 @@ export const useCreateUsers = () => {
                 }
             })
             if (res.code === HttpStatus.BAD_REQUEST)  {
-                showErrorNotification("Cập nhật thất bại", "Người dùng này đã tồn tại")
+                showErrorNotification("Another failure", "This user already exists")
             }
             if (res.success) {
                 closeModal();
                 resetForm();
                 setIsUpdate(!isUpdate);
-                showSuccessNotification("Cập nhật thành công", "Cập nhật người dùng thành công!");
+                showSuccessNotification("Another success", "Another user updated successfully !");
             }
         } catch (error) {
-            showErrorNotification("Cập nhật thất bại", "Cập nhật người dùng thất bại!")
+            showErrorNotification("Another failure", "Another user update failed !");
             console.log("create failed: ", error);
         }
     }
@@ -140,12 +140,12 @@ export const useDeleteUsers = () => {
         try {
             const res = await userApi.delete(userId);
             if (res.code === HttpStatus.OK) {
-                showSuccessNotification("Xóa thành công", "Xóa sản phẩm thành công!");
+                showSuccessNotification("Another success", "Another user deleted successfully !");
                 setIsDeleted(!isDeleted);
             }
         } catch (error) {
             console.error("User deleted failed", error);
-            showErrorNotification("Xóa thất bại", "Xóa sản phẩm thất bại!");
+            showErrorNotification("Another failure", "Another user deletion failed !");
         }
     }
     const resetIsDeleted = () => {
